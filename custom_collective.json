@@ -1,6 +1,6 @@
 {
   "scheduling-policy": "FIFO",
   "preferred-dataset-splits": 1,
-  "all-reduce-implementation-custom": ["system/skip_reduce_8_gpus_graph"],
+  "all-reduce-implementation-custom": ["workload/skip_reduce_8_gpus"],
   "local-mem-bw": 50
 }
