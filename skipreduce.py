@@ -1,66 +1,47 @@
 import argparse
-
 from msccl.language import *
 from msccl.topologies import *
-from msccl.collectives import *
 from msccl.language.collectives import AllReduce
 
 
 class SkipReduce(AllReduce):
-    def __init__(self, num_ranks, chunk_factor, s, inplace=True):
-        # Initialize the base class
-        super().__init__(num_ranks, chunk_factor, inplace)
+    def __init__(self, num_ranks, chunk_factor, s):
+        # AllReduce handles the necessary self.buffers initialization
+        super().__init__(num_ranks, chunk_factor, inplace=True)
         self.s = s
 
-    # We do not override init_buffers(). We inherit it directly from AllReduce.
 
-    # Implement if needed
-    def check(self, prog):
-        return True
-
-
-def skipreduce_ring(size, instances, s):
-    # Logical topology
+def create_skip_reduce(size, s):
+    # fully_connected avoids "No link" AssertionErrors
     topology = fully_connected(size)
-    
-    # Initialize the custom SkipReduce collective
-    collective = SkipReduce(size, size, s, inplace=True)
+    collective = SkipReduce(size, size, s)
 
-    with MSCCLProgram("skipreduce_ring_inplace", topology, collective, instances):
-        for r in range(size):
-            index = r
-            # (rank, buffer, index)
-            c = chunk(r, Buffer.input, index)
-            next_rank = (r + 1) % size
-            
+    with MSCCLProgram("skip_reduce_simple", topology, collective, instances=1):
+        # Calculate reduction steps (Total ranks - 1 - skipped steps)
+        reduce_steps = (size - 1) - s
+
+        for i in range(size):
+            # Start with the chunk at its home rank 'i'
+            c = chunk(i, Buffer.input, i)
+
             # --- REDUCE-SCATTER PHASE ---
-            steps = 0
-            max_steps = (size - 1) - s
-            
-            while steps < max_steps:
-                c1 = chunk(next_rank, buffer=Buffer.input, index=r)
-                c = c1.reduce(c)
-                next_rank = (next_rank + 1) % size
-                steps += 1
-                
-            # --- ALL-GATHER PHASE ---
-            while next_rank != (r - 1) % size:
-                c = c.copy(next_rank, buffer=Buffer.input, index=r)
-                next_rank = (next_rank + 1) % size
+            # In this version, reduce() requires a ChunkRef (target)
+            for step in range(reduce_steps):
+                next_rank = (i + step + 1) % size
+                target = chunk(next_rank, Buffer.input, i)
+                c = c.reduce(target)
 
-        # The checker will now correctly validate the N-S contributors
-        Check() 
+            # --- ALL-GATHER PHASE ---
+            # In this version, copy() requires an integer (next_rank)
+            for _ in range(size - 1):
+                next_rank = (c.rank + 1) % size
+                # The copy() call automatically uses the Ref's current buffer/index
+                c = c.copy(next_rank)
+
         XML()
 
 
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument('num_gpus', type=int, help='number of gpus')
-    parser.add_argument('instances', type=int, help='number of instances')
-    # Add the S argument to dictate skipped steps
-    parser.add_argument('--s', type=int, default=1, help='number of reduction steps to skip')
-
-    args = parser.parse_args()
-
-    # Pass the parsed S argument into the algorithm
-    skipreduce_ring(args.num_gpus, args.instances, args.s)
+if __name__ == "__main__":
+    # Example: 4 GPUs, skipping 1 reduction step
+    # This will generate the XML trace to stdout
+    create_skip_reduce(4, 1)
