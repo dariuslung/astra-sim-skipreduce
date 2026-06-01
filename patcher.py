@@ -9,13 +9,13 @@ from schema.protobuf.et_def_pb2 import GlobalMetadata, Node, AttributeProto
 from src.third_party.utils.protolib import decodeMessage as decode_message
 from src.third_party.utils.protolib import encodeMessage as encode_message
 
-def patch_et_files(file_prefix, num_gpus):
-    # 1MB / 8 NPUs = 131072 bytes per chunk
-    bytes_per_chunk = 131072 
+def patch_et_files(file_prefix, num_npus):
+    # 1 MB per NPU
+    bytes_per_chunk = 1000 * 1000 // num_npus
 
-    for i in range(num_gpus):
+    for i in range(num_npus):
         filename = f"{file_prefix}.{i}.et"
-        temp_filename = f"{file_prefix}.{i}.et.tmp"
+        out_filename = f"{file_prefix}.patched.{i}.et"
         
         if not os.path.exists(filename):
             continue
@@ -37,7 +37,7 @@ def patch_et_files(file_prefix, num_gpus):
                     break
         
         # 3. Process and Link Nodes
-        with open(temp_filename, "wb") as fout:
+        with open(out_filename, "wb") as fout:
             encode_message(fout, meta)
             
             # Group nodes by Thread Block (tb_id) to link them sequentially
@@ -68,7 +68,7 @@ def patch_et_files(file_prefix, num_gpus):
                     tb_last_node[tb_id] = node.id
 
                 # --- ATTRIBUTE PATCHING ---
-                node.attr.append(AttributeProto(name="comm_size", int32_val=num_gpus))
+                node.attr.append(AttributeProto(name="comm_size", int32_val=num_npus))
                 
                 if is_comm:
                     node.attr.append(AttributeProto(name="message_size", uint64_val=bytes_per_chunk))
@@ -84,12 +84,11 @@ def patch_et_files(file_prefix, num_gpus):
 
                 encode_message(fout, node)
 
-        os.replace(temp_filename, filename)
-        print(f"Sequentially linked and patched nodes in {filename}")
+        print(f"Sequentially linked and patched nodes saved to {out_filename}")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--prefix", type=str, required=True)
-    parser.add_argument("--gpus", type=int, default=8)
+    parser.add_argument("--npus", type=int, default=8)
     args = parser.parse_args()
-    patch_et_files(args.prefix, args.gpus)
+    patch_et_files(args.prefix, args.npus)

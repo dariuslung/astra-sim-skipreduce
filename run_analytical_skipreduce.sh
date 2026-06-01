@@ -12,7 +12,7 @@ EXAMPLE_DIR="${PROJECT_DIR:?}/examples"
 ASTRA_SIM="${PROJECT_DIR:?}/build/astra_analytical/build/bin/AstraSim_Analytical_Congestion_Unaware"
 WORKLOAD="${SCRIPT_DIR:?}/workload/skip_reduce_8_gpus"
 SYSTEM="${SCRIPT_DIR:?}/custom_collective.json"
-NETWORK="${SCRIPT_DIR:?}/leaf_spine_8_gpus.yml"
+NETWORK="${SCRIPT_DIR:?}/topology.yml"
 REMOTE_MEMORY="${EXAMPLE_DIR:?}/remote_memory/analytical/no_memory_expansion.json"
 
 # start

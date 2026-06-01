@@ -14,7 +14,7 @@ def create_skip_reduce(size, instances, s):
     collective = SkipReduce(size, size, s)
 
     # The program name should ideally match your workload's expected name
-    with MSCCLProgram("skip_reduce_8_gpus", topology, collective, instances):
+    with MSCCLProgram(f"skip_reduce_{size}_npus", topology, collective, instances):
         reduce_steps = (size - 1) - s
 
         for i in range(size):
@@ -44,10 +44,10 @@ def create_skip_reduce(size, instances, s):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('num_gpus', type=int, help='Must match your workload config')
+    parser.add_argument('num_npus', type=int, help='Must match your workload config')
     parser.add_argument('instances', type=int, help='Usually 1 for custom collectives')
     parser.add_argument('--s', type=int, default=1, help='Steps to skip')
     args = parser.parse_args()
     
-    if args.num_gpus > 0:
-        create_skip_reduce(args.num_gpus, args.instances, args.s)
+    if args.num_npus > 0:
+        create_skip_reduce(args.num_npus, args.instances, args.s)
