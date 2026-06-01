@@ -28,3 +28,4 @@ log/
 workload/
 alt_topologies/
 alt_workloads/
+topology.yml
