@@ -7,15 +7,15 @@ PROJECT_DIR="/app/astra-sim"
 
 TOPOLOGY=""
 NPUS=""
-SKIP="s0"
+SKIP="0"
 
 usage() {
     cat <<'EOF'
-Usage: run_skipreduce_variant.sh --topology <path> --npus <count> [--skip <suffix>]
+Usage: run_skipreduce_variant.sh --topology <path> --npus <count> [--skip <number>]
 
 Examples:
   ./run_skipreduce_variant.sh --topology "alt_topologies/L1x2 Nx4.yml" --npus 4
-  ./run_skipreduce_variant.sh --topology "alt_topologies/L2x1 L1x2 Nx8.yml" --npus 8 --skip s0
+  ./run_skipreduce_variant.sh --topology "alt_topologies/L2x1 L1x2 Nx8.yml" --npus 8 --skip 0
 EOF
 }
 
@@ -55,8 +55,13 @@ if [[ ! "$NPUS" =~ ^[0-9]+$ ]]; then
     exit 1
 fi
 
+if [[ ! "$SKIP" =~ ^[0-9]+$ ]]; then
+    echo "SKIP must be an integer: $SKIP" >&2
+    exit 1
+fi
+
 TOPOLOGY_SRC="$SCRIPT_DIR/$TOPOLOGY"
-WORKLOAD_SRC="$SCRIPT_DIR/alt_workloads/skipreduce_${NPUS}_npus_${SKIP}.xml"
+WORKLOAD_SRC="$SCRIPT_DIR/alt_workloads/skipreduce_${NPUS}_npus_s${SKIP}.xml"
 WORKLOAD_DST_DIR="$SCRIPT_DIR/workload"
 WORKLOAD_PREFIX="${WORKLOAD_DST_DIR}/skipreduce_npus"
 
@@ -65,8 +70,14 @@ if [[ ! -f "$TOPOLOGY_SRC" ]]; then
     exit 1
 fi
 
+# Ensure the output directory for the generation script exists
+mkdir -p "$SCRIPT_DIR/alt_workloads"
+
+# Generate alt_workload dynamically using the script variables
+NPUS="$NPUS" SKIP="$SKIP" python "$SCRIPT_DIR/skipreduce.py" "$NPUS" 1 --s "$SKIP" > "$WORKLOAD_SRC"
+
 if [[ ! -f "$WORKLOAD_SRC" ]]; then
-    echo "Workload file not found: $WORKLOAD_SRC" >&2
+    echo "Workload file generation failed or file not found: $WORKLOAD_SRC" >&2
     exit 1
 fi
 
