@@ -45,7 +45,7 @@ def patch_et_files(file_prefix, num_npus):
 
             for node in nodes:
                 # --- CLEANUP AND BASIC PATCHING ---
-                forbidden = ["comm_size", "message_size", "payload_size", "comm_type"]
+                forbidden = ["comm_size", "message_size", "payload_size", "comm_type", "tensor_size"]
                 new_attrs = [a for a in node.attr if a.name not in forbidden]
                 node.ClearField("attr")
                 node.attr.extend(new_attrs)
@@ -68,11 +68,16 @@ def patch_et_files(file_prefix, num_npus):
                     tb_last_node[tb_id] = node.id
 
                 # --- ATTRIBUTE PATCHING ---
-                node.attr.append(AttributeProto(name="comm_size", int32_val=num_npus))
+                # Remove the num_npus assignment
+                # node.attr.append(AttributeProto(name="comm_size", int32_val=num_npus))
+                
+                # Assign the payload directly to comm_size using int64_val
+                node.attr.append(AttributeProto(name="comm_size", int64_val=bytes_per_chunk))
                 
                 if is_comm:
+                    # You can leave these for redundancy, though CustomAlgorithm ignores them
                     node.attr.append(AttributeProto(name="message_size", uint64_val=bytes_per_chunk))
-                    node.attr.append(AttributeProto(name="payload_size", uint64_val=bytes_per_chunk))
+                    node.attr.append(AttributeProto(name="tensor_size", uint64_val=bytes_per_chunk))
                     
                     # Detect Send/Recv for proper type handling
                     is_send = any(a.name == "comm_dst" for a in node.attr)

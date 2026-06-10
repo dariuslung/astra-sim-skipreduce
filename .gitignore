@@ -26,6 +26,4 @@ log/
 
 # Generated files
 workload/
-alt_topologies/
-alt_workloads/
 topology.yml
