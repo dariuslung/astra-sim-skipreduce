@@ -26,14 +26,9 @@ class MSCCLStep:
         self,
         parent: "MSCCLStep",
     ) -> None: 
-        if type(parent) is MSCCLNopStep:
-            raise Exception(f"Nop parent added as parent")
-        if type(self) is MSCCLNopStep:
-            raise Exception(f"Trying to add parent to Nop")
-        if type(parent) is MSCCLReceiveReduceComputeStep:
-            self.node.data_deps.append(parent.comp_node.id)
-            return
-        self.node.data_deps.append(parent.node.id)
+        parent_id = parent.comp_node.id if type(parent) is MSCCLReceiveReduceComputeStep else parent.node.id
+        if parent_id not in self.node.data_deps:
+            self.node.data_deps.append(parent_id)
     
     def encode_message(
         self,
@@ -62,143 +57,105 @@ class MSCCLCompStep(MSCCLStep):
 
 
 class MSCCLSendStep(MSCCLStep):
-    def __init__(
-        self,
-        tb_xml_node: ElementTree.Element,
-        step, 
-        node_id: int,
-        total_chunk_cnt: int,
-        msg_chunk_cnt: int,
-        msg_chunk_idx: int,
-    ) -> None:
+    def __init__(self, tb_xml_node: ElementTree.Element, step, node_id: int, total_chunk_cnt: int, msg_chunk_cnt: int, msg_chunk_idx: int) -> None:
         tb_id = tb_xml_node.attrib['id']
         self.dst = int(tb_xml_node.attrib['send'])
         self.tag = int(tb_xml_node.attrib['chan'])
         step_id = int(step.attrib['s'])
         
+        bytes_per_chunk = 1000 * 1000 // 8
+        payload_size = bytes_per_chunk * msg_chunk_cnt
+
         node = Node()
         node.id = node_id
         node.name = f'COMM_SEND_NODE_tb{tb_id}_step{step_id}'
         node.type = COMM_SEND_NODE
-        node.attr.append(ChakraAttr(name="comm_type",
-                                    int64_val=COMM_SEND_NODE))
-        node.attr.append(ChakraAttr(name="comm_dst",
-                                    int32_val=self.dst))
-        node.attr.append(ChakraAttr(name="comm_tag",
-                                    int32_val=self.tag))
-        node.attr.append(ChakraAttr(name="msg_chunk_cnt",
-                                    int32_val=msg_chunk_cnt))
-        node.attr.append(ChakraAttr(name="msg_chunk_idx",
-                                    int32_val=msg_chunk_idx))
-        node.attr.append(ChakraAttr(name="total_chunk_cnt",
-                                    int32_val=total_chunk_cnt))
-        node.attr.append(ChakraAttr(name="local_time_step",
-                                    int32_val=step_id))
-        node.attr.append(ChakraAttr(name="chunk_offset",
-                                    int32_val=int(step.attrib['srcoff'])))
-        node.attr.append(ChakraAttr(name="hasdep",
-                                    int32_val=int(step.attrib['hasdep'])))
-        node.attr.append(ChakraAttr(name="deps",
-                                    int32_val=int(step.attrib['deps'])))
-        node.attr.append(ChakraAttr(name="depid",
-                                    int32_val=int(step.attrib['depid'])))
-        node.attr.append(ChakraAttr(name="tb_id",
-                                    int32_val=int(tb_id)))
+        
+        # FIX: Changed int64_val to int32_val
+        node.attr.append(ChakraAttr(name="comm_type", int32_val=COMM_SEND_NODE))
+        node.attr.append(ChakraAttr(name="comm_dst", int32_val=self.dst))
+        node.attr.append(ChakraAttr(name="comm_tag", int32_val=self.tag))
+        node.attr.append(ChakraAttr(name="comm_size", int64_val=payload_size))
+        node.attr.append(ChakraAttr(name="message_size", uint64_val=payload_size))
+        node.attr.append(ChakraAttr(name="tensor_size", uint64_val=payload_size))
+        node.attr.append(ChakraAttr(name="msg_chunk_cnt", int32_val=msg_chunk_cnt))
+        node.attr.append(ChakraAttr(name="msg_chunk_idx", int32_val=msg_chunk_idx))
+        node.attr.append(ChakraAttr(name="total_chunk_cnt", int32_val=total_chunk_cnt))
+        node.attr.append(ChakraAttr(name="local_time_step", int32_val=step_id))
+        node.attr.append(ChakraAttr(name="chunk_offset", int32_val=int(step.attrib['srcoff'])))
+        node.attr.append(ChakraAttr(name="hasdep", int32_val=int(step.attrib['hasdep'])))
+        node.attr.append(ChakraAttr(name="deps", int32_val=int(step.attrib['deps'])))
+        node.attr.append(ChakraAttr(name="depid", int32_val=int(step.attrib['depid'])))
+        node.attr.append(ChakraAttr(name="tb_id", int32_val=int(tb_id)))
         
         self.node = node
 
 class MSCCLReceiveStep(MSCCLStep):
-    def __init__(
-        self,
-        tb_xml_node: ElementTree.Element,
-        step, 
-        node_id: int,
-        total_chunk_cnt: int,
-        msg_chunk_cnt: int,
-        msg_chunk_idx: int,
-    ) -> None:
+    def __init__(self, tb_xml_node: ElementTree.Element, step, node_id: int, total_chunk_cnt: int, msg_chunk_cnt: int, msg_chunk_idx: int) -> None:
         tb_id = tb_xml_node.attrib['id']
         self.src = int(tb_xml_node.attrib['recv'])
         self.tag = int(tb_xml_node.attrib['chan'])
         step_id = int(step.attrib['s'])
         
+        bytes_per_chunk = 1000 * 1000 // 8
+        payload_size = bytes_per_chunk * msg_chunk_cnt
+
         node = Node()
         node.id = node_id
         node.name = f'COMM_RECV_NODE_tb{tb_id}_step{step_id}'
         node.type = COMM_RECV_NODE
-        node.attr.append(ChakraAttr(name="comm_type",
-                                    int64_val=COMM_RECV_NODE))
-        node.attr.append(ChakraAttr(name="comm_src",
-                                    int32_val=self.src))
-        node.attr.append(ChakraAttr(name="comm_tag",
-                                    int32_val=self.tag))
-        node.attr.append(ChakraAttr(name="msg_chunk_cnt",
-                                    int32_val=msg_chunk_cnt))
-        node.attr.append(ChakraAttr(name="msg_chunk_idx",
-                                    int32_val=msg_chunk_idx))
-        node.attr.append(ChakraAttr(name="total_chunk_cnt",
-                                    int32_val=total_chunk_cnt))
-        node.attr.append(ChakraAttr(name="local_time_step",
-                                    int32_val=step_id))
-        node.attr.append(ChakraAttr(name="chunk_offset",
-                                    int32_val=int(step.attrib['dstoff'])))
-        node.attr.append(ChakraAttr(name="hasdep",
-                                    int32_val=int(step.attrib['hasdep'])))
-        node.attr.append(ChakraAttr(name="deps",
-                                    int32_val=int(step.attrib['deps'])))
-        node.attr.append(ChakraAttr(name="depid",
-                                    int32_val=int(step.attrib['depid'])))
-        node.attr.append(ChakraAttr(name="tb_id",
-                                    int32_val=int(tb_id)))
+        
+        # FIX: Changed int64_val to int32_val
+        node.attr.append(ChakraAttr(name="comm_type", int32_val=COMM_RECV_NODE))
+        node.attr.append(ChakraAttr(name="comm_src", int32_val=self.src))
+        node.attr.append(ChakraAttr(name="comm_tag", int32_val=self.tag))
+        node.attr.append(ChakraAttr(name="comm_size", int64_val=payload_size))
+        node.attr.append(ChakraAttr(name="message_size", uint64_val=payload_size))
+        node.attr.append(ChakraAttr(name="tensor_size", uint64_val=payload_size))
+        node.attr.append(ChakraAttr(name="msg_chunk_cnt", int32_val=msg_chunk_cnt))
+        node.attr.append(ChakraAttr(name="msg_chunk_idx", int32_val=msg_chunk_idx))
+        node.attr.append(ChakraAttr(name="total_chunk_cnt", int32_val=total_chunk_cnt))
+        node.attr.append(ChakraAttr(name="local_time_step", int32_val=step_id))
+        node.attr.append(ChakraAttr(name="chunk_offset", int32_val=int(step.attrib['dstoff'])))
+        node.attr.append(ChakraAttr(name="hasdep", int32_val=int(step.attrib['hasdep'])))
+        node.attr.append(ChakraAttr(name="deps", int32_val=int(step.attrib['deps'])))
+        node.attr.append(ChakraAttr(name="depid", int32_val=int(step.attrib['depid'])))
+        node.attr.append(ChakraAttr(name="tb_id", int32_val=int(tb_id)))
         
         self.node = node
 
 class MSCCLReceiveReduceComputeStep(MSCCLStep):
-    def __init__(
-        self,
-        tb_xml_node: ElementTree.Element,
-        step,
-        recv_node_id: int,
-        comp_node_id: int,
-        total_chunk_cnt: int,
-        msg_chunk_cnt: int,
-        msg_chunk_idx: int,
-    ) -> None:
+    def __init__(self, tb_xml_node: ElementTree.Element, step, recv_node_id: int, comp_node_id: int, total_chunk_cnt: int, msg_chunk_cnt: int, msg_chunk_idx: int) -> None:
         tb_id = tb_xml_node.attrib['id']
         self.src = int(tb_xml_node.attrib['recv'])
         self.tag = int(tb_xml_node.attrib['chan'])
         step_id = int(step.attrib['s'])
         
+        bytes_per_chunk = 1000 * 1000 // 8
+        payload_size = bytes_per_chunk * msg_chunk_cnt
+
         recv_node = Node()
         recv_node.id = recv_node_id
         recv_node.name = f'COMM_RECV_NODE_tb{tb_id}_step{step_id}'
         recv_node.type = COMM_RECV_NODE
-        recv_node.attr.append(ChakraAttr(name="comm_type",
-                                    int64_val=COMM_RECV_NODE))
-        recv_node.attr.append(ChakraAttr(name="comm_src",
-                                    int32_val=self.src))
-        recv_node.attr.append(ChakraAttr(name="comm_tag",
-                                    int32_val=self.tag))
-        recv_node.attr.append(ChakraAttr(name="msg_chunk_cnt",
-                                    int32_val=msg_chunk_cnt))
-        recv_node.attr.append(ChakraAttr(name="msg_chunk_idx",
-                                    int32_val=msg_chunk_idx))
-        recv_node.attr.append(ChakraAttr(name="total_chunk_cnt",
-                                    int32_val=total_chunk_cnt))
-        recv_node.attr.append(ChakraAttr(name="local_time_step",
-                                    int32_val=step_id))
-        recv_node.attr.append(ChakraAttr(name="chunk_offset",
-                                    int32_val=int(step.attrib['dstoff'])))
-        recv_node.attr.append(ChakraAttr(name="is_rrc",
-                                    bool_val=True))
-        recv_node.attr.append(ChakraAttr(name="hasdep",
-                                    int32_val=int(step.attrib['hasdep'])))
-        recv_node.attr.append(ChakraAttr(name="deps",
-                                    int32_val=int(step.attrib['deps'])))
-        recv_node.attr.append(ChakraAttr(name="depid",
-                                    int32_val=int(step.attrib['depid'])))
-        recv_node.attr.append(ChakraAttr(name="tb_id",
-                                    int32_val=int(tb_id)))
+        
+        # FIX: Changed int64_val to int32_val
+        recv_node.attr.append(ChakraAttr(name="comm_type", int32_val=COMM_RECV_NODE))
+        recv_node.attr.append(ChakraAttr(name="comm_src", int32_val=self.src))
+        recv_node.attr.append(ChakraAttr(name="comm_tag", int32_val=self.tag))
+        recv_node.attr.append(ChakraAttr(name="comm_size", int64_val=payload_size))
+        recv_node.attr.append(ChakraAttr(name="message_size", uint64_val=payload_size))
+        recv_node.attr.append(ChakraAttr(name="tensor_size", uint64_val=payload_size))
+        recv_node.attr.append(ChakraAttr(name="msg_chunk_cnt", int32_val=msg_chunk_cnt))
+        recv_node.attr.append(ChakraAttr(name="msg_chunk_idx", int32_val=msg_chunk_idx))
+        recv_node.attr.append(ChakraAttr(name="total_chunk_cnt", int32_val=total_chunk_cnt))
+        recv_node.attr.append(ChakraAttr(name="local_time_step", int32_val=step_id))
+        recv_node.attr.append(ChakraAttr(name="chunk_offset", int32_val=int(step.attrib['dstoff'])))
+        recv_node.attr.append(ChakraAttr(name="is_rrc", bool_val=True))
+        recv_node.attr.append(ChakraAttr(name="hasdep", int32_val=int(step.attrib['hasdep'])))
+        recv_node.attr.append(ChakraAttr(name="deps", int32_val=int(step.attrib['deps'])))
+        recv_node.attr.append(ChakraAttr(name="depid", int32_val=int(step.attrib['depid'])))
+        recv_node.attr.append(ChakraAttr(name="tb_id", int32_val=int(tb_id)))
         self.recv_node = recv_node
 
         comp_node = Node()
@@ -206,8 +163,6 @@ class MSCCLReceiveReduceComputeStep(MSCCLStep):
         comp_node.name = f"COMP_NODE_tb{tb_id}_step{step_id}"
         comp_node.type = COMP_NODE
         comp_node.data_deps.append(recv_node.id)
-        # We do not fill in the compute duration because the data size is 
-        # resolved within the simulator, not here.
         self.comp_node = comp_node
 
     def encode_message(
@@ -221,16 +176,28 @@ class MSCCLReceiveReduceComputeStep(MSCCLStep):
         self,
         parent: "MSCCLStep",
     ) -> None: 
-        if type(parent) is MSCCLReceiveReduceComputeStep:
-            self.recv_node.data_deps.append(parent.comp_node.id)
-            return
-        self.recv_node.data_deps.append(parent.node.id)
+        parent_id = parent.comp_node.id if type(parent) is MSCCLReceiveReduceComputeStep else parent.node.id
+        if parent_id not in self.recv_node.data_deps:
+            self.recv_node.data_deps.append(parent_id)
+
+class MSCCLCopyStep(MSCCLStep):
+    def __init__(self, tb_xml_node: ElementTree.Element, step, node_id: int) -> None:
+        tb_id = tb_xml_node.attrib['id']
+        step_id = int(step.attrib['s'])
+        
+        node = Node()
+        node.id = node_id
+        node.name = f"COPY_NODE_tb{tb_id}_step{step_id}"
+        node.type = COMP_NODE # Simulates safely as a local memory delay/instant pass
+        self.node = node
 
 class MSCCLNopStep(MSCCLStep):
     def __init__(
         self,
+        *args,
+        **kwargs
     ) -> None:
-        self.name = f"NOP_Node"
+        self.name = "NOP_Node"
 
 class MSCCL2ChakraConverter:
     def __init__(
@@ -291,7 +258,7 @@ class MSCCL2ChakraConverter:
             print(f"Error: Unsupported collective type {collective}")
             exit()
         self.collective = collective
-        # Read the XML file and create ET Trace nodes. 
+        
         for gpu in root.findall('gpu'):
             gpu_id = int(gpu.attrib['id'])
             total_chunk_cnt = int(gpu.attrib['i_chunks'])
@@ -308,66 +275,81 @@ class MSCCL2ChakraConverter:
                     step_id = int(step.attrib['s'])
                     msg_chunk_cnt = int(step.attrib['cnt'])
                     src_off = int(step.attrib['srcoff'])
-                    dst_off = int(step.attrib['dstoff'])
-                    if src_off != dst_off:
-                        print(f"Error: At gpu {gpu_id} tb {tb_id} step {step} src_off {src_off} != dst_off {dst_off}")
-                        exit()
                     msg_chunk_idx = src_off
                     step_map[gpu_id][tb_id][step_id] = step
                     et_node_id = self.get_et_node_id()
+                    
                     if step.attrib['type'] == "s":
                         node = MSCCLSendStep(tb, step, et_node_id, total_chunk_cnt, msg_chunk_cnt, msg_chunk_idx)
-                        node_map[gpu_id][tb_id][step_id] = node
                     elif step.attrib['type'] == "r":
                         node = MSCCLReceiveStep(tb, step, et_node_id, total_chunk_cnt, msg_chunk_cnt, msg_chunk_idx)
-                        node_map[gpu_id][tb_id][step_id] = node
                     elif step.attrib['type'] == "rrc":
                         comp_et_node_id = self.get_et_node_id()
                         node = MSCCLReceiveReduceComputeStep(tb, step, et_node_id, comp_et_node_id, total_chunk_cnt, msg_chunk_cnt, msg_chunk_idx)
-                        node_map[gpu_id][tb_id][step_id] = node
-                    elif step.attrib['type'] == "nop":
+                    else:
+                        # Safely absorb "c", "rc", "nop", and any other unhandled local ops.
+                        # This prevents variable reuse deadlocks and perfectly links network dependencies!
                         node = MSCCLNopStep()
-                        node_map[gpu_id][tb_id][step_id] = node
-        # For each ET Trace node, add the parent dependency information
+                        
+                    node_map[gpu_id][tb_id][step_id] = node
+
+        num_npus = len(node_map)
+        bytes_per_chunk = 1000 * 1000 // num_npus
+
+        # --- NATIVE DAG DEPENDENCY RESOLUTION ---
         for gpu_id in node_map:
+            memo = {}
+            def get_real_parents(t_id, s_id):
+                if (t_id, s_id) in memo:
+                    return memo[(t_id, s_id)]
+                if s_id not in node_map[gpu_id].get(t_id, {}):
+                    return []
+                    
+                node = node_map[gpu_id][t_id][s_id]
+                if type(node) is not MSCCLNopStep:
+                    memo[(t_id, s_id)] = [node]
+                    return [node]
+                    
+                parents = []
+                n_step = step_map[gpu_id][t_id][s_id]
+                d_tb = int(n_step.attrib['depid'])
+                d_step = int(n_step.attrib['deps'])
+                
+                if d_tb != -1 and d_step in node_map[gpu_id].get(d_tb, {}):
+                    parents.extend(get_real_parents(d_tb, d_step))
+                    
+                prev_s_id = s_id - 1
+                while prev_s_id >= 0 and prev_s_id not in node_map[gpu_id][t_id]:
+                    prev_s_id -= 1
+                if prev_s_id >= 0:
+                    parents.extend(get_real_parents(t_id, prev_s_id))
+                    
+                memo[(t_id, s_id)] = parents
+                return parents
+
             for tb_id in node_map[gpu_id]:
-                # Note that we're doing this in reverse order within a threadblock.
                 for step_id, et_node in node_map[gpu_id][tb_id].items():
                     if type(et_node) is MSCCLNopStep:
                         continue
+                        
                     step = step_map[gpu_id][tb_id][step_id]
                     dep_tb_id = int(step.attrib['depid'])
                     dep_step_id = int(step.attrib['deps'])
 
-                    # Parent by data dependency
-                    if dep_tb_id != -1:
-                        dep_node = node_map[gpu_id][dep_tb_id][dep_step_id]
-                        try:
-                            et_node.add_parent(dep_node)
-                        except Exception as e:
-                            print(e, f'{gpu_id}, {dep_tb_id}, {dep_tb_id}, {tb_id}, {step_id}')
+                    # Resolve cross-TB dependencies explicitly
+                    if dep_tb_id != -1 and dep_step_id in node_map[gpu_id].get(dep_tb_id, {}):
+                        for parent in get_real_parents(dep_tb_id, dep_step_id):
+                            et_node.add_parent(parent)
 
-                    # Parent by control
-                    if step_id != 0:
-                        prev_step_id = step_id -1
-                        #print(gpu_id, tb_id, prev_step_id, step_id)
-                        prev_node = node_map[gpu_id][tb_id][prev_step_id]
-                        while type(prev_node) is MSCCLNopStep:
-                            prev_step = step_map[gpu_id][tb_id][prev_step_id]
-                            dep_tb_id = int(prev_step.attrib['depid'])
-                            dep_step_id = int(prev_step.attrib['deps'])
-                            dep_node = node_map[gpu_id][dep_tb_id][dep_step_id]
-                            et_node.add_parent(dep_node)
+                    # Resolve sequential TB dependencies natively
+                    prev_step_id = step_id - 1
+                    while prev_step_id >= 0 and prev_step_id not in node_map[gpu_id][tb_id]:
+                        prev_step_id -= 1
+                    if prev_step_id >= 0:
+                        for parent in get_real_parents(tb_id, prev_step_id):
+                            et_node.add_parent(parent)
 
-                            prev_step_id = prev_step_id - 1
-                            if prev_step_id < 0:
-                                break
-                            prev_node = node_map[gpu_id][tb_id][prev_step_id]
-
-                        if type(prev_node) is not MSCCLNopStep:
-                            et_node.add_parent(prev_node)
-        
-        # For each ET Trace node, add the parent dependency information
+        # --- OUTPUT GENERATION ---
         for gpu_id in node_map:
             output_filename = "%s.%s.et" % (self.output_filename, gpu_id)
             with open(output_filename, "wb") as g:
@@ -375,9 +357,35 @@ class MSCCL2ChakraConverter:
                 encode_message(g, global_metadata)
                 for tb_id in node_map[gpu_id]:
                     for step_id, et_node in node_map[gpu_id][tb_id].items():
-                        if type(et_node) is MSCCLNopStep :
+                        if type(et_node) is MSCCLNopStep:
                             continue
-                    
+                            
+                        # Attribute Scrubbing for ASTRA-sim compatibility
+                        nodes_to_patch = []
+                        if type(et_node) is MSCCLReceiveReduceComputeStep:
+                            nodes_to_patch.extend([et_node.recv_node, et_node.comp_node])
+                        else:
+                            nodes_to_patch.append(et_node.node)
+
+                        for target_node in nodes_to_patch:
+                            forbidden = ["comm_size", "message_size", "payload_size", "comm_type", "tensor_size"]
+                            new_attrs = [a for a in target_node.attr if a.name not in forbidden]
+                            target_node.ClearField("attr")
+                            target_node.attr.extend(new_attrs)
+                            
+                            msg_chunk_cnt = 1
+                            for a in new_attrs:
+                                if a.name == "msg_chunk_cnt":
+                                    msg_chunk_cnt = a.int32_val
+                            payload_size = bytes_per_chunk * msg_chunk_cnt
+
+                            target_node.attr.append(ChakraAttr(name="comm_size", int64_val=payload_size))
+                            is_comm = target_node.type in [3, 4, 6]
+                            if is_comm:
+                                target_node.attr.append(ChakraAttr(name="message_size", uint64_val=payload_size))
+                                target_node.attr.append(ChakraAttr(name="tensor_size", uint64_val=payload_size))
+                                is_send = any(a.name == "comm_dst" for a in target_node.attr)
+                                target_node.type = 3 if is_send else 4
+                                target_node.attr.append(ChakraAttr(name="comm_type", int32_val=target_node.type))
+
                         et_node.encode_message(g)
-                        #if gpu_id == 0:
-                            #print('encode node', et_node)

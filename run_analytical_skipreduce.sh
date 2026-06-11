@@ -10,7 +10,7 @@ EXAMPLE_DIR="${PROJECT_DIR:?}/examples"
 # paths
 # ASTRA_SIM="${PROJECT_DIR:?}/build/astra_analytical/build/bin/AstraSim_Analytical_Congestion_Aware"
 ASTRA_SIM="${PROJECT_DIR:?}/build/astra_analytical/build/bin/AstraSim_Analytical_Congestion_Unaware"
-WORKLOAD="${SCRIPT_DIR:?}/workload/skipreduce_npus.patched"
+WORKLOAD="${SCRIPT_DIR:?}/workload/skipreduce_npus"
 SYSTEM="${SCRIPT_DIR:?}/custom_collective.json"
 NETWORK="${SCRIPT_DIR:?}/topology.yml"
 REMOTE_MEMORY="${EXAMPLE_DIR:?}/remote_memory/analytical/no_memory_expansion.json"
