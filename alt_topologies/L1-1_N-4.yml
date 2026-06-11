@@ -1,4 +1,4 @@
 topology: [ Switch ]
 npus_count: [ 4 ] # 4 NPUs/Switch
-bandwidth: [ 50.0 ]
-latency: [ 500.0 ]
+bandwidth: [ 0.93132257 ]  # GiB/s
+latency: [ 0.0 ]   # ns

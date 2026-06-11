@@ -83,14 +83,11 @@ fi
 
 mkdir -p "$WORKLOAD_DST_DIR"
 cp "$TOPOLOGY_SRC" "$SCRIPT_DIR/topology.yml"
-rm "${WORKLOAD_PREFIX}"*.et
+rm -f "${WORKLOAD_PREFIX}"*.et
 
 python /app/chakra/collectiveapi/chakra_converter/et_converter.py \
     --input_filename "$WORKLOAD_SRC" \
-    --output_filename "$WORKLOAD_PREFIX"
-
-# python "$SCRIPT_DIR/patcher.py" \
-#     --prefix "$WORKLOAD_PREFIX" \
-#     --npus "$NPUS"
+    --output_filename "$WORKLOAD_PREFIX" \
+    --num_npus "$NPUS"
 
 "$SCRIPT_DIR/run_analytical_skipreduce.sh"
