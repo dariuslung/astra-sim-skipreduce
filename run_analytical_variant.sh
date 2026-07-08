@@ -11,11 +11,11 @@ SKIP="0"
 
 usage() {
     cat <<'EOF'
-Usage: run_skipreduce_variant.sh --topology <path> --npus <count> [--skip <number>]
+Usage: run_analytical_variant.sh --topology <path> --npus <count> [--skip <number>]
 
 Examples:
-  ./run_skipreduce_variant.sh --topology "alt_topologies/L1x2 Nx4.yml" --npus 4
-  ./run_skipreduce_variant.sh --topology "alt_topologies/L2x1 L1x2 Nx8.yml" --npus 8 --skip 0
+  ./run_analytical_variant.sh --topology "alt_topologies/L1x2 Nx4.yml" --npus 4
+  ./run_analytical_variant.sh --topology "alt_topologies/L2x1 L1x2 Nx8.yml" --npus 8 --skip 0
 EOF
 }
 
@@ -90,4 +90,4 @@ python /app/chakra/collectiveapi/chakra_converter/et_converter.py \
     --output_filename "$WORKLOAD_PREFIX" \
     --num_npus "$NPUS"
 
-"$SCRIPT_DIR/run_analytical_skipreduce.sh"
+"$SCRIPT_DIR/run_analytical.sh"

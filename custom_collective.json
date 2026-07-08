@@ -1,6 +1,8 @@
 {
   "scheduling-policy": "FIFO",
   "preferred-dataset-splits": 1,
-  "all-reduce-implementation-custom": ["workload/skip_reduce_8_npus"],
+  "all-reduce-implementation-custom": [
+    "/app/astra-sim/skipreduce/workload/skipreduce_npus"
+  ],
   "local-mem-bw": 50
 }
