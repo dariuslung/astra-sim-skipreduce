@@ -65,7 +65,7 @@ class MSCCLSendStep(MSCCLStep):
         self.tag = int(tb_xml_node.attrib['chan'])
         step_id = int(step.attrib['s'])
 
-        bytes_per_chunk = 1000 * 1000 // num_npus
+        bytes_per_chunk = 1024 * 1024 * 1024 // num_npus
         payload_size = bytes_per_chunk * msg_chunk_cnt
 
         node = Node()
@@ -110,7 +110,7 @@ class MSCCLReceiveStep(MSCCLStep):
         self.tag = int(tb_xml_node.attrib['chan'])
         step_id = int(step.attrib['s'])
 
-        bytes_per_chunk = 1000 * 1000 // num_npus
+        bytes_per_chunk = 1024 * 1024 * 1024 // num_npus
         payload_size = bytes_per_chunk * msg_chunk_cnt
 
         node = Node()
@@ -155,7 +155,7 @@ class MSCCLReceiveReduceComputeStep(MSCCLStep):
         self.tag = int(tb_xml_node.attrib['chan'])
         step_id = int(step.attrib['s'])
 
-        bytes_per_chunk = 1000 * 1000 // num_npus
+        bytes_per_chunk = 1024 * 1024 * 1024 // num_npus
         payload_size = bytes_per_chunk * msg_chunk_cnt
 
         recv_node = Node()
@@ -238,7 +238,7 @@ class MSCCLReceiveCopySendStep(MSCCLStep):
         self.tag = int(tb_xml_node.attrib['chan'])
         step_id = int(step.attrib['s'])
 
-        bytes_per_chunk = 1000 * 1000 // num_npus
+        bytes_per_chunk = 1024 * 1024 * 1024 // num_npus
         payload_size = bytes_per_chunk * msg_chunk_cnt
 
         # 1. Create the Receive Node
@@ -401,7 +401,7 @@ class MSCCL2ChakraConverter:
 
                     node_map[gpu_id][tb_id][step_idx] = node
 
-        bytes_per_chunk = 1000 * 1000 // self.num_npus
+        bytes_per_chunk = 1024 * 1024 * 1024 // self.num_npus
 
         # --- NATIVE DAG DEPENDENCY RESOLUTION ---
         for gpu_id in node_map:

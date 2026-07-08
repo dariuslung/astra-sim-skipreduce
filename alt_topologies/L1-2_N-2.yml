@@ -1,4 +1,4 @@
 topology: [ Switch, FullyConnected ]
-npus_count: [ 1, 2 ] # 1 NPUs/Switch
-bandwidth: [ 0.93132257, 0.93132257 ] # GiB/s
+npus_count: [ 1, 2 ]
+bandwidth: [ 1.0, 1.0 ] # GiB/s
 latency: [ 0.0, 0.0 ] # ns
