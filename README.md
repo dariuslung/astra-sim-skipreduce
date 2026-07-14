@@ -7,8 +7,8 @@ This directory contains a complete pipeline for generating, trace-converting, an
 ## Key Components
 
 1. **`skipreduce.py`**: A program built using the Microsoft Collective Communication Library (MSCCL) Python DSL. It defines a custom ring topology (locking sequential chains to prevent compiler bypasses), generates the SkipReduce collective (Reduce-Scatter with $s$ steps skipped, followed by an All-Gather phase), and outputs the MSCCL XML.
-2. **`run_analytical_variant.sh`**: Helper runner script that generates the SkipReduce workload, compiles Astra-Sim with the Analytical congestion-unaware backend, and runs the simulation.
-3. **`run_ns3_variant.sh`**: Helper runner script that generates the SkipReduce workload, configures the ns-3 simulation with output helper files (`flow.txt`, `trace.txt`), compiles/runs the ns-3 packet-level backend, and maps logical dimensions dynamically.
+2. **`run_analytical.sh`**: Helper runner script that generates the SkipReduce workload, compiles Astra-Sim with the Analytical congestion-unaware backend, and runs the simulation.
+3. **`run_ns3.sh`**: Helper runner script that generates the SkipReduce workload, configures the ns-3 simulation with output helper files (`flow.txt`, `trace.txt`), compiles/runs the ns-3 packet-level backend, and maps logical dimensions dynamically.
 4. **`alt_topologies/`**: Logical and physical topology descriptions:
    * **`analytical/`**: Multi-dimensional YAML topology configurations.
    * **`ns3/`**: Corresponding physical link networks (`*_network.txt`) and logical dimension files (`*_logical.json`).
@@ -21,8 +21,8 @@ This directory contains a complete pipeline for generating, trace-converting, an
 Both helper runner scripts share an intuitive, unified interface for setting up the simulation dimensions:
 
 ```bash
-./run_ns3_variant.sh --N <count> [--L1 <count>] [--L2 <count>] [--skip <number>]
-./run_analytical_variant.sh --N <count> [--L1 <count>] [--L2 <count>] [--skip <number>]
+./run_ns3.sh --N <count> [--L1 <count>] [--L2 <count>] [--skip <number>]
+./run_analytical.sh --N <count> [--L1 <count>] [--L2 <count>] [--skip <number>]
 ```
 
 ### Argument Reference
@@ -34,12 +34,12 @@ Both helper runner scripts share an intuitive, unified interface for setting up 
 ### Examples
 To run a flat ring on 2 NPUs:
 ```bash
-./run_ns3_variant.sh --N 2
+./run_ns3.sh --N 2
 ```
 
 To run a hierarchical configuration on 8 NPUs split across 2 switches of size 4:
 ```bash
-./run_ns3_variant.sh --N 8 --L1 4 --skip 1
+./run_ns3.sh --N 8 --L1 4 --skip 1
 ```
 
 ---
