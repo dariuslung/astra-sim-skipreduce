@@ -5,28 +5,33 @@ set -x
 SCRIPT_DIR=$(dirname "$(realpath "$0")")
 PROJECT_DIR="/app/astra-sim"
 
-TOPOLOGY=""
-NPUS=""
+L2=""
+L1=""
+N=""
 SKIP="0"
 
 usage() {
     cat <<'EOF'
-Usage: run_analytical_variant.sh --topology <path> --npus <count> [--skip <number>]
+Usage: ./run_analytical_variant.sh --N <count> [--L1 <count>] [--L2 <count>] [--skip <number>]
 
 Examples:
-  ./run_analytical_variant.sh --topology "alt_topologies/L1x2 Nx4.yml" --npus 4
-  ./run_analytical_variant.sh --topology "alt_topologies/L2x1 L1x2 Nx8.yml" --npus 8 --skip 0
+  ./run_analytical_variant.sh --N 2
+  ./run_analytical_variant.sh --N 8 --L1 2 --L2 1 --skip 0
 EOF
 }
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
-        --topology)
-            TOPOLOGY="${2:-}"
+        --L2)
+            L2="${2:-}"
             shift 2
             ;;
-        --npus)
-            NPUS="${2:-}"
+        --L1)
+            L1="${2:-}"
+            shift 2
+            ;;
+        --N)
+            N="${2:-}"
             shift 2
             ;;
         --skip)
@@ -45,13 +50,14 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-if [[ -z "$TOPOLOGY" || -z "$NPUS" ]]; then
+if [[ -z "$N" ]]; then
+    echo "Error: --N is required" >&2
     usage >&2
     exit 1
 fi
 
-if [[ ! "$NPUS" =~ ^[0-9]+$ ]]; then
-    echo "NPUS must be an integer: $NPUS" >&2
+if [[ ! "$N" =~ ^[0-9]+$ ]]; then
+    echo "N must be an integer: $N" >&2
     exit 1
 fi
 
@@ -60,7 +66,22 @@ if [[ ! "$SKIP" =~ ^[0-9]+$ ]]; then
     exit 1
 fi
 
-TOPOLOGY_SRC="$SCRIPT_DIR/$TOPOLOGY"
+# Build topology filename
+if [[ -n "$L2" ]]; then
+    if [[ -z "$L1" ]]; then
+        echo "Error: --L2 requires --L1" >&2
+        exit 1
+    fi
+    TOPO_NAME="L2-${L2}_L1-${L1}_N-${N}"
+elif [[ -n "$L1" ]]; then
+    TOPO_NAME="L1-${L1}_N-${N}"
+else
+    TOPO_NAME="N-${N}"
+fi
+
+NPUS="$N"
+
+TOPOLOGY_SRC="$SCRIPT_DIR/alt_topologies/analytical/${TOPO_NAME}.yml"
 WORKLOAD_SRC="$SCRIPT_DIR/alt_workloads/skipreduce_${NPUS}_npus_s${SKIP}.xml"
 WORKLOAD_DST_DIR="$SCRIPT_DIR/workload"
 WORKLOAD_PREFIX="${WORKLOAD_DST_DIR}/skipreduce_npus"
