@@ -13,11 +13,11 @@ SKIP="0"
 
 usage() {
     cat <<'EOF'
-Usage: ./run_ns3_variant.sh --N <count> [--L1 <count>] [--L2 <count>] [--skip <number>]
+Usage: ./run_ns3.sh --N <count> [--L1 <count>] [--L2 <count>] [--skip <number>]
 
 Examples:
-  ./run_ns3_variant.sh --N 2
-  ./run_ns3_variant.sh --N 8 --L1 2 --L2 1 --skip 0
+  ./run_ns3.sh --N 2
+  ./run_ns3.sh --N 8 --L1 2 --L2 1 --skip 0
 EOF
 }
 
