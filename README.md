@@ -2,7 +2,6 @@
 
 This directory contains a complete pipeline for generating, trace-converting, and simulating the **SkipReduce** collective algorithm using **ASTRA-sim** with both **Analytical** and **ns-3** packet-level network backends.
 
----
 
 ## Environment Setup
 
@@ -11,11 +10,12 @@ Perform the initial setup on the host machine, and then proceed with the depende
 ### 1. Host Machine Setup
 
 #### Clone Repositories
-Clone the ASTRA-sim and mlcommons/chakra repositories side-by-side:
+Clone ASTRA-sim and mlcommons/chakra, and clone `astra-sim-skipreduce` into the `astra-sim/skipreduce` directory:
 ```bash
 git clone --recursive https://github.com/astra-sim/astra-sim.git
 git clone --recursive https://github.com/mlcommons/chakra.git
 cd astra-sim
+git clone https://github.com/dariuslung/astra-sim-skipreduce.git skipreduce
 git submodule update --init --recursive
 ```
 
@@ -92,7 +92,6 @@ ln -s /app/astra-sim/skipreduce/chakra_converter/mscclang2chakra_converter.py /a
 ln -s /app/astra-sim/skipreduce/chakra_converter/et_converter.py /app/chakra/collectiveapi/chakra_converter/et_converter.py
 ```
 
----
 
 ## Key Components
 
@@ -104,13 +103,13 @@ ln -s /app/astra-sim/skipreduce/chakra_converter/et_converter.py /app/chakra/col
    * **`ns3/`**: Corresponding physical link networks (`*_network.txt`) and logical dimension files (`*_logical.json`).
 5. **`output_md_parser.py`**: A helper Python utility to parse standard Astra-Sim stdout logs and print a formatted Markdown table of Wall Time, Communication Time, GPU Time, and Compute-Communication Overlap.
 
----
 
 ## Command Line Interface (CLI)
 
-Both helper runner scripts share an intuitive, unified interface for setting up the simulation dimensions:
+Both helper runner scripts share an intuitive, unified interface for setting up the simulation dimensions (execute from `/app/astra-sim/skipreduce` inside the Docker container):
 
 ```bash
+cd /app/astra-sim/skipreduce
 ./run_ns3.sh --N <count> [--L1 <count>] [--L2 <count>] [--skip <number>]
 ./run_analytical.sh --N <count> [--L1 <count>] [--L2 <count>] [--skip <number>]
 ```
@@ -132,7 +131,6 @@ To run a hierarchical configuration on 8 NPUs split across 2 switches of size 4:
 ./run_ns3.sh --N 8 --L1 4 --skip 1
 ```
 
----
 
 ## Trace Debugging & Log Parsing
 
