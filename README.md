@@ -1,4 +1,4 @@
-# Astra-Sim SkipReduce Simulation Environment
+# ASTRA-sim SkipReduce Simulation Environment
 
 This directory contains a complete pipeline for generating, trace-converting, and simulating the **SkipReduce** collective algorithm using **ASTRA-sim** with both **Analytical** and **ns-3** packet-level network backends.
 
@@ -96,12 +96,12 @@ ln -s /app/astra-sim/skipreduce/chakra_converter/et_converter.py /app/chakra/col
 ## Key Components
 
 1. **`skipreduce.py`**: A program built using the Microsoft Collective Communication Library (MSCCL) Python DSL. It defines a custom ring topology (locking sequential chains to prevent compiler bypasses), generates the SkipReduce collective (Reduce-Scatter with $s$ steps skipped, followed by an All-Gather phase), and outputs the MSCCL XML.
-2. **`run_analytical.sh`**: Helper runner script that generates the SkipReduce workload, compiles Astra-Sim with the Analytical congestion-unaware backend, and runs the simulation.
+2. **`run_analytical.sh`**: Helper runner script that generates the SkipReduce workload, compiles ASTRA-sim with the Analytical congestion-unaware backend, and runs the simulation.
 3. **`run_ns3.sh`**: Helper runner script that generates the SkipReduce workload, configures the ns-3 simulation with output helper files (`flow.txt`, `trace.txt`), compiles/runs the ns-3 packet-level backend, and maps logical dimensions dynamically.
 4. **`alt_topologies/`**: Logical and physical topology descriptions:
    * **`analytical/`**: Multi-dimensional YAML topology configurations.
    * **`ns3/`**: Corresponding physical link networks (`*_network.txt`) and logical dimension files (`*_logical.json`).
-5. **`output_md_parser.py`**: A helper Python utility to parse standard Astra-Sim stdout logs and print a formatted Markdown table of Wall Time, Communication Time, GPU Time, and Compute-Communication Overlap.
+5. **`output_md_parser.py`**: A helper Python utility to parse standard ASTRA-sim stdout logs and print a formatted Markdown table of Wall Time, Communication Time, GPU Time, and Compute-Communication Overlap.
 
 
 ## Command Line Interface (CLI)

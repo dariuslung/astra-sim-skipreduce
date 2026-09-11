@@ -29,3 +29,6 @@ alt_workloads/
 workload/
 topology.yml
 custom_network_config.txt
+
+# Datasets
+data/

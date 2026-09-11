@@ -1,0 +1,46 @@
+{
+  "device": "NVIDIA GeForce RTX 4060 Ti",
+  "retention_ratio": 0.15,
+  "benchmarks": [
+    {
+      "label": "256 KB",
+      "bytes_mb": 0.25,
+      "numel": 65536,
+      "dct_latency_us": 143.1,
+      "hadamard_latency_us": 939.0,
+      "speedup": 0.15
+    },
+    {
+      "label": "1 MB",
+      "bytes_mb": 1.0,
+      "numel": 262144,
+      "dct_latency_us": 183.71,
+      "hadamard_latency_us": 1049.67,
+      "speedup": 0.18
+    },
+    {
+      "label": "4 MB",
+      "bytes_mb": 4.0,
+      "numel": 1048576,
+      "dct_latency_us": 830.15,
+      "hadamard_latency_us": 1308.98,
+      "speedup": 0.63
+    },
+    {
+      "label": "16 MB",
+      "bytes_mb": 16.0,
+      "numel": 4194304,
+      "dct_latency_us": 7498.93,
+      "hadamard_latency_us": 13333.29,
+      "speedup": 0.56
+    },
+    {
+      "label": "64 MB",
+      "bytes_mb": 64.0,
+      "numel": 16777216,
+      "dct_latency_us": 32994.38,
+      "hadamard_latency_us": 108206.21,
+      "speedup": 0.3
+    }
+  ]
+}

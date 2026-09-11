@@ -68,62 +68,35 @@ def parse_logs_to_markdown(log_data: str) -> str:
 # Example Usage:
 if __name__ == "__main__":
     raw_logs = """
-[2026-06-12 08:26:48.997] [workload] [info] sys[1] finished, 1752800 cycles, exposed communication 1752778 cycles.
-[2026-06-12 08:26:48.997] [statistics] [info] sys[1]. Post statistics processing start.
-[2026-06-12 08:26:48.997] [statistics] [info] sys[1]. Post statistics processing end.
-[2026-06-12 08:26:48.997] [statistics] [info] sys[1], Wall time: 1752800
-[2026-06-12 08:26:48.997] [statistics] [info] sys[1], Comm time: 1752800
-[2026-06-12 08:26:48.997] [statistics] [info] sys[1], GPU time: 22
-[2026-06-12 08:26:48.997] [statistics] [info] sys[1], Total compute-communication overlap: 22
-[2026-06-12 08:26:48.997] [workload] [info] sys[2] finished, 1752800 cycles, exposed communication 1752778 cycles.
-[2026-06-12 08:26:48.997] [statistics] [info] sys[2]. Post statistics processing start.
-[2026-06-12 08:26:48.997] [statistics] [info] sys[2]. Post statistics processing end.
-[2026-06-12 08:26:48.997] [statistics] [info] sys[2], Wall time: 1752800
-[2026-06-12 08:26:48.997] [statistics] [info] sys[2], Comm time: 1752800
-[2026-06-12 08:26:48.997] [statistics] [info] sys[2], GPU time: 22
-[2026-06-12 08:26:48.997] [statistics] [info] sys[2], Total compute-communication overlap: 22
-[2026-06-12 08:26:48.997] [workload] [info] sys[3] finished, 1752800 cycles, exposed communication 1752778 cycles.
-[2026-06-12 08:26:48.997] [statistics] [info] sys[3]. Post statistics processing start.
-[2026-06-12 08:26:48.997] [statistics] [info] sys[3]. Post statistics processing end.
-[2026-06-12 08:26:48.997] [statistics] [info] sys[3], Wall time: 1752800
-[2026-06-12 08:26:48.997] [statistics] [info] sys[3], Comm time: 1752800
-[2026-06-12 08:26:48.997] [statistics] [info] sys[3], GPU time: 22
-[2026-06-12 08:26:48.997] [statistics] [info] sys[3], Total compute-communication overlap: 22
-[2026-06-12 08:26:48.997] [workload] [info] sys[4] finished, 1752800 cycles, exposed communication 1752778 cycles.
-[2026-06-12 08:26:48.997] [statistics] [info] sys[4]. Post statistics processing start.
-[2026-06-12 08:26:48.997] [statistics] [info] sys[4]. Post statistics processing end.
-[2026-06-12 08:26:48.997] [statistics] [info] sys[4], Wall time: 1752800
-[2026-06-12 08:26:48.997] [statistics] [info] sys[4], Comm time: 1752800
-[2026-06-12 08:26:48.997] [statistics] [info] sys[4], GPU time: 22
-[2026-06-12 08:26:48.997] [statistics] [info] sys[4], Total compute-communication overlap: 22
-[2026-06-12 08:26:48.997] [workload] [info] sys[5] finished, 1752800 cycles, exposed communication 1752778 cycles.
-[2026-06-12 08:26:48.997] [statistics] [info] sys[5]. Post statistics processing start.
-[2026-06-12 08:26:48.997] [statistics] [info] sys[5]. Post statistics processing end.
-[2026-06-12 08:26:48.997] [statistics] [info] sys[5], Wall time: 1752800
-[2026-06-12 08:26:48.997] [statistics] [info] sys[5], Comm time: 1752800
-[2026-06-12 08:26:48.997] [statistics] [info] sys[5], GPU time: 22
-[2026-06-12 08:26:48.997] [statistics] [info] sys[5], Total compute-communication overlap: 22
-[2026-06-12 08:26:48.997] [workload] [info] sys[6] finished, 1752800 cycles, exposed communication 1752778 cycles.
-[2026-06-12 08:26:48.997] [statistics] [info] sys[6]. Post statistics processing start.
-[2026-06-12 08:26:48.997] [statistics] [info] sys[6]. Post statistics processing end.
-[2026-06-12 08:26:48.997] [statistics] [info] sys[6], Wall time: 1752800
-[2026-06-12 08:26:48.997] [statistics] [info] sys[6], Comm time: 1752800
-[2026-06-12 08:26:48.997] [statistics] [info] sys[6], GPU time: 22
-[2026-06-12 08:26:48.997] [statistics] [info] sys[6], Total compute-communication overlap: 22
-[2026-06-12 08:26:48.997] [workload] [info] sys[0] finished, 1752802 cycles, exposed communication 1752780 cycles.
-[2026-06-12 08:26:48.997] [statistics] [info] sys[0]. Post statistics processing start.
-[2026-06-12 08:26:48.997] [statistics] [info] sys[0]. Post statistics processing end.
-[2026-06-12 08:26:48.997] [statistics] [info] sys[0], Wall time: 1752802
-[2026-06-12 08:26:48.997] [statistics] [info] sys[0], GPU time: 22
-[2026-06-12 08:26:48.997] [statistics] [info] sys[0], Comm time: 1752800
-[2026-06-12 08:26:48.997] [statistics] [info] sys[0], Total compute-communication overlap: 20
-[2026-06-12 08:26:48.997] [workload] [info] sys[7] finished, 1752804 cycles, exposed communication 1752782 cycles.
-[2026-06-12 08:26:48.997] [statistics] [info] sys[7]. Post statistics processing start.
-[2026-06-12 08:26:48.997] [statistics] [info] sys[7]. Post statistics processing end.
-[2026-06-12 08:26:48.997] [statistics] [info] sys[7], Wall time: 1752804
-[2026-06-12 08:26:48.997] [statistics] [info] sys[7], GPU time: 22
-[2026-06-12 08:26:48.997] [statistics] [info] sys[7], Comm time: 1752800
-[2026-06-12 08:26:48.997] [statistics] [info] sys[7], Total compute-communication overlap: 18
+[2026-07-15 06:34:29.602] [workload] [info] sys[2] finished, 231373820 cycles, exposed communication 231373810 cycles.
+[2026-07-15 06:34:29.602] [statistics] [info] sys[2]. Post statistics processing start.
+[2026-07-15 06:34:29.602] [statistics] [info] sys[2]. Post statistics processing end.
+[2026-07-15 06:34:29.602] [statistics] [info] sys[2], Wall time: 231373820
+[2026-07-15 06:34:29.602] [statistics] [info] sys[2], Comm time: 231373820
+[2026-07-15 06:34:29.602] [statistics] [info] sys[2], GPU time: 10
+[2026-07-15 06:34:29.602] [statistics] [info] sys[2], Total compute-communication overlap: 10
+[2026-07-15 06:34:30.101] [workload] [info] sys[0] finished, 232050124 cycles, exposed communication 232050114 cycles.
+[2026-07-15 06:34:30.101] [statistics] [info] sys[0]. Post statistics processing start.
+[2026-07-15 06:34:30.101] [statistics] [info] sys[0]. Post statistics processing end.
+[2026-07-15 06:34:30.101] [statistics] [info] sys[0], Wall time: 232050124
+[2026-07-15 06:34:30.101] [statistics] [info] sys[0], GPU time: 10
+[2026-07-15 06:34:30.101] [statistics] [info] sys[0], Comm time: 232050122
+[2026-07-15 06:34:30.101] [statistics] [info] sys[0], Total compute-communication overlap: 8
+[2026-07-15 06:34:30.734] [workload] [info] sys[1] finished, 233411510 cycles, exposed communication 233411500 cycles.
+[2026-07-15 06:34:30.734] [statistics] [info] sys[1]. Post statistics processing start.
+[2026-07-15 06:34:30.734] [statistics] [info] sys[1]. Post statistics processing end.
+[2026-07-15 06:34:30.734] [statistics] [info] sys[1], Wall time: 233411510
+[2026-07-15 06:34:30.734] [statistics] [info] sys[1], Comm time: 233411510
+[2026-07-15 06:34:30.734] [statistics] [info] sys[1], GPU time: 10
+[2026-07-15 06:34:30.734] [statistics] [info] sys[1], Total compute-communication overlap: 10
+[2026-07-15 06:34:30.815] [workload] [info] sys[3] finished, 233685826 cycles, exposed communication 233685816 cycles.
+[2026-07-15 06:34:30.815] [statistics] [info] sys[3]. Post statistics processing start.
+[2026-07-15 06:34:30.815] [statistics] [info] sys[3]. Post statistics processing end.
+[2026-07-15 06:34:30.815] [statistics] [info] sys[3], Wall time: 233685826
+[2026-07-15 06:34:30.815] [statistics] [info] sys[3], GPU time: 10
+[2026-07-15 06:34:30.815] [statistics] [info] sys[3], Comm time: 233685822
+[2026-07-15 06:34:30.815] [statistics] [info] sys[3], Total compute-communication overlap: 6
+
     """
     
     markdown_table = parse_logs_to_markdown(raw_logs)
