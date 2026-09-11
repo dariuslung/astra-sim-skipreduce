@@ -6,10 +6,11 @@ and automatically updates docs/experiments/LOGS.md with results.
 
 import argparse
 import datetime
+import json
 import os
 import subprocess
 import sys
-import json
+import time
 
 # Ensure repo root is in python path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
@@ -65,6 +66,46 @@ EXPERIMENT_CONFIGS = [
         "retention": 0.15,
         "use_ef": True,
         "notes": "Walsh-Hadamard 15% retention with Error Feedback buffer"
+    },
+    # 6. Heavy Naive SkipReduce (s=2, 50% partitions dropped)
+    {
+        "name": "naive_skipreduce_s2",
+        "ranks": 4,
+        "skip": 2,
+        "transform": "none",
+        "retention": 0.0,
+        "use_ef": False,
+        "notes": "Heavy SkipReduce s=2 (50% partitions dropped), no transform"
+    },
+    # 7. Heavy Skip DCT Recovery (s=2, 15% retention)
+    {
+        "name": "dct_s2_r15_noef",
+        "ranks": 4,
+        "skip": 2,
+        "transform": "dct",
+        "retention": 0.15,
+        "use_ef": False,
+        "notes": "DCT 15% recovery on s=2 heavy skip, no error feedback"
+    },
+    # 8. Heavy Skip Walsh-Hadamard Recovery (s=2, 15% retention)
+    {
+        "name": "hadamard_s2_r15_noef",
+        "ranks": 4,
+        "skip": 2,
+        "transform": "hadamard",
+        "retention": 0.15,
+        "use_ef": False,
+        "notes": "Walsh-Hadamard 15% recovery on s=2 heavy skip, no error feedback"
+    },
+    # 9. Heavy Skip DCT Recovery (s=2, 25% retention)
+    {
+        "name": "dct_s2_r25_noef",
+        "ranks": 4,
+        "skip": 2,
+        "transform": "dct",
+        "retention": 0.25,
+        "use_ef": False,
+        "notes": "DCT 25% recovery on s=2 heavy skip, no error feedback"
     }
 ]
 
