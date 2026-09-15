@@ -1,0 +1,1472 @@
+{
+  "model": "resnet50",
+  "epochs": 20,
+  "batch_size": 128,
+  "initial_lr": 0.1,
+  "final_val_acc": 89.67,
+  "final_val_loss": 0.3199,
+  "total_training_time_s": 1592.86,
+  "epochs_data": [
+    {
+      "epoch": 1,
+      "lr": 0.1,
+      "train_loss": 2.9734,
+      "val_loss": 2.0489,
+      "val_acc": 19.17,
+      "global_hoyer": 0.5615,
+      "global_energy10": 84.17,
+      "global_rel_thresh": 33.99,
+      "by_stage": {
+        "stem": {
+          "hoyer": 0.6682,
+          "energy10": 92.86
+        },
+        "stage1": {
+          "hoyer": 0.5709,
+          "energy10": 85.23
+        },
+        "stage2": {
+          "hoyer": 0.5566,
+          "energy10": 84.63
+        },
+        "stage3": {
+          "hoyer": 0.4959,
+          "energy10": 80.53
+        },
+        "stage4": {
+          "hoyer": 0.6588,
+          "energy10": 88.24
+        },
+        "head": {
+          "hoyer": 0.6986,
+          "energy10": 87.22
+        }
+      },
+      "by_layer_type": {
+        "conv3x3_spatial": {
+          "hoyer": 0.5368,
+          "energy10": 83.42
+        },
+        "conv1x1_reduce": {
+          "hoyer": 0.5491,
+          "energy10": 83.59
+        },
+        "conv1x1_expand": {
+          "hoyer": 0.5742,
+          "energy10": 84.64
+        },
+        "conv1x1_downsample": {
+          "hoyer": 0.6309,
+          "energy10": 87.01
+        },
+        "classifier_head": {
+          "hoyer": 0.6986,
+          "energy10": 87.22
+        }
+      },
+      "mask_iou_from_prev_epoch": {},
+      "epoch_time_s": 79.8
+    },
+    {
+      "epoch": 2,
+      "lr": 0.099384,
+      "train_loss": 1.9516,
+      "val_loss": 1.8178,
+      "val_acc": 29.91,
+      "global_hoyer": 0.6634,
+      "global_energy10": 94.03,
+      "global_rel_thresh": 40.75,
+      "by_stage": {
+        "stem": {
+          "hoyer": 0.6452,
+          "energy10": 95.19
+        },
+        "stage1": {
+          "hoyer": 0.6422,
+          "energy10": 93.45
+        },
+        "stage2": {
+          "hoyer": 0.6342,
+          "energy10": 94.1
+        },
+        "stage3": {
+          "hoyer": 0.6017,
+          "energy10": 91.42
+        },
+        "stage4": {
+          "hoyer": 0.8187,
+          "energy10": 98.78
+        },
+        "head": {
+          "hoyer": 0.8938,
+          "energy10": 100.0
+        }
+      },
+      "by_layer_type": {
+        "conv3x3_spatial": {
+          "hoyer": 0.6472,
+          "energy10": 93.98
+        },
+        "conv1x1_reduce": {
+          "hoyer": 0.6329,
+          "energy10": 92.5
+        },
+        "conv1x1_expand": {
+          "hoyer": 0.6773,
+          "energy10": 94.49
+        },
+        "conv1x1_downsample": {
+          "hoyer": 0.7411,
+          "energy10": 96.99
+        },
+        "classifier_head": {
+          "hoyer": 0.8938,
+          "energy10": 100.0
+        }
+      },
+      "mask_iou_from_prev_epoch": {
+        "conv1.weight": 0.4357,
+        "layer1.0.conv2.weight": 0.3614,
+        "layer2.1.conv2.weight": 0.3039,
+        "layer3.2.conv2.weight": 0.2181,
+        "layer4.1.conv2.weight": 0.2077,
+        "fc.weight": 0.6069
+      },
+      "epoch_time_s": 79.6
+    },
+    {
+      "epoch": 3,
+      "lr": 0.097553,
+      "train_loss": 1.741,
+      "val_loss": 1.6247,
+      "val_acc": 37.45,
+      "global_hoyer": 0.6383,
+      "global_energy10": 93.14,
+      "global_rel_thresh": 37.43,
+      "by_stage": {
+        "stem": {
+          "hoyer": 0.676,
+          "energy10": 96.99
+        },
+        "stage1": {
+          "hoyer": 0.6341,
+          "energy10": 92.88
+        },
+        "stage2": {
+          "hoyer": 0.5937,
+          "energy10": 92.17
+        },
+        "stage3": {
+          "hoyer": 0.579,
+          "energy10": 90.72
+        },
+        "stage4": {
+          "hoyer": 0.7838,
+          "energy10": 98.2
+        },
+        "head": {
+          "hoyer": 0.8898,
+          "energy10": 100.0
+        }
+      },
+      "by_layer_type": {
+        "conv3x3_spatial": {
+          "hoyer": 0.6484,
+          "energy10": 94.52
+        },
+        "conv1x1_reduce": {
+          "hoyer": 0.609,
+          "energy10": 91.62
+        },
+        "conv1x1_expand": {
+          "hoyer": 0.6302,
+          "energy10": 92.3
+        },
+        "conv1x1_downsample": {
+          "hoyer": 0.6813,
+          "energy10": 95.01
+        },
+        "classifier_head": {
+          "hoyer": 0.8898,
+          "energy10": 100.0
+        }
+      },
+      "mask_iou_from_prev_epoch": {
+        "conv1.weight": 0.4298,
+        "layer1.0.conv2.weight": 0.4387,
+        "layer2.1.conv2.weight": 0.3335,
+        "layer3.2.conv2.weight": 0.3266,
+        "layer4.1.conv2.weight": 0.2838,
+        "fc.weight": 0.5103
+      },
+      "epoch_time_s": 79.76
+    },
+    {
+      "epoch": 4,
+      "lr": 0.094551,
+      "train_loss": 1.5382,
+      "val_loss": 1.4682,
+      "val_acc": 45.73,
+      "global_hoyer": 0.5987,
+      "global_energy10": 90.67,
+      "global_rel_thresh": 33.49,
+      "by_stage": {
+        "stem": {
+          "hoyer": 0.66,
+          "energy10": 95.69
+        },
+        "stage1": {
+          "hoyer": 0.5977,
+          "energy10": 90.5
+        },
+        "stage2": {
+          "hoyer": 0.5493,
+          "energy10": 88.97
+        },
+        "stage3": {
+          "hoyer": 0.5364,
+          "energy10": 87.55
+        },
+        "stage4": {
+          "hoyer": 0.7473,
+          "energy10": 97.52
+        },
+        "head": {
+          "hoyer": 0.8854,
+          "energy10": 99.99
+        }
+      },
+      "by_layer_type": {
+        "conv3x3_spatial": {
+          "hoyer": 0.6207,
+          "energy10": 93.28
+        },
+        "conv1x1_reduce": {
+          "hoyer": 0.5644,
+          "energy10": 88.28
+        },
+        "conv1x1_expand": {
+          "hoyer": 0.5815,
+          "energy10": 89.12
+        },
+        "conv1x1_downsample": {
+          "hoyer": 0.6392,
+          "energy10": 92.96
+        },
+        "classifier_head": {
+          "hoyer": 0.8854,
+          "energy10": 99.99
+        }
+      },
+      "mask_iou_from_prev_epoch": {
+        "conv1.weight": 0.4477,
+        "layer1.0.conv2.weight": 0.4441,
+        "layer2.1.conv2.weight": 0.3407,
+        "layer3.2.conv2.weight": 0.2923,
+        "layer4.1.conv2.weight": 0.3697,
+        "fc.weight": 0.3852
+      },
+      "epoch_time_s": 79.92
+    },
+    {
+      "epoch": 5,
+      "lr": 0.090452,
+      "train_loss": 1.3663,
+      "val_loss": 1.2897,
+      "val_acc": 51.59,
+      "global_hoyer": 0.5739,
+      "global_energy10": 89.01,
+      "global_rel_thresh": 31.09,
+      "by_stage": {
+        "stem": {
+          "hoyer": 0.6786,
+          "energy10": 96.76
+        },
+        "stage1": {
+          "hoyer": 0.5767,
+          "energy10": 88.76
+        },
+        "stage2": {
+          "hoyer": 0.5249,
+          "energy10": 86.75
+        },
+        "stage3": {
+          "hoyer": 0.5158,
+          "energy10": 85.87
+        },
+        "stage4": {
+          "hoyer": 0.7059,
+          "energy10": 96.32
+        },
+        "head": {
+          "hoyer": 0.8641,
+          "energy10": 99.91
+        }
+      },
+      "by_layer_type": {
+        "conv3x3_spatial": {
+          "hoyer": 0.6063,
+          "energy10": 92.48
+        },
+        "conv1x1_reduce": {
+          "hoyer": 0.538,
+          "energy10": 86.26
+        },
+        "conv1x1_expand": {
+          "hoyer": 0.553,
+          "energy10": 87.1
+        },
+        "conv1x1_downsample": {
+          "hoyer": 0.5914,
+          "energy10": 90.24
+        },
+        "classifier_head": {
+          "hoyer": 0.8641,
+          "energy10": 99.91
+        }
+      },
+      "mask_iou_from_prev_epoch": {
+        "conv1.weight": 0.4978,
+        "layer1.0.conv2.weight": 0.3868,
+        "layer2.1.conv2.weight": 0.3478,
+        "layer3.2.conv2.weight": 0.2705,
+        "layer4.1.conv2.weight": 0.3754,
+        "fc.weight": 0.5103
+      },
+      "epoch_time_s": 79.63
+    },
+    {
+      "epoch": 6,
+      "lr": 0.085357,
+      "train_loss": 1.1931,
+      "val_loss": 1.2355,
+      "val_acc": 55.04,
+      "global_hoyer": 0.5414,
+      "global_energy10": 86.7,
+      "global_rel_thresh": 27.48,
+      "by_stage": {
+        "stem": {
+          "hoyer": 0.6943,
+          "energy10": 97.61
+        },
+        "stage1": {
+          "hoyer": 0.5656,
+          "energy10": 88.1
+        },
+        "stage2": {
+          "hoyer": 0.4948,
+          "energy10": 83.91
+        },
+        "stage3": {
+          "hoyer": 0.4766,
+          "energy10": 82.56
+        },
+        "stage4": {
+          "hoyer": 0.6574,
+          "energy10": 94.4
+        },
+        "head": {
+          "hoyer": 0.8229,
+          "energy10": 99.62
+        }
+      },
+      "by_layer_type": {
+        "conv3x3_spatial": {
+          "hoyer": 0.5748,
+          "energy10": 90.44
+        },
+        "conv1x1_reduce": {
+          "hoyer": 0.5155,
+          "energy10": 84.38
+        },
+        "conv1x1_expand": {
+          "hoyer": 0.5127,
+          "energy10": 84.08
+        },
+        "conv1x1_downsample": {
+          "hoyer": 0.5473,
+          "energy10": 87.25
+        },
+        "classifier_head": {
+          "hoyer": 0.8229,
+          "energy10": 99.62
+        }
+      },
+      "mask_iou_from_prev_epoch": {
+        "conv1.weight": 0.4978,
+        "layer1.0.conv2.weight": 0.3759,
+        "layer2.1.conv2.weight": 0.3264,
+        "layer3.2.conv2.weight": 0.2546,
+        "layer4.1.conv2.weight": 0.3336,
+        "fc.weight": 0.4692
+      },
+      "epoch_time_s": 79.69
+    },
+    {
+      "epoch": 7,
+      "lr": 0.079391,
+      "train_loss": 1.0352,
+      "val_loss": 0.9493,
+      "val_acc": 66.34,
+      "global_hoyer": 0.5206,
+      "global_energy10": 84.95,
+      "global_rel_thresh": 25.48,
+      "by_stage": {
+        "stem": {
+          "hoyer": 0.6772,
+          "energy10": 95.61
+        },
+        "stage1": {
+          "hoyer": 0.5557,
+          "energy10": 87.21
+        },
+        "stage2": {
+          "hoyer": 0.4823,
+          "energy10": 82.63
+        },
+        "stage3": {
+          "hoyer": 0.4518,
+          "energy10": 79.99
+        },
+        "stage4": {
+          "hoyer": 0.6226,
+          "energy10": 92.63
+        },
+        "head": {
+          "hoyer": 0.7973,
+          "energy10": 99.29
+        }
+      },
+      "by_layer_type": {
+        "conv3x3_spatial": {
+          "hoyer": 0.5594,
+          "energy10": 89.12
+        },
+        "conv1x1_reduce": {
+          "hoyer": 0.4867,
+          "energy10": 81.89
+        },
+        "conv1x1_expand": {
+          "hoyer": 0.4967,
+          "energy10": 82.8
+        },
+        "conv1x1_downsample": {
+          "hoyer": 0.5176,
+          "energy10": 84.48
+        },
+        "classifier_head": {
+          "hoyer": 0.7973,
+          "energy10": 99.29
+        }
+      },
+      "mask_iou_from_prev_epoch": {
+        "conv1.weight": 0.4239,
+        "layer1.0.conv2.weight": 0.3566,
+        "layer2.1.conv2.weight": 0.2866,
+        "layer3.2.conv2.weight": 0.2282,
+        "layer4.1.conv2.weight": 0.3142,
+        "fc.weight": 0.4222
+      },
+      "epoch_time_s": 79.67
+    },
+    {
+      "epoch": 8,
+      "lr": 0.072702,
+      "train_loss": 0.9067,
+      "val_loss": 1.0688,
+      "val_acc": 64.25,
+      "global_hoyer": 0.5042,
+      "global_energy10": 83.57,
+      "global_rel_thresh": 23.51,
+      "by_stage": {
+        "stem": {
+          "hoyer": 0.6707,
+          "energy10": 96.22
+        },
+        "stage1": {
+          "hoyer": 0.5474,
+          "energy10": 86.5
+        },
+        "stage2": {
+          "hoyer": 0.4733,
+          "energy10": 81.64
+        },
+        "stage3": {
+          "hoyer": 0.4329,
+          "energy10": 78.06
+        },
+        "stage4": {
+          "hoyer": 0.5944,
+          "energy10": 90.83
+        },
+        "head": {
+          "hoyer": 0.7602,
+          "energy10": 98.57
+        }
+      },
+      "by_layer_type": {
+        "conv3x3_spatial": {
+          "hoyer": 0.5443,
+          "energy10": 87.97
+        },
+        "conv1x1_reduce": {
+          "hoyer": 0.4766,
+          "energy10": 80.92
+        },
+        "conv1x1_expand": {
+          "hoyer": 0.4754,
+          "energy10": 80.83
+        },
+        "conv1x1_downsample": {
+          "hoyer": 0.4954,
+          "energy10": 82.62
+        },
+        "classifier_head": {
+          "hoyer": 0.7602,
+          "energy10": 98.57
+        }
+      },
+      "mask_iou_from_prev_epoch": {
+        "conv1.weight": 0.5656,
+        "layer1.0.conv2.weight": 0.3594,
+        "layer2.1.conv2.weight": 0.277,
+        "layer3.2.conv2.weight": 0.2037,
+        "layer4.1.conv2.weight": 0.274,
+        "fc.weight": 0.3875
+      },
+      "epoch_time_s": 79.66
+    },
+    {
+      "epoch": 9,
+      "lr": 0.065454,
+      "train_loss": 0.7868,
+      "val_loss": 0.9945,
+      "val_acc": 66.66,
+      "global_hoyer": 0.4927,
+      "global_energy10": 82.52,
+      "global_rel_thresh": 22.55,
+      "by_stage": {
+        "stem": {
+          "hoyer": 0.665,
+          "energy10": 96.41
+        },
+        "stage1": {
+          "hoyer": 0.5428,
+          "energy10": 86.11
+        },
+        "stage2": {
+          "hoyer": 0.4563,
+          "energy10": 80.19
+        },
+        "stage3": {
+          "hoyer": 0.4205,
+          "energy10": 76.61
+        },
+        "stage4": {
+          "hoyer": 0.5844,
+          "energy10": 90.21
+        },
+        "head": {
+          "hoyer": 0.7481,
+          "energy10": 98.18
+        }
+      },
+      "by_layer_type": {
+        "conv3x3_spatial": {
+          "hoyer": 0.5317,
+          "energy10": 87.1
+        },
+        "conv1x1_reduce": {
+          "hoyer": 0.4618,
+          "energy10": 79.35
+        },
+        "conv1x1_expand": {
+          "hoyer": 0.4669,
+          "energy10": 79.99
+        },
+        "conv1x1_downsample": {
+          "hoyer": 0.4895,
+          "energy10": 81.87
+        },
+        "classifier_head": {
+          "hoyer": 0.7481,
+          "energy10": 98.18
+        }
+      },
+      "mask_iou_from_prev_epoch": {
+        "conv1.weight": 0.6244,
+        "layer1.0.conv2.weight": 0.3938,
+        "layer2.1.conv2.weight": 0.2805,
+        "layer3.2.conv2.weight": 0.2071,
+        "layer4.1.conv2.weight": 0.2573,
+        "fc.weight": 0.3861
+      },
+      "epoch_time_s": 79.65
+    },
+    {
+      "epoch": 10,
+      "lr": 0.057826,
+      "train_loss": 0.6792,
+      "val_loss": 0.7528,
+      "val_acc": 73.58,
+      "global_hoyer": 0.4803,
+      "global_energy10": 81.35,
+      "global_rel_thresh": 21.26,
+      "by_stage": {
+        "stem": {
+          "hoyer": 0.6469,
+          "energy10": 95.09
+        },
+        "stage1": {
+          "hoyer": 0.5362,
+          "energy10": 85.4
+        },
+        "stage2": {
+          "hoyer": 0.4437,
+          "energy10": 78.93
+        },
+        "stage3": {
+          "hoyer": 0.4073,
+          "energy10": 75.23
+        },
+        "stage4": {
+          "hoyer": 0.5698,
+          "energy10": 89.09
+        },
+        "head": {
+          "hoyer": 0.7244,
+          "energy10": 97.25
+        }
+      },
+      "by_layer_type": {
+        "conv3x3_spatial": {
+          "hoyer": 0.5157,
+          "energy10": 85.77
+        },
+        "conv1x1_reduce": {
+          "hoyer": 0.4565,
+          "energy10": 78.74
+        },
+        "conv1x1_expand": {
+          "hoyer": 0.4521,
+          "energy10": 78.4
+        },
+        "conv1x1_downsample": {
+          "hoyer": 0.4775,
+          "energy10": 80.83
+        },
+        "classifier_head": {
+          "hoyer": 0.7244,
+          "energy10": 97.25
+        }
+      },
+      "mask_iou_from_prev_epoch": {
+        "conv1.weight": 0.5378,
+        "layer1.0.conv2.weight": 0.3532,
+        "layer2.1.conv2.weight": 0.2964,
+        "layer3.2.conv2.weight": 0.1957,
+        "layer4.1.conv2.weight": 0.2789,
+        "fc.weight": 0.4032
+      },
+      "epoch_time_s": 79.58
+    },
+    {
+      "epoch": 11,
+      "lr": 0.050005,
+      "train_loss": 0.5973,
+      "val_loss": 0.665,
+      "val_acc": 76.6,
+      "global_hoyer": 0.4726,
+      "global_energy10": 80.76,
+      "global_rel_thresh": 20.15,
+      "by_stage": {
+        "stem": {
+          "hoyer": 0.6525,
+          "energy10": 94.44
+        },
+        "stage1": {
+          "hoyer": 0.534,
+          "energy10": 85.35
+        },
+        "stage2": {
+          "hoyer": 0.4437,
+          "energy10": 78.97
+        },
+        "stage3": {
+          "hoyer": 0.4009,
+          "energy10": 74.46
+        },
+        "stage4": {
+          "hoyer": 0.5455,
+          "energy10": 87.55
+        },
+        "head": {
+          "hoyer": 0.6896,
+          "energy10": 96.05
+        }
+      },
+      "by_layer_type": {
+        "conv3x3_spatial": {
+          "hoyer": 0.5114,
+          "energy10": 85.2
+        },
+        "conv1x1_reduce": {
+          "hoyer": 0.4471,
+          "energy10": 78.06
+        },
+        "conv1x1_expand": {
+          "hoyer": 0.445,
+          "energy10": 77.96
+        },
+        "conv1x1_downsample": {
+          "hoyer": 0.4662,
+          "energy10": 80.05
+        },
+        "classifier_head": {
+          "hoyer": 0.6896,
+          "energy10": 96.05
+        }
+      },
+      "mask_iou_from_prev_epoch": {
+        "conv1.weight": 0.485,
+        "layer1.0.conv2.weight": 0.3649,
+        "layer2.1.conv2.weight": 0.2752,
+        "layer3.2.conv2.weight": 0.2004,
+        "layer4.1.conv2.weight": 0.2683,
+        "fc.weight": 0.3162
+      },
+      "epoch_time_s": 79.44
+    },
+    {
+      "epoch": 12,
+      "lr": 0.042184,
+      "train_loss": 0.5326,
+      "val_loss": 0.6247,
+      "val_acc": 79.02,
+      "global_hoyer": 0.4671,
+      "global_energy10": 80.3,
+      "global_rel_thresh": 19.74,
+      "by_stage": {
+        "stem": {
+          "hoyer": 0.6438,
+          "energy10": 94.8
+        },
+        "stage1": {
+          "hoyer": 0.5257,
+          "energy10": 84.66
+        },
+        "stage2": {
+          "hoyer": 0.4417,
+          "energy10": 78.82
+        },
+        "stage3": {
+          "hoyer": 0.3952,
+          "energy10": 73.86
+        },
+        "stage4": {
+          "hoyer": 0.539,
+          "energy10": 87.12
+        },
+        "head": {
+          "hoyer": 0.6823,
+          "energy10": 95.67
+        }
+      },
+      "by_layer_type": {
+        "conv3x3_spatial": {
+          "hoyer": 0.5032,
+          "energy10": 84.63
+        },
+        "conv1x1_reduce": {
+          "hoyer": 0.4433,
+          "energy10": 77.62
+        },
+        "conv1x1_expand": {
+          "hoyer": 0.4406,
+          "energy10": 77.57
+        },
+        "conv1x1_downsample": {
+          "hoyer": 0.4615,
+          "energy10": 79.7
+        },
+        "classifier_head": {
+          "hoyer": 0.6823,
+          "energy10": 95.67
+        }
+      },
+      "mask_iou_from_prev_epoch": {
+        "conv1.weight": 0.5586,
+        "layer1.0.conv2.weight": 0.3692,
+        "layer2.1.conv2.weight": 0.274,
+        "layer3.2.conv2.weight": 0.1976,
+        "layer4.1.conv2.weight": 0.2581,
+        "fc.weight": 0.3681
+      },
+      "epoch_time_s": 79.46
+    },
+    {
+      "epoch": 13,
+      "lr": 0.034556,
+      "train_loss": 0.4806,
+      "val_loss": 0.5206,
+      "val_acc": 81.95,
+      "global_hoyer": 0.4582,
+      "global_energy10": 79.41,
+      "global_rel_thresh": 18.78,
+      "by_stage": {
+        "stem": {
+          "hoyer": 0.6504,
+          "energy10": 94.63
+        },
+        "stage1": {
+          "hoyer": 0.5234,
+          "energy10": 84.61
+        },
+        "stage2": {
+          "hoyer": 0.432,
+          "energy10": 77.77
+        },
+        "stage3": {
+          "hoyer": 0.39,
+          "energy10": 73.18
+        },
+        "stage4": {
+          "hoyer": 0.5149,
+          "energy10": 85.04
+        },
+        "head": {
+          "hoyer": 0.6835,
+          "energy10": 95.5
+        }
+      },
+      "by_layer_type": {
+        "conv3x3_spatial": {
+          "hoyer": 0.4936,
+          "energy10": 83.63
+        },
+        "conv1x1_reduce": {
+          "hoyer": 0.434,
+          "energy10": 76.56
+        },
+        "conv1x1_expand": {
+          "hoyer": 0.4338,
+          "energy10": 77.09
+        },
+        "conv1x1_downsample": {
+          "hoyer": 0.4456,
+          "energy10": 78.11
+        },
+        "classifier_head": {
+          "hoyer": 0.6835,
+          "energy10": 95.5
+        }
+      },
+      "mask_iou_from_prev_epoch": {
+        "conv1.weight": 0.3952,
+        "layer1.0.conv2.weight": 0.3665,
+        "layer2.1.conv2.weight": 0.2849,
+        "layer3.2.conv2.weight": 0.1795,
+        "layer4.1.conv2.weight": 0.2316,
+        "fc.weight": 0.2852
+      },
+      "epoch_time_s": 79.45
+    },
+    {
+      "epoch": 14,
+      "lr": 0.027308,
+      "train_loss": 0.4301,
+      "val_loss": 0.5145,
+      "val_acc": 82.53,
+      "global_hoyer": 0.4516,
+      "global_energy10": 78.71,
+      "global_rel_thresh": 18.41,
+      "by_stage": {
+        "stem": {
+          "hoyer": 0.6476,
+          "energy10": 94.69
+        },
+        "stage1": {
+          "hoyer": 0.5221,
+          "energy10": 84.3
+        },
+        "stage2": {
+          "hoyer": 0.4226,
+          "energy10": 76.72
+        },
+        "stage3": {
+          "hoyer": 0.3849,
+          "energy10": 72.51
+        },
+        "stage4": {
+          "hoyer": 0.5075,
+          "energy10": 84.47
+        },
+        "head": {
+          "hoyer": 0.6379,
+          "energy10": 93.33
+        }
+      },
+      "by_layer_type": {
+        "conv3x3_spatial": {
+          "hoyer": 0.4866,
+          "energy10": 82.87
+        },
+        "conv1x1_reduce": {
+          "hoyer": 0.4301,
+          "energy10": 76.12
+        },
+        "conv1x1_expand": {
+          "hoyer": 0.4269,
+          "energy10": 76.24
+        },
+        "conv1x1_downsample": {
+          "hoyer": 0.441,
+          "energy10": 77.7
+        },
+        "classifier_head": {
+          "hoyer": 0.6379,
+          "energy10": 93.33
+        }
+      },
+      "mask_iou_from_prev_epoch": {
+        "conv1.weight": 0.4298,
+        "layer1.0.conv2.weight": 0.372,
+        "layer2.1.conv2.weight": 0.2871,
+        "layer3.2.conv2.weight": 0.1828,
+        "layer4.1.conv2.weight": 0.2312,
+        "fc.weight": 0.2974
+      },
+      "epoch_time_s": 79.55
+    },
+    {
+      "epoch": 15,
+      "lr": 0.020619,
+      "train_loss": 0.3865,
+      "val_loss": 0.4781,
+      "val_acc": 83.94,
+      "global_hoyer": 0.4482,
+      "global_energy10": 78.42,
+      "global_rel_thresh": 17.98,
+      "by_stage": {
+        "stem": {
+          "hoyer": 0.6426,
+          "energy10": 94.3
+        },
+        "stage1": {
+          "hoyer": 0.514,
+          "energy10": 83.51
+        },
+        "stage2": {
+          "hoyer": 0.4248,
+          "energy10": 77.02
+        },
+        "stage3": {
+          "hoyer": 0.3822,
+          "energy10": 72.19
+        },
+        "stage4": {
+          "hoyer": 0.4991,
+          "energy10": 83.87
+        },
+        "head": {
+          "hoyer": 0.6429,
+          "energy10": 93.77
+        }
+      },
+      "by_layer_type": {
+        "conv3x3_spatial": {
+          "hoyer": 0.4827,
+          "energy10": 82.45
+        },
+        "conv1x1_reduce": {
+          "hoyer": 0.4263,
+          "energy10": 75.86
+        },
+        "conv1x1_expand": {
+          "hoyer": 0.4232,
+          "energy10": 75.94
+        },
+        "conv1x1_downsample": {
+          "hoyer": 0.4402,
+          "energy10": 77.67
+        },
+        "classifier_head": {
+          "hoyer": 0.6429,
+          "energy10": 93.77
+        }
+      },
+      "mask_iou_from_prev_epoch": {
+        "conv1.weight": 0.3411,
+        "layer1.0.conv2.weight": 0.3647,
+        "layer2.1.conv2.weight": 0.2639,
+        "layer3.2.conv2.weight": 0.1874,
+        "layer4.1.conv2.weight": 0.2423,
+        "fc.weight": 0.3111
+      },
+      "epoch_time_s": 79.76
+    },
+    {
+      "epoch": 16,
+      "lr": 0.014653,
+      "train_loss": 0.3356,
+      "val_loss": 0.4134,
+      "val_acc": 86.34,
+      "global_hoyer": 0.4449,
+      "global_energy10": 78.08,
+      "global_rel_thresh": 17.68,
+      "by_stage": {
+        "stem": {
+          "hoyer": 0.6319,
+          "energy10": 93.51
+        },
+        "stage1": {
+          "hoyer": 0.5168,
+          "energy10": 83.87
+        },
+        "stage2": {
+          "hoyer": 0.4204,
+          "energy10": 76.44
+        },
+        "stage3": {
+          "hoyer": 0.3785,
+          "energy10": 71.79
+        },
+        "stage4": {
+          "hoyer": 0.4921,
+          "energy10": 83.24
+        },
+        "head": {
+          "hoyer": 0.6465,
+          "energy10": 93.98
+        }
+      },
+      "by_layer_type": {
+        "conv3x3_spatial": {
+          "hoyer": 0.4782,
+          "energy10": 81.99
+        },
+        "conv1x1_reduce": {
+          "hoyer": 0.4234,
+          "energy10": 75.45
+        },
+        "conv1x1_expand": {
+          "hoyer": 0.4199,
+          "energy10": 75.68
+        },
+        "conv1x1_downsample": {
+          "hoyer": 0.4395,
+          "energy10": 77.57
+        },
+        "classifier_head": {
+          "hoyer": 0.6465,
+          "energy10": 93.98
+        }
+      },
+      "mask_iou_from_prev_epoch": {
+        "conv1.weight": 0.3896,
+        "layer1.0.conv2.weight": 0.3634,
+        "layer2.1.conv2.weight": 0.2414,
+        "layer3.2.conv2.weight": 0.1721,
+        "layer4.1.conv2.weight": 0.2068,
+        "fc.weight": 0.1998
+      },
+      "epoch_time_s": 79.66
+    },
+    {
+      "epoch": 17,
+      "lr": 0.009558,
+      "train_loss": 0.2911,
+      "val_loss": 0.3714,
+      "val_acc": 87.77,
+      "global_hoyer": 0.4426,
+      "global_energy10": 77.79,
+      "global_rel_thresh": 17.55,
+      "by_stage": {
+        "stem": {
+          "hoyer": 0.6385,
+          "energy10": 93.83
+        },
+        "stage1": {
+          "hoyer": 0.5143,
+          "energy10": 83.51
+        },
+        "stage2": {
+          "hoyer": 0.4151,
+          "energy10": 75.83
+        },
+        "stage3": {
+          "hoyer": 0.3776,
+          "energy10": 71.53
+        },
+        "stage4": {
+          "hoyer": 0.4922,
+          "energy10": 83.43
+        },
+        "head": {
+          "hoyer": 0.629,
+          "energy10": 92.66
+        }
+      },
+      "by_layer_type": {
+        "conv3x3_spatial": {
+          "hoyer": 0.4769,
+          "energy10": 81.81
+        },
+        "conv1x1_reduce": {
+          "hoyer": 0.4208,
+          "energy10": 75.12
+        },
+        "conv1x1_expand": {
+          "hoyer": 0.4187,
+          "energy10": 75.48
+        },
+        "conv1x1_downsample": {
+          "hoyer": 0.4338,
+          "energy10": 76.9
+        },
+        "classifier_head": {
+          "hoyer": 0.629,
+          "energy10": 92.66
+        }
+      },
+      "mask_iou_from_prev_epoch": {
+        "conv1.weight": 0.485,
+        "layer1.0.conv2.weight": 0.4018,
+        "layer2.1.conv2.weight": 0.2575,
+        "layer3.2.conv2.weight": 0.1634,
+        "layer4.1.conv2.weight": 0.1968,
+        "fc.weight": 0.2378
+      },
+      "epoch_time_s": 79.65
+    },
+    {
+      "epoch": 18,
+      "lr": 0.005459,
+      "train_loss": 0.2466,
+      "val_loss": 0.3414,
+      "val_acc": 88.61,
+      "global_hoyer": 0.4375,
+      "global_energy10": 77.25,
+      "global_rel_thresh": 17.19,
+      "by_stage": {
+        "stem": {
+          "hoyer": 0.6431,
+          "energy10": 94.21
+        },
+        "stage1": {
+          "hoyer": 0.5115,
+          "energy10": 83.11
+        },
+        "stage2": {
+          "hoyer": 0.4083,
+          "energy10": 75.12
+        },
+        "stage3": {
+          "hoyer": 0.3753,
+          "energy10": 71.26
+        },
+        "stage4": {
+          "hoyer": 0.481,
+          "energy10": 82.35
+        },
+        "head": {
+          "hoyer": 0.6169,
+          "energy10": 92.37
+        }
+      },
+      "by_layer_type": {
+        "conv3x3_spatial": {
+          "hoyer": 0.4703,
+          "energy10": 81.11
+        },
+        "conv1x1_reduce": {
+          "hoyer": 0.4178,
+          "energy10": 74.68
+        },
+        "conv1x1_expand": {
+          "hoyer": 0.4122,
+          "energy10": 74.9
+        },
+        "conv1x1_downsample": {
+          "hoyer": 0.4325,
+          "energy10": 76.79
+        },
+        "classifier_head": {
+          "hoyer": 0.6169,
+          "energy10": 92.37
+        }
+      },
+      "mask_iou_from_prev_epoch": {
+        "conv1.weight": 0.3463,
+        "layer1.0.conv2.weight": 0.37,
+        "layer2.1.conv2.weight": 0.254,
+        "layer3.2.conv2.weight": 0.1685,
+        "layer4.1.conv2.weight": 0.2152,
+        "fc.weight": 0.2334
+      },
+      "epoch_time_s": 79.63
+    },
+    {
+      "epoch": 19,
+      "lr": 0.002457,
+      "train_loss": 0.2144,
+      "val_loss": 0.3211,
+      "val_acc": 89.52,
+      "global_hoyer": 0.4304,
+      "global_energy10": 76.48,
+      "global_rel_thresh": 16.72,
+      "by_stage": {
+        "stem": {
+          "hoyer": 0.6302,
+          "energy10": 92.85
+        },
+        "stage1": {
+          "hoyer": 0.5113,
+          "energy10": 83.11
+        },
+        "stage2": {
+          "hoyer": 0.4044,
+          "energy10": 74.73
+        },
+        "stage3": {
+          "hoyer": 0.3646,
+          "energy10": 69.86
+        },
+        "stage4": {
+          "hoyer": 0.4719,
+          "energy10": 81.57
+        },
+        "head": {
+          "hoyer": 0.5977,
+          "energy10": 91.35
+        }
+      },
+      "by_layer_type": {
+        "conv3x3_spatial": {
+          "hoyer": 0.4627,
+          "energy10": 80.23
+        },
+        "conv1x1_reduce": {
+          "hoyer": 0.414,
+          "energy10": 74.23
+        },
+        "conv1x1_expand": {
+          "hoyer": 0.4037,
+          "energy10": 73.96
+        },
+        "conv1x1_downsample": {
+          "hoyer": 0.4248,
+          "energy10": 75.92
+        },
+        "classifier_head": {
+          "hoyer": 0.5977,
+          "energy10": 91.35
+        }
+      },
+      "mask_iou_from_prev_epoch": {
+        "conv1.weight": 0.3952,
+        "layer1.0.conv2.weight": 0.3873,
+        "layer2.1.conv2.weight": 0.2414,
+        "layer3.2.conv2.weight": 0.168,
+        "layer4.1.conv2.weight": 0.21,
+        "fc.weight": 0.2958
+      },
+      "epoch_time_s": 79.64
+    },
+    {
+      "epoch": 20,
+      "lr": 0.000626,
+      "train_loss": 0.1964,
+      "val_loss": 0.3199,
+      "val_acc": 89.67,
+      "global_hoyer": 0.4328,
+      "global_energy10": 76.74,
+      "global_rel_thresh": 16.9,
+      "by_stage": {
+        "stem": {
+          "hoyer": 0.6445,
+          "energy10": 94.62
+        },
+        "stage1": {
+          "hoyer": 0.5172,
+          "energy10": 83.79
+        },
+        "stage2": {
+          "hoyer": 0.4062,
+          "energy10": 74.81
+        },
+        "stage3": {
+          "hoyer": 0.3667,
+          "energy10": 70.12
+        },
+        "stage4": {
+          "hoyer": 0.4732,
+          "energy10": 81.68
+        },
+        "head": {
+          "hoyer": 0.576,
+          "energy10": 89.79
+        }
+      },
+      "by_layer_type": {
+        "conv3x3_spatial": {
+          "hoyer": 0.4654,
+          "energy10": 80.48
+        },
+        "conv1x1_reduce": {
+          "hoyer": 0.4193,
+          "energy10": 74.81
+        },
+        "conv1x1_expand": {
+          "hoyer": 0.4042,
+          "energy10": 74.01
+        },
+        "conv1x1_downsample": {
+          "hoyer": 0.4276,
+          "energy10": 76.19
+        },
+        "classifier_head": {
+          "hoyer": 0.576,
+          "energy10": 89.79
+        }
+      },
+      "mask_iou_from_prev_epoch": {
+        "conv1.weight": 0.4723,
+        "layer1.0.conv2.weight": 0.3847,
+        "layer2.1.conv2.weight": 0.2332,
+        "layer3.2.conv2.weight": 0.1608,
+        "layer4.1.conv2.weight": 0.1996,
+        "fc.weight": 0.1703
+      },
+      "epoch_time_s": 79.64
+    }
+  ],
+  "epoch_mask_iou_history": {
+    "conv1.weight": [
+      0.4357,
+      0.4298,
+      0.4477,
+      0.4978,
+      0.4978,
+      0.4239,
+      0.5656,
+      0.6244,
+      0.5378,
+      0.485,
+      0.5586,
+      0.3952,
+      0.4298,
+      0.3411,
+      0.3896,
+      0.485,
+      0.3463,
+      0.3952,
+      0.4723
+    ],
+    "layer1.0.conv2.weight": [
+      0.3614,
+      0.4387,
+      0.4441,
+      0.3868,
+      0.3759,
+      0.3566,
+      0.3594,
+      0.3938,
+      0.3532,
+      0.3649,
+      0.3692,
+      0.3665,
+      0.372,
+      0.3647,
+      0.3634,
+      0.4018,
+      0.37,
+      0.3873,
+      0.3847
+    ],
+    "layer2.1.conv2.weight": [
+      0.3039,
+      0.3335,
+      0.3407,
+      0.3478,
+      0.3264,
+      0.2866,
+      0.277,
+      0.2805,
+      0.2964,
+      0.2752,
+      0.274,
+      0.2849,
+      0.2871,
+      0.2639,
+      0.2414,
+      0.2575,
+      0.254,
+      0.2414,
+      0.2332
+    ],
+    "layer3.2.conv2.weight": [
+      0.2181,
+      0.3266,
+      0.2923,
+      0.2705,
+      0.2546,
+      0.2282,
+      0.2037,
+      0.2071,
+      0.1957,
+      0.2004,
+      0.1976,
+      0.1795,
+      0.1828,
+      0.1874,
+      0.1721,
+      0.1634,
+      0.1685,
+      0.168,
+      0.1608
+    ],
+    "layer4.1.conv2.weight": [
+      0.2077,
+      0.2838,
+      0.3697,
+      0.3754,
+      0.3336,
+      0.3142,
+      0.274,
+      0.2573,
+      0.2789,
+      0.2683,
+      0.2581,
+      0.2316,
+      0.2312,
+      0.2423,
+      0.2068,
+      0.1968,
+      0.2152,
+      0.21,
+      0.1996
+    ],
+    "fc.weight": [
+      0.6069,
+      0.5103,
+      0.3852,
+      0.5103,
+      0.4692,
+      0.4222,
+      0.3875,
+      0.3861,
+      0.4032,
+      0.3162,
+      0.3681,
+      0.2852,
+      0.2974,
+      0.3111,
+      0.1998,
+      0.2378,
+      0.2334,
+      0.2958,
+      0.1703
+    ]
+  }
+}
