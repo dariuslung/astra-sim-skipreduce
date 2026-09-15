@@ -332,9 +332,10 @@ def plot_pareto_frontier(runs, out_dir: str):
 
 def main():
     parser = argparse.ArgumentParser(description="Generate purpose-driven research evaluation plots")
-    parser.add_argument("--log-dir", type=str, default="ml/logs", help="Directory containing run JSON logs")
-    parser.add_argument("--bench-file", type=str, default="ml/logs/transform_benchmark.json", help="Kernel benchmark JSON")
-    parser.add_argument("--out-dir", type=str, default="ml/logs", help="Directory to save generated PNG plots")
+    parser.add_argument("--log-dir", type=str, default="training/logs", help="Directory containing run JSON logs")
+    parser.add_argument("--bench-file", type=str, default="training/logs/transform_benchmark.json", help="Kernel benchmark JSON")
+    parser.add_argument("--out-dir", type=str, default="training/figures", help="Directory to save generated PNG plots")
+
     args = parser.parse_args()
 
     runs = parse_all_logs(args.log_dir)

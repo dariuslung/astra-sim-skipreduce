@@ -116,26 +116,16 @@ skipreduce/
 │   ├── LOGS_SPARSITY.md                 # Living log table for profiling trials
 │   └── LOGS.md                          # Prior SkipReduce domain transform logs
 │
-├── ml/
-│   └── sparsity_prediction/             # Isolated research directory
-│       ├── README.md                    # Module documentation and usage
-│       ├── metrics.py                   # Scale-invariant Hoyer, E10, S_epsilon, Mask IoU
-│       ├── models/
-│       │   ├── __init__.py
-│       │   ├── resnet50.py              # CIFAR-10 ResNet-50 with layer metadata
-│       │   ├── vit.py                   # CIFAR-10 ViT with Attention/FFN layer metadata
-│       │   └── gpt.py                   # [NEW] Causal Transformer (GPT-Tiny) with NLP metadata
-│       ├── analyze_sparsity.py          # Unified CLI profiler supporting --model {resnet50, vit, gpt}
-│       ├── plot_sparsity.py             # Generates figures (fig1..fig4, fig2b) testing Hypotheses
-│       ├── tests/
-│       │   ├── test_metrics.py          # Unit tests for mathematical metrics
-│       │   ├── test_models.py           # Verification for CV models
-│       │   └── test_gpt.py              # Verification for NLP GPT model
-│       └── logs/
-│           ├── profile_resnet50_epoch1.json
-│           ├── profile_vit_epoch1.json
-│           ├── profile_gpt_epoch1.json
-│           └── *.png                    # Publication-ready figures
+├── training/
+│   ├── README.md                        # Package documentation and CLI usage
+│   ├── models/                          # Shared model architectures (ResNet-50, ViT, GPT)
+
+│   ├── core/                            # Algorithmic building blocks (ring, sparsity, transforms)
+│   ├── benchmarks/                      # Hardware timing and compute savings profilers
+│   ├── experiments/                     # CLI entry points (profile_sparsity, plot_sparsity, etc.)
+│   ├── tests/                           # Unified test suite
+│   ├── logs/                            # Raw machine data (JSON profiling and benchmarks)
+│   └── figures/                         # Publication-ready figures (PNGs)
 ```
 
 1. **Dataset**:
@@ -146,5 +136,6 @@ skipreduce/
    - Intercept backward gradients after each step $t \in [1, 390]$.
    - Compute Metric A (Hoyer), Metric B ($E_{10}$), Metric C ($S_{\epsilon}$), and Metric D (IoU) per layer and per block.
 3. **Outputs & Diagnostics**:
-   - JSON profiling logs in `ml/sparsity_prediction/logs/`.
-   - Standardized purpose-driven figures validating Hypotheses 1, 2, and 3.
+   - JSON profiling logs in `training/logs/`.
+   - Standardized purpose-driven figures validating Hypotheses 1, 2, and 3 in `training/figures/`.
+
