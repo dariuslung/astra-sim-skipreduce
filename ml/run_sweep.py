@@ -17,7 +17,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")
 
 
 EXPERIMENT_CONFIGS = [
-    # 1. Baseline Full AllReduce
+    # 0. Baseline Full AllReduce
     {
         "name": "baseline_allreduce",
         "ranks": 4,
@@ -27,7 +27,7 @@ EXPERIMENT_CONFIGS = [
         "use_ef": False,
         "notes": "Ground truth AllReduce (100% communication)"
     },
-    # 2. Naive SkipReduce (lossy, no transform)
+    # 1. Naive SkipReduce s=1
     {
         "name": "naive_skipreduce_s1",
         "ranks": 4,
@@ -37,7 +37,7 @@ EXPERIMENT_CONFIGS = [
         "use_ef": False,
         "notes": "Pure SkipReduce s=1, skipped ranks dropped completely"
     },
-    # 3. DCT Transformed SkipReduce (no EF)
+    # 2. DCT s=1 (no EF)
     {
         "name": "dct_s1_r15_noef",
         "ranks": 4,
@@ -47,27 +47,17 @@ EXPERIMENT_CONFIGS = [
         "use_ef": False,
         "notes": "DCT 15% retention on skipped partition, no error feedback"
     },
-    # 4. DCT Transformed SkipReduce (with EF)
+    # 3. Walsh-Hadamard s=1 (no EF)
     {
-        "name": "dct_s1_r15_ef",
-        "ranks": 4,
-        "skip": 1,
-        "transform": "dct",
-        "retention": 0.15,
-        "use_ef": True,
-        "notes": "DCT 15% retention with Error Feedback buffer"
-    },
-    # 5. Walsh-Hadamard Transformed SkipReduce (with EF)
-    {
-        "name": "hadamard_s1_r15_ef",
+        "name": "hadamard_s1_r15_noef",
         "ranks": 4,
         "skip": 1,
         "transform": "hadamard",
         "retention": 0.15,
-        "use_ef": True,
-        "notes": "Walsh-Hadamard 15% retention with Error Feedback buffer"
+        "use_ef": False,
+        "notes": "Walsh-Hadamard 15% recovery on s=1 mild skip, no error feedback"
     },
-    # 6. Heavy Naive SkipReduce (s=2, 50% partitions dropped)
+    # 4. Heavy Naive SkipReduce (s=2, 50% partitions dropped)
     {
         "name": "naive_skipreduce_s2",
         "ranks": 4,
@@ -77,7 +67,7 @@ EXPERIMENT_CONFIGS = [
         "use_ef": False,
         "notes": "Heavy SkipReduce s=2 (50% partitions dropped), no transform"
     },
-    # 7. Heavy Skip DCT Recovery (s=2, 15% retention)
+    # 5. Heavy Skip DCT Recovery (s=2, 15% retention)
     {
         "name": "dct_s2_r15_noef",
         "ranks": 4,
@@ -87,7 +77,7 @@ EXPERIMENT_CONFIGS = [
         "use_ef": False,
         "notes": "DCT 15% recovery on s=2 heavy skip, no error feedback"
     },
-    # 8. Heavy Skip Walsh-Hadamard Recovery (s=2, 15% retention)
+    # 6. Heavy Skip Walsh-Hadamard Recovery (s=2, 15% retention)
     {
         "name": "hadamard_s2_r15_noef",
         "ranks": 4,
@@ -96,16 +86,6 @@ EXPERIMENT_CONFIGS = [
         "retention": 0.15,
         "use_ef": False,
         "notes": "Walsh-Hadamard 15% recovery on s=2 heavy skip, no error feedback"
-    },
-    # 9. Heavy Skip DCT Recovery (s=2, 25% retention)
-    {
-        "name": "dct_s2_r25_noef",
-        "ranks": 4,
-        "skip": 2,
-        "transform": "dct",
-        "retention": 0.25,
-        "use_ef": False,
-        "notes": "DCT 25% recovery on s=2 heavy skip, no error feedback"
     }
 ]
 
