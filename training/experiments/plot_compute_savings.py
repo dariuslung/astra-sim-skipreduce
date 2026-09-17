@@ -128,7 +128,7 @@ def plot_savings_efficiency(data: dict, model_name: str, output_dir: str):
 def main():
     parser = argparse.ArgumentParser(description="Plot compute savings benchmarks.")
     parser.add_argument("--json", type=str, required=True, help="Path to compute savings JSON")
-    parser.add_argument("--output-dir", type=str, default="training/figures", help="Output directory for plots")
+    parser.add_argument("--output-dir", type=str, default="training/figures/compute_savings", help="Output directory for plots")
 
     args = parser.parse_args()
 

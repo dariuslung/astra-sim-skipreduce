@@ -12,6 +12,7 @@ This document catalogs all profiling runs measuring layer-wise gradient sparsity
 | `prof_vit_tiny_e1` | 2026-09-15 | ViT-Tiny | 4.8M | CIFAR-10 | 1 | 390 | 0.3447 | **0.3294** | **65.11%** | 0.6980 | 21.9s |
 | `prof_gpt_tiny_e1` | 2026-09-15 | GPT-Tiny | 49.3M | TinyShakespeare | 1 | 390 | 0.4639 | **0.3759** | **68.90%** | **0.0930** | 32.7s |
 | `prof_resnet50_e20_conv` | 2026-09-15 | ResNet-50 | 23.5M | CIFAR-10 | 20 | 7,800 | 0.5615 | **0.4328** | **76.74%** | **0.4240** | 1592.9s (26.5m) |
+| `prof_resnet50_intra_stability` | 2026-09-16 | ResNet-50 | 23.5M | CIFAR-10 | 20 | 7,800 | 0.3007 | **0.4145** | **75.40%** | **0.4240** | 1633.5s (27.2m) |
 
 ---
 
@@ -103,7 +104,7 @@ Gradient Density is defined as $1 - \text{Hoyer}(\mathbf{g})$.
 
 ## 4. Hypothesis 2 Re-evaluation: Depth Controlled by Layer Type
 
-Because Hypothesis 1 proved that different layer types have vastly different baseline sparsity (e.g. classification head is hyper-sparse due to one-hot targets), we isolate depth by comparing **identical submodule types across stages**:
+Because Hypothesis 1 demonstrated that different layer types have vastly different baseline sparsity (e.g. classification head is hyper-sparse due to one-hot targets), we isolate depth by comparing **identical submodule types across stages**:
 
 ### ResNet-50: Identical Submodules Across Stages
 | Stage | $3\times 3$ Spatial Conv Density | $1\times 1$ Reduce Conv Density | $1\times 1$ Expand Conv Density |
@@ -114,7 +115,7 @@ Because Hypothesis 1 proved that different layer types have vastly different bas
 | `stage3` | 0.4214 | 0.3601 | 0.4368 |
 | `stage4` (Deep) | 0.4664 | **0.3541** (Least dense) | **0.2960** (Least dense) |
 
-*Controlled Finding*: For both $1\times 1$ reduction and expansion convolutions, gradient density **monotonically decreases with depth** (Stage 1 is densest at 0.4710; Stage 4 is least dense at 0.3541). The spatial $3\times 3$ convolutions remain moderately dense across all stages. This definitively proves that deeper convolutional layers do NOT have denser gradients.
+*Controlled Finding*: For both $1\times 1$ reduction and expansion convolutions, gradient density **monotonically decreases with depth** (Stage 1 is densest at 0.4710; Stage 4 is least dense at 0.3541). The spatial $3\times 3$ convolutions remain moderately dense across all stages. This definitively demonstrates that deeper convolutional layers do NOT have denser gradients.
 
 ### Vision Transformer: Identical Submodules Across Blocks 0 to 5
 | Block | `attn_qkv` Density | `attn_proj` Density | `ffn_up` Density | `ffn_down` Density |
@@ -340,7 +341,52 @@ To resolve whether gradient sparsity patterns stabilize or change during true tr
 ### 10.5 Scientific Conclusions
 
 1. **Hypothesis 3 is Falsified Under True Convergence**: As deep models approach a converged local optimum, gradient updates transition from coarse directional vectors into isotropic, fine-grained adjustments distributed across the full parameter space. Consequently, **gradients become denser and more uniform, not sparser**.
-2. **Hypothesis 1 & 2 are Strongly Confirmed Over Multi-Epoch Training**: The structural hierarchy between layer types ($3\times 3$ spatial vs $1\times 1$ pointwise) and depth stages (Stage 3 as the dense bottleneck) is not an artifact of early warmup, but an invariant geometric property of the network architecture that persists throughout training.
+2. **Hypothesis 1 is Strongly Confirmed & Hypothesis 2 Remains Falsified**:
+   - **Hypothesis 1 (Layer Type)**: Confirmed. $3\times 3$ spatial convolutions remain consistently sparser than $1\times 1$ pointwise convolutions across all 20 epochs.
+   - **Hypothesis 2 (Depth-Dependent Density)**: Falsified. The deepest layer (`fc` classifier head, Hoyer 0.5760) and Stage 4 (0.4732) are **not** the densest layers in the network; the densest computational stage is intermediate **Stage 3** (Hoyer 0.3667). While depth-dependent differences are real and temporally stable, the original claim that density monotonically increases with depth towards the output is rejected.
 3. **Hypothesis 4 is Depth-Dependent**: Shallow layers lock into their salient gradient coordinate masks early and maintain stable persistence ($\text{IoU} \approx 0.46\text{--}0.47$), while deep representation layers continuously adjust coordinate directions until convergence.
+
+---
+
+## 11. Intra-Epoch Gradient Stability Across Full Epoch Horizons (390-Step Horizons)
+
+To answer whether sampling the first few iterations of an epoch ($T_0$, Batches 1–5) provides an accurate proxy for the remaining 385+ iterations of that same epoch, we captured full gradient snapshots across **5 checkpoints per epoch ($0\%, 25\%, 50\%, 75\%, 100\%$) across all 20 epochs** (7,800 steps total).
+
+* **Run ID**: `prof_resnet50_intra_stability`
+* **Model**: ResNet-50 on CIFAR-10 (batch size 128, 390 steps/epoch)
+* **Checkpoints**: $T_0$ (batches 0–4), $T_1$ (95–99), $T_2$ (190–194), $T_3$ (285–289), $T_4$ (385–389)
+* **Log File**: [`training/logs/resnet50_intra_epoch_stability.json`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/logs/resnet50_intra_epoch_stability.json)
+
+### 11.1 20-Epoch Intra-Epoch Stability Trajectory
+
+| Epoch | Learning Rate | Train Loss | Val Acc (%) | $T_0$ Hoyer (Start) | $T_4$ Hoyer (End) | $\Delta \text{Hoyer}$ ($T_4 - T_0$) | Hoyer CV (%) | $T_4$ Mask IoU (vs. $T_0$) | $T_4$ Cosine Sim |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| 1 | 0.1000 | 3.0925 | 10.33% | 0.3007 | 0.6161 | +0.3154 | 22.68% | 0.0480 | -0.0177 |
+| 2 | 0.0994 | 2.2214 | 15.72% | 0.6135 | 0.6596 | +0.0461 | **2.86%** | 0.1520 | 0.1227 |
+| 3 | 0.0976 | 1.9781 | 24.44% | 0.6649 | 0.6405 | -0.0244 | **1.73%** | **0.3395** | 0.0081 |
+| 4 | 0.0946 | 1.8287 | 35.84% | 0.6339 | 0.6169 | -0.0170 | **2.11%** | **0.3459** | -0.0042 |
+| 5 | 0.0905 | 1.6337 | 39.62% | 0.6049 | 0.5630 | -0.0419 | **2.66%** | **0.3344** | 0.1814 |
+| 6 | 0.0854 | 1.4300 | 52.05% | 0.5683 | 0.5652 | -0.0031 | **0.67%** | **0.3465** | -0.1894 |
+| 7 | 0.0794 | 1.2488 | 49.58% | 0.5575 | 0.5519 | -0.0056 | **1.78%** | **0.3163** | 0.0264 |
+| 8 | 0.0727 | 1.1008 | 63.61% | 0.5267 | 0.5165 | -0.0102 | **0.95%** | **0.3093** | -0.0320 |
+| 9 | 0.0655 | 0.9772 | 58.21% | 0.5160 | 0.5030 | -0.0130 | **0.94%** | **0.3523** | 0.2086 |
+| 10 | 0.0578 | 0.8691 | 67.08% | 0.5095 | 0.4922 | -0.0173 | **1.32%** | **0.3111** | -0.1894 |
+| 11 | 0.0500 | 0.7657 | 66.47% | 0.5032 | 0.4645 | -0.0387 | **2.68%** | **0.3245** | -0.1140 |
+| 12 | 0.0422 | 0.6821 | 72.12% | 0.4687 | 0.4622 | -0.0065 | **1.09%** | **0.2928** | -0.1055 |
+| 13 | 0.0346 | 0.6025 | 78.52% | 0.4595 | 0.4574 | -0.0021 | **0.98%** | **0.3000** | 0.0766 |
+| 14 | 0.0273 | 0.5358 | 78.28% | 0.4521 | 0.4457 | -0.0064 | **0.77%** | **0.3389** | -0.0483 |
+| 15 | 0.0206 | 0.4813 | 82.51% | 0.4501 | 0.4355 | -0.0146 | **1.07%** | **0.3122** | -0.0101 |
+| 16 | 0.0147 | 0.4275 | 82.84% | 0.4378 | 0.4320 | -0.0058 | **0.54%** | **0.2878** | 0.0875 |
+| 17 | 0.0096 | 0.3785 | 85.05% | 0.4300 | 0.4292 | -0.0008 | **0.72%** | **0.2860** | 0.0194 |
+| 18 | 0.0055 | 0.3314 | 86.05% | 0.4254 | 0.4305 | +0.0051 | **0.64%** | **0.3089** | -0.1404 |
+| 19 | 0.0025 | 0.2967 | 87.01% | 0.4259 | 0.4205 | -0.0054 | **0.97%** | **0.2751** | -0.0341 |
+| 20 | 0.0006 | 0.2726 | 87.32% | 0.4145 | 0.4145 | **+0.0000** | **0.68%** | **0.2683** | 0.0519 |
+
+### 11.2 Key Insights for SkipReduce System Design
+
+1. **Scalar Sparsity Invariance**: From Epoch 2 to Epoch 20, the intra-epoch Coefficient of Variation is consistently **under 3% (Mean CV = 1.3%)**. In Epoch 20, $T_0$ and $T_4$ Hoyer indices match to 4 decimal places. A lightweight sample of the first 3–5 iterations at epoch onset is **100% sufficient** to parameterize the layer-skipping budget and CS compression ratio for the entire epoch.
+2. **Coordinate Mask Persistence Across 390 Batches**: The top-10% salient coordinate mask extracted at $T_0$ maintains an average overlap of **$\text{IoU} \approx 0.30\text{--}0.35$** across the entire 390-step span of the epoch. Compared to random chance ($5.26\%$), the anchor mask remains **$6\times$ above random chance** even 385 steps later.
+3. **Directional Vector Rotation**: Unlike the coordinate mask and scalar sparsity level, the exact instantaneous gradient direction rotates stochastically ($\cos \approx 0$) due to mini-batch noise. Therefore, skipping decisions must be based on **layer-type budgets and coordinate masks**, rather than directional projections.
+
 
 

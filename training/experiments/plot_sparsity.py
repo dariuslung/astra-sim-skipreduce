@@ -283,7 +283,7 @@ def plot_temporal_mask_iou(data: dict, model_name: str, output_dir: str):
 def main():
     parser = argparse.ArgumentParser(description="Generate gradient sparsity figures.")
     parser.add_argument("--json", type=str, required=True, help="Path to profile JSON log")
-    parser.add_argument("--output-dir", type=str, default="training/figures", help="Output directory for plots")
+    parser.add_argument("--output-dir", type=str, default="training/figures/sparsity_profiling", help="Output directory for plots")
 
     args = parser.parse_args()
 

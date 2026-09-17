@@ -1,0 +1,4137 @@
+{
+  "test": "intra_epoch_gradient_stability",
+  "model": "resnet50",
+  "epochs": 20,
+  "batch_size": 128,
+  "checkpoint_window_batches": 5,
+  "checkpoint_positions": [
+    "0% (Start)",
+    "25%",
+    "50% (Mid)",
+    "75%",
+    "100% (End)"
+  ],
+  "total_runtime_seconds": 1633.53,
+  "epochs_data": [
+    {
+      "epoch": 1,
+      "lr": 0.1,
+      "train_loss": 3.0925,
+      "val_loss": 2.2972,
+      "val_acc": 10.33,
+      "epoch_time_s": 80.5,
+      "intra_epoch_hoyer_mean": 0.5491,
+      "intra_epoch_hoyer_std": 0.1246,
+      "intra_epoch_hoyer_cv_pct": 22.68,
+      "delta_hoyer_t0_to_t4": 0.3154,
+      "mean_t4_mask_iou": 0.048,
+      "mean_t4_cosine_sim": -0.0177,
+      "checkpoints": [
+        {
+          "checkpoint_index": 0,
+          "name": "0% (Start)",
+          "global_hoyer": 0.3007,
+          "global_energy10": 61.31,
+          "by_stage_hoyer": {
+            "stem": 0.2278,
+            "stage1": 0.2689,
+            "stage2": 0.2986,
+            "stage3": 0.3099,
+            "stage4": 0.3291,
+            "head": 0.2585
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.2851,
+            "conv1x1_reduce": 0.3161,
+            "conv1x1_expand": 0.3052,
+            "conv1x1_downsample": 0.2979,
+            "classifier_head": 0.2585
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 1.0,
+            "layer1.0.conv2.weight": 1.0,
+            "layer2.1.conv2.weight": 1.0,
+            "layer3.2.conv2.weight": 1.0,
+            "layer4.1.conv2.weight": 1.0,
+            "fc.weight": 1.0
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 1.0,
+            "layer1.0.conv2.weight": 1.0,
+            "layer2.1.conv2.weight": 1.0,
+            "layer3.2.conv2.weight": 1.0,
+            "layer4.1.conv2.weight": 1.0,
+            "fc.weight": 1.0
+          },
+          "delta_hoyer_from_anchor": 0.0
+        },
+        {
+          "checkpoint_index": 1,
+          "name": "25%",
+          "global_hoyer": 0.6234,
+          "global_energy10": 92.35,
+          "by_stage_hoyer": {
+            "stem": 0.6366,
+            "stage1": 0.6527,
+            "stage2": 0.623,
+            "stage3": 0.5831,
+            "stage4": 0.6532,
+            "head": 0.7901
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.6192,
+            "conv1x1_reduce": 0.6046,
+            "conv1x1_expand": 0.6276,
+            "conv1x1_downsample": 0.6584,
+            "classifier_head": 0.7901
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.0,
+            "layer1.0.conv2.weight": 0.0635,
+            "layer2.1.conv2.weight": 0.057,
+            "layer3.2.conv2.weight": 0.0604,
+            "layer4.1.conv2.weight": 0.0647,
+            "fc.weight": 0.0049
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": -0.014,
+            "layer1.0.conv2.weight": -0.0075,
+            "layer2.1.conv2.weight": -0.0397,
+            "layer3.2.conv2.weight": -0.0206,
+            "layer4.1.conv2.weight": -0.0167,
+            "fc.weight": -0.0495
+          },
+          "delta_hoyer_from_anchor": 0.3227
+        },
+        {
+          "checkpoint_index": 2,
+          "name": "50% (Mid)",
+          "global_hoyer": 0.5951,
+          "global_energy10": 91.08,
+          "by_stage_hoyer": {
+            "stem": 0.6298,
+            "stage1": 0.6479,
+            "stage2": 0.5881,
+            "stage3": 0.5462,
+            "stage4": 0.6205,
+            "head": 0.798
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.6034,
+            "conv1x1_reduce": 0.5834,
+            "conv1x1_expand": 0.5847,
+            "conv1x1_downsample": 0.5981,
+            "classifier_head": 0.798
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.0117,
+            "layer1.0.conv2.weight": 0.0593,
+            "layer2.1.conv2.weight": 0.0607,
+            "layer3.2.conv2.weight": 0.0609,
+            "layer4.1.conv2.weight": 0.0769,
+            "fc.weight": 0.0042
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": -0.0392,
+            "layer1.0.conv2.weight": -0.0234,
+            "layer2.1.conv2.weight": -0.0555,
+            "layer3.2.conv2.weight": -0.0337,
+            "layer4.1.conv2.weight": -0.0279,
+            "fc.weight": -0.0128
+          },
+          "delta_hoyer_from_anchor": 0.2944
+        },
+        {
+          "checkpoint_index": 3,
+          "name": "75%",
+          "global_hoyer": 0.6104,
+          "global_energy10": 92.01,
+          "by_stage_hoyer": {
+            "stem": 0.68,
+            "stage1": 0.6592,
+            "stage2": 0.6133,
+            "stage3": 0.5488,
+            "stage4": 0.6472,
+            "head": 0.817
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.6188,
+            "conv1x1_reduce": 0.5843,
+            "conv1x1_expand": 0.6041,
+            "conv1x1_downsample": 0.6524,
+            "classifier_head": 0.817
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.0,
+            "layer1.0.conv2.weight": 0.0629,
+            "layer2.1.conv2.weight": 0.0571,
+            "layer3.2.conv2.weight": 0.0709,
+            "layer4.1.conv2.weight": 0.0722,
+            "fc.weight": 0.0284
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": -0.0928,
+            "layer1.0.conv2.weight": -0.0222,
+            "layer2.1.conv2.weight": -0.0071,
+            "layer3.2.conv2.weight": 0.0037,
+            "layer4.1.conv2.weight": 0.009,
+            "fc.weight": -0.0042
+          },
+          "delta_hoyer_from_anchor": 0.3097
+        },
+        {
+          "checkpoint_index": 4,
+          "name": "100% (End)",
+          "global_hoyer": 0.6161,
+          "global_energy10": 91.96,
+          "by_stage_hoyer": {
+            "stem": 0.6997,
+            "stage1": 0.629,
+            "stage2": 0.5964,
+            "stage3": 0.5676,
+            "stage4": 0.6919,
+            "head": 0.8198
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.6178,
+            "conv1x1_reduce": 0.5953,
+            "conv1x1_expand": 0.6154,
+            "conv1x1_downsample": 0.6432,
+            "classifier_head": 0.8198
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.0058,
+            "layer1.0.conv2.weight": 0.059,
+            "layer2.1.conv2.weight": 0.0612,
+            "layer3.2.conv2.weight": 0.0681,
+            "layer4.1.conv2.weight": 0.0603,
+            "fc.weight": 0.0338
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": -0.0676,
+            "layer1.0.conv2.weight": -0.0128,
+            "layer2.1.conv2.weight": -0.0218,
+            "layer3.2.conv2.weight": -0.0208,
+            "layer4.1.conv2.weight": 0.0223,
+            "fc.weight": -0.0056
+          },
+          "delta_hoyer_from_anchor": 0.3154
+        }
+      ]
+    },
+    {
+      "epoch": 2,
+      "lr": 0.099384,
+      "train_loss": 2.2214,
+      "val_loss": 2.1299,
+      "val_acc": 15.72,
+      "epoch_time_s": 80.55,
+      "intra_epoch_hoyer_mean": 0.6353,
+      "intra_epoch_hoyer_std": 0.0182,
+      "intra_epoch_hoyer_cv_pct": 2.86,
+      "delta_hoyer_t0_to_t4": 0.0461,
+      "mean_t4_mask_iou": 0.152,
+      "mean_t4_cosine_sim": 0.1227,
+      "checkpoints": [
+        {
+          "checkpoint_index": 0,
+          "name": "0% (Start)",
+          "global_hoyer": 0.6135,
+          "global_energy10": 92.11,
+          "by_stage_hoyer": {
+            "stem": 0.7094,
+            "stage1": 0.6246,
+            "stage2": 0.608,
+            "stage3": 0.561,
+            "stage4": 0.6789,
+            "head": 0.8197
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.6098,
+            "conv1x1_reduce": 0.603,
+            "conv1x1_expand": 0.6109,
+            "conv1x1_downsample": 0.6299,
+            "classifier_head": 0.8197
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 1.0,
+            "layer1.0.conv2.weight": 1.0,
+            "layer2.1.conv2.weight": 1.0,
+            "layer3.2.conv2.weight": 1.0,
+            "layer4.1.conv2.weight": 1.0,
+            "fc.weight": 1.0
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 1.0,
+            "layer1.0.conv2.weight": 1.0,
+            "layer2.1.conv2.weight": 1.0,
+            "layer3.2.conv2.weight": 1.0,
+            "layer4.1.conv2.weight": 1.0,
+            "fc.weight": 1.0
+          },
+          "delta_hoyer_from_anchor": 0.0
+        },
+        {
+          "checkpoint_index": 1,
+          "name": "25%",
+          "global_hoyer": 0.6487,
+          "global_energy10": 93.64,
+          "by_stage_hoyer": {
+            "stem": 0.6887,
+            "stage1": 0.6622,
+            "stage2": 0.6334,
+            "stage3": 0.5957,
+            "stage4": 0.7305,
+            "head": 0.8619
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.6547,
+            "conv1x1_reduce": 0.6217,
+            "conv1x1_expand": 0.6449,
+            "conv1x1_downsample": 0.6934,
+            "classifier_head": 0.8619
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.485,
+            "layer1.0.conv2.weight": 0.4911,
+            "layer2.1.conv2.weight": 0.3954,
+            "layer3.2.conv2.weight": 0.4479,
+            "layer4.1.conv2.weight": 0.2075,
+            "fc.weight": 0.4938
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 0.6901,
+            "layer1.0.conv2.weight": 0.744,
+            "layer2.1.conv2.weight": 0.1806,
+            "layer3.2.conv2.weight": 0.6222,
+            "layer4.1.conv2.weight": -0.0999,
+            "fc.weight": 0.1521
+          },
+          "delta_hoyer_from_anchor": 0.0352
+        },
+        {
+          "checkpoint_index": 2,
+          "name": "50% (Mid)",
+          "global_hoyer": 0.6156,
+          "global_energy10": 91.37,
+          "by_stage_hoyer": {
+            "stem": 0.556,
+            "stage1": 0.5883,
+            "stage2": 0.5847,
+            "stage3": 0.5867,
+            "stage4": 0.7193,
+            "head": 0.861
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.5809,
+            "conv1x1_reduce": 0.5814,
+            "conv1x1_expand": 0.6345,
+            "conv1x1_downsample": 0.7621,
+            "classifier_head": 0.861
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.2721,
+            "layer1.0.conv2.weight": 0.2803,
+            "layer2.1.conv2.weight": 0.3394,
+            "layer3.2.conv2.weight": 0.325,
+            "layer4.1.conv2.weight": 0.1708,
+            "fc.weight": 0.4792
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 0.3218,
+            "layer1.0.conv2.weight": -0.3531,
+            "layer2.1.conv2.weight": -0.2543,
+            "layer3.2.conv2.weight": -0.3997,
+            "layer4.1.conv2.weight": 0.1015,
+            "fc.weight": -0.0912
+          },
+          "delta_hoyer_from_anchor": 0.0021
+        },
+        {
+          "checkpoint_index": 3,
+          "name": "75%",
+          "global_hoyer": 0.6392,
+          "global_energy10": 92.07,
+          "by_stage_hoyer": {
+            "stem": 0.6109,
+            "stage1": 0.5978,
+            "stage2": 0.6032,
+            "stage3": 0.6336,
+            "stage4": 0.7155,
+            "head": 0.8958
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.6031,
+            "conv1x1_reduce": 0.6048,
+            "conv1x1_expand": 0.6565,
+            "conv1x1_downsample": 0.7974,
+            "classifier_head": 0.8958
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.291,
+            "layer1.0.conv2.weight": 0.149,
+            "layer2.1.conv2.weight": 0.3028,
+            "layer3.2.conv2.weight": 0.1816,
+            "layer4.1.conv2.weight": 0.1667,
+            "fc.weight": 0.3247
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 0.66,
+            "layer1.0.conv2.weight": 0.2659,
+            "layer2.1.conv2.weight": 0.3167,
+            "layer3.2.conv2.weight": -0.245,
+            "layer4.1.conv2.weight": -0.0085,
+            "fc.weight": 0.1483
+          },
+          "delta_hoyer_from_anchor": 0.0257
+        },
+        {
+          "checkpoint_index": 4,
+          "name": "100% (End)",
+          "global_hoyer": 0.6596,
+          "global_energy10": 94.34,
+          "by_stage_hoyer": {
+            "stem": 0.6866,
+            "stage1": 0.6618,
+            "stage2": 0.6346,
+            "stage3": 0.6501,
+            "stage4": 0.6838,
+            "head": 0.8766
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.6431,
+            "conv1x1_reduce": 0.6552,
+            "conv1x1_expand": 0.654,
+            "conv1x1_downsample": 0.7163,
+            "classifier_head": 0.8766
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.1689,
+            "layer1.0.conv2.weight": 0.1257,
+            "layer2.1.conv2.weight": 0.0772,
+            "layer3.2.conv2.weight": 0.092,
+            "layer4.1.conv2.weight": 0.1115,
+            "fc.weight": 0.3364
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 0.1616,
+            "layer1.0.conv2.weight": 0.1555,
+            "layer2.1.conv2.weight": 0.0523,
+            "layer3.2.conv2.weight": 0.0353,
+            "layer4.1.conv2.weight": -0.0315,
+            "fc.weight": 0.3631
+          },
+          "delta_hoyer_from_anchor": 0.0461
+        }
+      ]
+    },
+    {
+      "epoch": 3,
+      "lr": 0.097553,
+      "train_loss": 1.9781,
+      "val_loss": 1.8872,
+      "val_acc": 24.44,
+      "epoch_time_s": 80.6,
+      "intra_epoch_hoyer_mean": 0.6549,
+      "intra_epoch_hoyer_std": 0.0113,
+      "intra_epoch_hoyer_cv_pct": 1.73,
+      "delta_hoyer_t0_to_t4": -0.0244,
+      "mean_t4_mask_iou": 0.3395,
+      "mean_t4_cosine_sim": 0.0081,
+      "checkpoints": [
+        {
+          "checkpoint_index": 0,
+          "name": "0% (Start)",
+          "global_hoyer": 0.6649,
+          "global_energy10": 94.42,
+          "by_stage_hoyer": {
+            "stem": 0.783,
+            "stage1": 0.6466,
+            "stage2": 0.6289,
+            "stage3": 0.6484,
+            "stage4": 0.7231,
+            "head": 0.9303
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.6543,
+            "conv1x1_reduce": 0.6531,
+            "conv1x1_expand": 0.6527,
+            "conv1x1_downsample": 0.7398,
+            "classifier_head": 0.9303
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 1.0,
+            "layer1.0.conv2.weight": 1.0,
+            "layer2.1.conv2.weight": 1.0,
+            "layer3.2.conv2.weight": 1.0,
+            "layer4.1.conv2.weight": 1.0,
+            "fc.weight": 1.0
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 1.0,
+            "layer1.0.conv2.weight": 1.0,
+            "layer2.1.conv2.weight": 1.0,
+            "layer3.2.conv2.weight": 1.0,
+            "layer4.1.conv2.weight": 1.0,
+            "fc.weight": 1.0
+          },
+          "delta_hoyer_from_anchor": 0.0
+        },
+        {
+          "checkpoint_index": 1,
+          "name": "25%",
+          "global_hoyer": 0.6703,
+          "global_energy10": 95.15,
+          "by_stage_hoyer": {
+            "stem": 0.6844,
+            "stage1": 0.6403,
+            "stage2": 0.6214,
+            "stage3": 0.6735,
+            "stage4": 0.7326,
+            "head": 0.909
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.6584,
+            "conv1x1_reduce": 0.6562,
+            "conv1x1_expand": 0.6757,
+            "conv1x1_downsample": 0.6958,
+            "classifier_head": 0.909
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.5175,
+            "layer1.0.conv2.weight": 0.4978,
+            "layer2.1.conv2.weight": 0.2941,
+            "layer3.2.conv2.weight": 0.3092,
+            "layer4.1.conv2.weight": 0.3402,
+            "fc.weight": 0.5289
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 0.337,
+            "layer1.0.conv2.weight": 0.7959,
+            "layer2.1.conv2.weight": 0.412,
+            "layer3.2.conv2.weight": 0.5059,
+            "layer4.1.conv2.weight": 0.1503,
+            "fc.weight": 0.1718
+          },
+          "delta_hoyer_from_anchor": 0.0054
+        },
+        {
+          "checkpoint_index": 2,
+          "name": "50% (Mid)",
+          "global_hoyer": 0.6538,
+          "global_energy10": 94.37,
+          "by_stage_hoyer": {
+            "stem": 0.7028,
+            "stage1": 0.6449,
+            "stage2": 0.592,
+            "stage3": 0.6491,
+            "stage4": 0.7179,
+            "head": 0.9469
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.6486,
+            "conv1x1_reduce": 0.6236,
+            "conv1x1_expand": 0.6604,
+            "conv1x1_downsample": 0.6971,
+            "classifier_head": 0.9469
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.531,
+            "layer1.0.conv2.weight": 0.4887,
+            "layer2.1.conv2.weight": 0.3622,
+            "layer3.2.conv2.weight": 0.2629,
+            "layer4.1.conv2.weight": 0.2891,
+            "fc.weight": 0.4433
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": -0.2097,
+            "layer1.0.conv2.weight": -0.7583,
+            "layer2.1.conv2.weight": -0.6446,
+            "layer3.2.conv2.weight": 0.0012,
+            "layer4.1.conv2.weight": 0.1829,
+            "fc.weight": 0.1165
+          },
+          "delta_hoyer_from_anchor": -0.0111
+        },
+        {
+          "checkpoint_index": 3,
+          "name": "75%",
+          "global_hoyer": 0.6451,
+          "global_energy10": 93.8,
+          "by_stage_hoyer": {
+            "stem": 0.6744,
+            "stage1": 0.6519,
+            "stage2": 0.5953,
+            "stage3": 0.6331,
+            "stage4": 0.6946,
+            "head": 0.9268
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.6321,
+            "conv1x1_reduce": 0.6432,
+            "conv1x1_expand": 0.635,
+            "conv1x1_downsample": 0.6779,
+            "classifier_head": 0.9268
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.5586,
+            "layer1.0.conv2.weight": 0.3883,
+            "layer2.1.conv2.weight": 0.2557,
+            "layer3.2.conv2.weight": 0.2307,
+            "layer4.1.conv2.weight": 0.2674,
+            "fc.weight": 0.4895
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 0.3315,
+            "layer1.0.conv2.weight": -0.512,
+            "layer2.1.conv2.weight": -0.1754,
+            "layer3.2.conv2.weight": -0.069,
+            "layer4.1.conv2.weight": 0.0953,
+            "fc.weight": 0.2217
+          },
+          "delta_hoyer_from_anchor": -0.0198
+        },
+        {
+          "checkpoint_index": 4,
+          "name": "100% (End)",
+          "global_hoyer": 0.6405,
+          "global_energy10": 93.38,
+          "by_stage_hoyer": {
+            "stem": 0.7091,
+            "stage1": 0.6314,
+            "stage2": 0.6016,
+            "stage3": 0.6193,
+            "stage4": 0.7037,
+            "head": 0.9365
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.6484,
+            "conv1x1_reduce": 0.6127,
+            "conv1x1_expand": 0.6386,
+            "conv1x1_downsample": 0.6511,
+            "classifier_head": 0.9365
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.4357,
+            "layer1.0.conv2.weight": 0.3826,
+            "layer2.1.conv2.weight": 0.3307,
+            "layer3.2.conv2.weight": 0.1976,
+            "layer4.1.conv2.weight": 0.2171,
+            "fc.weight": 0.4734
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 0.296,
+            "layer1.0.conv2.weight": -0.321,
+            "layer2.1.conv2.weight": -0.2367,
+            "layer3.2.conv2.weight": -0.1625,
+            "layer4.1.conv2.weight": -0.0244,
+            "fc.weight": 0.4972
+          },
+          "delta_hoyer_from_anchor": -0.0244
+        }
+      ]
+    },
+    {
+      "epoch": 4,
+      "lr": 0.094551,
+      "train_loss": 1.8287,
+      "val_loss": 1.6861,
+      "val_acc": 35.84,
+      "epoch_time_s": 80.6,
+      "intra_epoch_hoyer_mean": 0.6198,
+      "intra_epoch_hoyer_std": 0.0131,
+      "intra_epoch_hoyer_cv_pct": 2.11,
+      "delta_hoyer_t0_to_t4": -0.017,
+      "mean_t4_mask_iou": 0.3459,
+      "mean_t4_cosine_sim": -0.0042,
+      "checkpoints": [
+        {
+          "checkpoint_index": 0,
+          "name": "0% (Start)",
+          "global_hoyer": 0.6339,
+          "global_energy10": 93.26,
+          "by_stage_hoyer": {
+            "stem": 0.7451,
+            "stage1": 0.6304,
+            "stage2": 0.5874,
+            "stage3": 0.6141,
+            "stage4": 0.696,
+            "head": 0.9171
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.6315,
+            "conv1x1_reduce": 0.6267,
+            "conv1x1_expand": 0.6267,
+            "conv1x1_downsample": 0.6305,
+            "classifier_head": 0.9171
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 1.0,
+            "layer1.0.conv2.weight": 1.0,
+            "layer2.1.conv2.weight": 1.0,
+            "layer3.2.conv2.weight": 1.0,
+            "layer4.1.conv2.weight": 1.0,
+            "fc.weight": 1.0
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 1.0,
+            "layer1.0.conv2.weight": 1.0,
+            "layer2.1.conv2.weight": 1.0,
+            "layer3.2.conv2.weight": 1.0,
+            "layer4.1.conv2.weight": 1.0,
+            "fc.weight": 1.0
+          },
+          "delta_hoyer_from_anchor": 0.0
+        },
+        {
+          "checkpoint_index": 1,
+          "name": "25%",
+          "global_hoyer": 0.6221,
+          "global_energy10": 92.56,
+          "by_stage_hoyer": {
+            "stem": 0.7107,
+            "stage1": 0.6238,
+            "stage2": 0.5683,
+            "stage3": 0.6068,
+            "stage4": 0.6807,
+            "head": 0.9197
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.6074,
+            "conv1x1_reduce": 0.6225,
+            "conv1x1_expand": 0.606,
+            "conv1x1_downsample": 0.6724,
+            "classifier_head": 0.9197
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.5378,
+            "layer1.0.conv2.weight": 0.4015,
+            "layer2.1.conv2.weight": 0.354,
+            "layer3.2.conv2.weight": 0.2502,
+            "layer4.1.conv2.weight": 0.3419,
+            "fc.weight": 0.5126
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 0.3022,
+            "layer1.0.conv2.weight": 0.199,
+            "layer2.1.conv2.weight": -0.4902,
+            "layer3.2.conv2.weight": -0.3303,
+            "layer4.1.conv2.weight": -0.2008,
+            "fc.weight": 0.577
+          },
+          "delta_hoyer_from_anchor": -0.0118
+        },
+        {
+          "checkpoint_index": 2,
+          "name": "50% (Mid)",
+          "global_hoyer": 0.6298,
+          "global_energy10": 92.82,
+          "by_stage_hoyer": {
+            "stem": 0.6808,
+            "stage1": 0.6305,
+            "stage2": 0.5757,
+            "stage3": 0.6194,
+            "stage4": 0.6849,
+            "head": 0.923
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.6229,
+            "conv1x1_reduce": 0.623,
+            "conv1x1_expand": 0.6178,
+            "conv1x1_downsample": 0.6614,
+            "classifier_head": 0.923
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.6019,
+            "layer1.0.conv2.weight": 0.4718,
+            "layer2.1.conv2.weight": 0.3674,
+            "layer3.2.conv2.weight": 0.2445,
+            "layer4.1.conv2.weight": 0.29,
+            "fc.weight": 0.4686
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 0.146,
+            "layer1.0.conv2.weight": 0.4255,
+            "layer2.1.conv2.weight": 0.2276,
+            "layer3.2.conv2.weight": 0.1574,
+            "layer4.1.conv2.weight": -0.0681,
+            "fc.weight": 0.1705
+          },
+          "delta_hoyer_from_anchor": -0.0041
+        },
+        {
+          "checkpoint_index": 3,
+          "name": "75%",
+          "global_hoyer": 0.5965,
+          "global_energy10": 90.86,
+          "by_stage_hoyer": {
+            "stem": 0.6845,
+            "stage1": 0.6026,
+            "stage2": 0.558,
+            "stage3": 0.5677,
+            "stage4": 0.6523,
+            "head": 0.9354
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.5991,
+            "conv1x1_reduce": 0.5766,
+            "conv1x1_expand": 0.5845,
+            "conv1x1_downsample": 0.6277,
+            "classifier_head": 0.9354
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.6093,
+            "layer1.0.conv2.weight": 0.3614,
+            "layer2.1.conv2.weight": 0.3418,
+            "layer3.2.conv2.weight": 0.2609,
+            "layer4.1.conv2.weight": 0.262,
+            "fc.weight": 0.397
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 0.3722,
+            "layer1.0.conv2.weight": -0.4269,
+            "layer2.1.conv2.weight": -0.4571,
+            "layer3.2.conv2.weight": -0.3369,
+            "layer4.1.conv2.weight": -0.0982,
+            "fc.weight": -0.1809
+          },
+          "delta_hoyer_from_anchor": -0.0374
+        },
+        {
+          "checkpoint_index": 4,
+          "name": "100% (End)",
+          "global_hoyer": 0.6169,
+          "global_energy10": 92.27,
+          "by_stage_hoyer": {
+            "stem": 0.6792,
+            "stage1": 0.6205,
+            "stage2": 0.5805,
+            "stage3": 0.5775,
+            "stage4": 0.6976,
+            "head": 0.9307
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.617,
+            "conv1x1_reduce": 0.6011,
+            "conv1x1_expand": 0.6105,
+            "conv1x1_downsample": 0.6267,
+            "classifier_head": 0.9307
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.5242,
+            "layer1.0.conv2.weight": 0.3604,
+            "layer2.1.conv2.weight": 0.2816,
+            "layer3.2.conv2.weight": 0.2368,
+            "layer4.1.conv2.weight": 0.2533,
+            "fc.weight": 0.4193
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": -0.1851,
+            "layer1.0.conv2.weight": -0.1716,
+            "layer2.1.conv2.weight": 0.2709,
+            "layer3.2.conv2.weight": 0.042,
+            "layer4.1.conv2.weight": -0.0304,
+            "fc.weight": 0.0488
+          },
+          "delta_hoyer_from_anchor": -0.017
+        }
+      ]
+    },
+    {
+      "epoch": 5,
+      "lr": 0.090452,
+      "train_loss": 1.6337,
+      "val_loss": 1.6017,
+      "val_acc": 39.62,
+      "epoch_time_s": 80.71,
+      "intra_epoch_hoyer_mean": 0.5944,
+      "intra_epoch_hoyer_std": 0.0158,
+      "intra_epoch_hoyer_cv_pct": 2.66,
+      "delta_hoyer_t0_to_t4": -0.0419,
+      "mean_t4_mask_iou": 0.3344,
+      "mean_t4_cosine_sim": 0.1814,
+      "checkpoints": [
+        {
+          "checkpoint_index": 0,
+          "name": "0% (Start)",
+          "global_hoyer": 0.6049,
+          "global_energy10": 91.66,
+          "by_stage_hoyer": {
+            "stem": 0.6409,
+            "stage1": 0.621,
+            "stage2": 0.5818,
+            "stage3": 0.5667,
+            "stage4": 0.655,
+            "head": 0.9348
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.6035,
+            "conv1x1_reduce": 0.5919,
+            "conv1x1_expand": 0.5958,
+            "conv1x1_downsample": 0.6175,
+            "classifier_head": 0.9348
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 1.0,
+            "layer1.0.conv2.weight": 1.0,
+            "layer2.1.conv2.weight": 1.0,
+            "layer3.2.conv2.weight": 1.0,
+            "layer4.1.conv2.weight": 1.0,
+            "fc.weight": 1.0
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 1.0,
+            "layer1.0.conv2.weight": 1.0,
+            "layer2.1.conv2.weight": 1.0,
+            "layer3.2.conv2.weight": 1.0,
+            "layer4.1.conv2.weight": 1.0,
+            "fc.weight": 1.0
+          },
+          "delta_hoyer_from_anchor": 0.0
+        },
+        {
+          "checkpoint_index": 1,
+          "name": "25%",
+          "global_hoyer": 0.5989,
+          "global_energy10": 91.31,
+          "by_stage_hoyer": {
+            "stem": 0.6354,
+            "stage1": 0.6096,
+            "stage2": 0.5562,
+            "stage3": 0.5754,
+            "stage4": 0.6548,
+            "head": 0.8973
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.6002,
+            "conv1x1_reduce": 0.5857,
+            "conv1x1_expand": 0.5946,
+            "conv1x1_downsample": 0.5883,
+            "classifier_head": 0.8973
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.4661,
+            "layer1.0.conv2.weight": 0.3687,
+            "layer2.1.conv2.weight": 0.2801,
+            "layer3.2.conv2.weight": 0.2414,
+            "layer4.1.conv2.weight": 0.259,
+            "fc.weight": 0.5894
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": -0.0857,
+            "layer1.0.conv2.weight": -0.1469,
+            "layer2.1.conv2.weight": -0.2176,
+            "layer3.2.conv2.weight": 0.0228,
+            "layer4.1.conv2.weight": 0.0405,
+            "fc.weight": 0.0203
+          },
+          "delta_hoyer_from_anchor": -0.006
+        },
+        {
+          "checkpoint_index": 2,
+          "name": "50% (Mid)",
+          "global_hoyer": 0.6028,
+          "global_energy10": 91.46,
+          "by_stage_hoyer": {
+            "stem": 0.6849,
+            "stage1": 0.608,
+            "stage2": 0.5597,
+            "stage3": 0.5665,
+            "stage4": 0.6835,
+            "head": 0.9142
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.6236,
+            "conv1x1_reduce": 0.5783,
+            "conv1x1_expand": 0.5841,
+            "conv1x1_downsample": 0.6098,
+            "classifier_head": 0.9142
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.4723,
+            "layer1.0.conv2.weight": 0.3936,
+            "layer2.1.conv2.weight": 0.2655,
+            "layer3.2.conv2.weight": 0.235,
+            "layer4.1.conv2.weight": 0.2456,
+            "fc.weight": 0.5663
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 0.3527,
+            "layer1.0.conv2.weight": 0.1862,
+            "layer2.1.conv2.weight": 0.1112,
+            "layer3.2.conv2.weight": -0.04,
+            "layer4.1.conv2.weight": 0.166,
+            "fc.weight": 0.8042
+          },
+          "delta_hoyer_from_anchor": -0.0021
+        },
+        {
+          "checkpoint_index": 3,
+          "name": "75%",
+          "global_hoyer": 0.6022,
+          "global_energy10": 91.33,
+          "by_stage_hoyer": {
+            "stem": 0.6762,
+            "stage1": 0.6077,
+            "stage2": 0.5811,
+            "stage3": 0.5747,
+            "stage4": 0.6408,
+            "head": 0.8837
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.6131,
+            "conv1x1_reduce": 0.5839,
+            "conv1x1_expand": 0.5891,
+            "conv1x1_downsample": 0.6107,
+            "classifier_head": 0.8837
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.5378,
+            "layer1.0.conv2.weight": 0.3421,
+            "layer2.1.conv2.weight": 0.2128,
+            "layer3.2.conv2.weight": 0.2162,
+            "layer4.1.conv2.weight": 0.2044,
+            "fc.weight": 0.4889
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 0.4644,
+            "layer1.0.conv2.weight": 0.3829,
+            "layer2.1.conv2.weight": 0.0829,
+            "layer3.2.conv2.weight": 0.0327,
+            "layer4.1.conv2.weight": -0.0503,
+            "fc.weight": -0.1317
+          },
+          "delta_hoyer_from_anchor": -0.0027
+        },
+        {
+          "checkpoint_index": 4,
+          "name": "100% (End)",
+          "global_hoyer": 0.563,
+          "global_energy10": 88.76,
+          "by_stage_hoyer": {
+            "stem": 0.6774,
+            "stage1": 0.5868,
+            "stage2": 0.5121,
+            "stage3": 0.5207,
+            "stage4": 0.6419,
+            "head": 0.8867
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.5662,
+            "conv1x1_reduce": 0.5458,
+            "conv1x1_expand": 0.5516,
+            "conv1x1_downsample": 0.5827,
+            "classifier_head": 0.8867
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.5175,
+            "layer1.0.conv2.weight": 0.3314,
+            "layer2.1.conv2.weight": 0.2516,
+            "layer3.2.conv2.weight": 0.2225,
+            "layer4.1.conv2.weight": 0.2086,
+            "fc.weight": 0.475
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 0.4269,
+            "layer1.0.conv2.weight": 0.0484,
+            "layer2.1.conv2.weight": 0.0933,
+            "layer3.2.conv2.weight": 0.0548,
+            "layer4.1.conv2.weight": -0.0989,
+            "fc.weight": 0.5637
+          },
+          "delta_hoyer_from_anchor": -0.0419
+        }
+      ]
+    },
+    {
+      "epoch": 6,
+      "lr": 0.085357,
+      "train_loss": 1.43,
+      "val_loss": 1.2864,
+      "val_acc": 52.05,
+      "epoch_time_s": 80.57,
+      "intra_epoch_hoyer_mean": 0.57,
+      "intra_epoch_hoyer_std": 0.0038,
+      "intra_epoch_hoyer_cv_pct": 0.67,
+      "delta_hoyer_t0_to_t4": -0.0031,
+      "mean_t4_mask_iou": 0.3465,
+      "mean_t4_cosine_sim": -0.1894,
+      "checkpoints": [
+        {
+          "checkpoint_index": 0,
+          "name": "0% (Start)",
+          "global_hoyer": 0.5683,
+          "global_energy10": 89.1,
+          "by_stage_hoyer": {
+            "stem": 0.6612,
+            "stage1": 0.6085,
+            "stage2": 0.5248,
+            "stage3": 0.5218,
+            "stage4": 0.6349,
+            "head": 0.8549
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.5707,
+            "conv1x1_reduce": 0.5529,
+            "conv1x1_expand": 0.557,
+            "conv1x1_downsample": 0.5924,
+            "classifier_head": 0.8549
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 1.0,
+            "layer1.0.conv2.weight": 1.0,
+            "layer2.1.conv2.weight": 1.0,
+            "layer3.2.conv2.weight": 1.0,
+            "layer4.1.conv2.weight": 1.0,
+            "fc.weight": 1.0
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 1.0,
+            "layer1.0.conv2.weight": 1.0,
+            "layer2.1.conv2.weight": 1.0,
+            "layer3.2.conv2.weight": 1.0,
+            "layer4.1.conv2.weight": 1.0,
+            "fc.weight": 1.0
+          },
+          "delta_hoyer_from_anchor": 0.0
+        },
+        {
+          "checkpoint_index": 1,
+          "name": "25%",
+          "global_hoyer": 0.5751,
+          "global_energy10": 89.87,
+          "by_stage_hoyer": {
+            "stem": 0.6989,
+            "stage1": 0.605,
+            "stage2": 0.5616,
+            "stage3": 0.5371,
+            "stage4": 0.5941,
+            "head": 0.8607
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.5845,
+            "conv1x1_reduce": 0.5685,
+            "conv1x1_expand": 0.5508,
+            "conv1x1_downsample": 0.5882,
+            "classifier_head": 0.8607
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.4661,
+            "layer1.0.conv2.weight": 0.344,
+            "layer2.1.conv2.weight": 0.2614,
+            "layer3.2.conv2.weight": 0.2912,
+            "layer4.1.conv2.weight": 0.2141,
+            "fc.weight": 0.5462
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 0.5291,
+            "layer1.0.conv2.weight": -0.0073,
+            "layer2.1.conv2.weight": 0.1915,
+            "layer3.2.conv2.weight": -0.0176,
+            "layer4.1.conv2.weight": 0.1718,
+            "fc.weight": 0.3775
+          },
+          "delta_hoyer_from_anchor": 0.0068
+        },
+        {
+          "checkpoint_index": 2,
+          "name": "50% (Mid)",
+          "global_hoyer": 0.5739,
+          "global_energy10": 89.63,
+          "by_stage_hoyer": {
+            "stem": 0.6796,
+            "stage1": 0.6007,
+            "stage2": 0.5263,
+            "stage3": 0.538,
+            "stage4": 0.6372,
+            "head": 0.8676
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.5932,
+            "conv1x1_reduce": 0.5538,
+            "conv1x1_expand": 0.5517,
+            "conv1x1_downsample": 0.5878,
+            "classifier_head": 0.8676
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.5043,
+            "layer1.0.conv2.weight": 0.3333,
+            "layer2.1.conv2.weight": 0.2766,
+            "layer3.2.conv2.weight": 0.2877,
+            "layer4.1.conv2.weight": 0.1964,
+            "fc.weight": 0.5827
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 0.2429,
+            "layer1.0.conv2.weight": -0.1228,
+            "layer2.1.conv2.weight": -0.1055,
+            "layer3.2.conv2.weight": -0.0082,
+            "layer4.1.conv2.weight": -0.1264,
+            "fc.weight": -0.5525
+          },
+          "delta_hoyer_from_anchor": 0.0056
+        },
+        {
+          "checkpoint_index": 3,
+          "name": "75%",
+          "global_hoyer": 0.5674,
+          "global_energy10": 89.15,
+          "by_stage_hoyer": {
+            "stem": 0.6768,
+            "stage1": 0.5983,
+            "stage2": 0.5416,
+            "stage3": 0.5336,
+            "stage4": 0.5957,
+            "head": 0.8431
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.5801,
+            "conv1x1_reduce": 0.5511,
+            "conv1x1_expand": 0.5511,
+            "conv1x1_downsample": 0.5753,
+            "classifier_head": 0.8431
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.531,
+            "layer1.0.conv2.weight": 0.3749,
+            "layer2.1.conv2.weight": 0.3046,
+            "layer3.2.conv2.weight": 0.282,
+            "layer4.1.conv2.weight": 0.1789,
+            "fc.weight": 0.4987
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": -0.1866,
+            "layer1.0.conv2.weight": -0.2924,
+            "layer2.1.conv2.weight": 0.3789,
+            "layer3.2.conv2.weight": -0.0077,
+            "layer4.1.conv2.weight": -0.115,
+            "fc.weight": -0.2122
+          },
+          "delta_hoyer_from_anchor": -0.0009
+        },
+        {
+          "checkpoint_index": 4,
+          "name": "100% (End)",
+          "global_hoyer": 0.5652,
+          "global_energy10": 88.95,
+          "by_stage_hoyer": {
+            "stem": 0.7027,
+            "stage1": 0.5862,
+            "stage2": 0.5158,
+            "stage3": 0.5396,
+            "stage4": 0.6157,
+            "head": 0.8427
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.5849,
+            "conv1x1_reduce": 0.5409,
+            "conv1x1_expand": 0.5483,
+            "conv1x1_downsample": 0.5775,
+            "classifier_head": 0.8427
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.5378,
+            "layer1.0.conv2.weight": 0.3497,
+            "layer2.1.conv2.weight": 0.2759,
+            "layer3.2.conv2.weight": 0.2593,
+            "layer4.1.conv2.weight": 0.2,
+            "fc.weight": 0.4561
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": -0.5599,
+            "layer1.0.conv2.weight": -0.2039,
+            "layer2.1.conv2.weight": -0.1627,
+            "layer3.2.conv2.weight": -0.0844,
+            "layer4.1.conv2.weight": -0.2231,
+            "fc.weight": 0.0974
+          },
+          "delta_hoyer_from_anchor": -0.0031
+        }
+      ]
+    },
+    {
+      "epoch": 7,
+      "lr": 0.079391,
+      "train_loss": 1.2488,
+      "val_loss": 1.4379,
+      "val_acc": 49.58,
+      "epoch_time_s": 80.31,
+      "intra_epoch_hoyer_mean": 0.5542,
+      "intra_epoch_hoyer_std": 0.0099,
+      "intra_epoch_hoyer_cv_pct": 1.78,
+      "delta_hoyer_t0_to_t4": -0.0056,
+      "mean_t4_mask_iou": 0.3163,
+      "mean_t4_cosine_sim": 0.0264,
+      "checkpoints": [
+        {
+          "checkpoint_index": 0,
+          "name": "0% (Start)",
+          "global_hoyer": 0.5575,
+          "global_energy10": 88.45,
+          "by_stage_hoyer": {
+            "stem": 0.7141,
+            "stage1": 0.5875,
+            "stage2": 0.5232,
+            "stage3": 0.5279,
+            "stage4": 0.5881,
+            "head": 0.8055
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.5809,
+            "conv1x1_reduce": 0.5399,
+            "conv1x1_expand": 0.5338,
+            "conv1x1_downsample": 0.5618,
+            "classifier_head": 0.8055
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 1.0,
+            "layer1.0.conv2.weight": 1.0,
+            "layer2.1.conv2.weight": 1.0,
+            "layer3.2.conv2.weight": 1.0,
+            "layer4.1.conv2.weight": 1.0,
+            "fc.weight": 1.0
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 1.0,
+            "layer1.0.conv2.weight": 1.0,
+            "layer2.1.conv2.weight": 1.0,
+            "layer3.2.conv2.weight": 1.0,
+            "layer4.1.conv2.weight": 1.0,
+            "fc.weight": 1.0
+          },
+          "delta_hoyer_from_anchor": 0.0
+        },
+        {
+          "checkpoint_index": 1,
+          "name": "25%",
+          "global_hoyer": 0.5706,
+          "global_energy10": 89.12,
+          "by_stage_hoyer": {
+            "stem": 0.6602,
+            "stage1": 0.6125,
+            "stage2": 0.5256,
+            "stage3": 0.5315,
+            "stage4": 0.6248,
+            "head": 0.8446
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.5939,
+            "conv1x1_reduce": 0.5496,
+            "conv1x1_expand": 0.5451,
+            "conv1x1_downsample": 0.5883,
+            "classifier_head": 0.8446
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.4786,
+            "layer1.0.conv2.weight": 0.372,
+            "layer2.1.conv2.weight": 0.3442,
+            "layer3.2.conv2.weight": 0.3515,
+            "layer4.1.conv2.weight": 0.2029,
+            "fc.weight": 0.5568
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 0.1266,
+            "layer1.0.conv2.weight": 0.0509,
+            "layer2.1.conv2.weight": -0.0987,
+            "layer3.2.conv2.weight": -0.0578,
+            "layer4.1.conv2.weight": 0.1952,
+            "fc.weight": 0.254
+          },
+          "delta_hoyer_from_anchor": 0.0131
+        },
+        {
+          "checkpoint_index": 2,
+          "name": "50% (Mid)",
+          "global_hoyer": 0.5405,
+          "global_energy10": 86.78,
+          "by_stage_hoyer": {
+            "stem": 0.6975,
+            "stage1": 0.5773,
+            "stage2": 0.4968,
+            "stage3": 0.4999,
+            "stage4": 0.5942,
+            "head": 0.8178
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.5603,
+            "conv1x1_reduce": 0.5115,
+            "conv1x1_expand": 0.5309,
+            "conv1x1_downsample": 0.5411,
+            "classifier_head": 0.8178
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.485,
+            "layer1.0.conv2.weight": 0.3221,
+            "layer2.1.conv2.weight": 0.3055,
+            "layer3.2.conv2.weight": 0.3426,
+            "layer4.1.conv2.weight": 0.1671,
+            "fc.weight": 0.5568
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 0.3336,
+            "layer1.0.conv2.weight": -0.0593,
+            "layer2.1.conv2.weight": 0.0492,
+            "layer3.2.conv2.weight": 0.2847,
+            "layer4.1.conv2.weight": -0.1177,
+            "fc.weight": -0.0034
+          },
+          "delta_hoyer_from_anchor": -0.017
+        },
+        {
+          "checkpoint_index": 3,
+          "name": "75%",
+          "global_hoyer": 0.5505,
+          "global_energy10": 87.43,
+          "by_stage_hoyer": {
+            "stem": 0.6848,
+            "stage1": 0.5909,
+            "stage2": 0.524,
+            "stage3": 0.4984,
+            "stage4": 0.6015,
+            "head": 0.835
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.5805,
+            "conv1x1_reduce": 0.5223,
+            "conv1x1_expand": 0.5256,
+            "conv1x1_downsample": 0.5641,
+            "classifier_head": 0.835
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.4538,
+            "layer1.0.conv2.weight": 0.3131,
+            "layer2.1.conv2.weight": 0.2918,
+            "layer3.2.conv2.weight": 0.3035,
+            "layer4.1.conv2.weight": 0.1725,
+            "fc.weight": 0.4766
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 0.4808,
+            "layer1.0.conv2.weight": 0.0353,
+            "layer2.1.conv2.weight": 0.0974,
+            "layer3.2.conv2.weight": 0.0414,
+            "layer4.1.conv2.weight": 0.0348,
+            "fc.weight": -0.0029
+          },
+          "delta_hoyer_from_anchor": -0.007
+        },
+        {
+          "checkpoint_index": 4,
+          "name": "100% (End)",
+          "global_hoyer": 0.5519,
+          "global_energy10": 87.65,
+          "by_stage_hoyer": {
+            "stem": 0.755,
+            "stage1": 0.5738,
+            "stage2": 0.509,
+            "stage3": 0.5225,
+            "stage4": 0.596,
+            "head": 0.8021
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.5746,
+            "conv1x1_reduce": 0.5303,
+            "conv1x1_expand": 0.5321,
+            "conv1x1_downsample": 0.5579,
+            "classifier_head": 0.8021
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.3952,
+            "layer1.0.conv2.weight": 0.2881,
+            "layer2.1.conv2.weight": 0.2666,
+            "layer3.2.conv2.weight": 0.327,
+            "layer4.1.conv2.weight": 0.1573,
+            "fc.weight": 0.4634
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 0.3471,
+            "layer1.0.conv2.weight": -0.0866,
+            "layer2.1.conv2.weight": -0.0141,
+            "layer3.2.conv2.weight": -0.0973,
+            "layer4.1.conv2.weight": 0.005,
+            "fc.weight": 0.004
+          },
+          "delta_hoyer_from_anchor": -0.0056
+        }
+      ]
+    },
+    {
+      "epoch": 8,
+      "lr": 0.072702,
+      "train_loss": 1.1008,
+      "val_loss": 1.0321,
+      "val_acc": 63.61,
+      "epoch_time_s": 80.52,
+      "intra_epoch_hoyer_mean": 0.5242,
+      "intra_epoch_hoyer_std": 0.005,
+      "intra_epoch_hoyer_cv_pct": 0.95,
+      "delta_hoyer_t0_to_t4": -0.0102,
+      "mean_t4_mask_iou": 0.3093,
+      "mean_t4_cosine_sim": -0.032,
+      "checkpoints": [
+        {
+          "checkpoint_index": 0,
+          "name": "0% (Start)",
+          "global_hoyer": 0.5267,
+          "global_energy10": 85.8,
+          "by_stage_hoyer": {
+            "stem": 0.6515,
+            "stage1": 0.5749,
+            "stage2": 0.5,
+            "stage3": 0.4753,
+            "stage4": 0.5725,
+            "head": 0.7878
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.5399,
+            "conv1x1_reduce": 0.5128,
+            "conv1x1_expand": 0.5096,
+            "conv1x1_downsample": 0.5299,
+            "classifier_head": 0.7878
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 1.0,
+            "layer1.0.conv2.weight": 1.0,
+            "layer2.1.conv2.weight": 1.0,
+            "layer3.2.conv2.weight": 1.0,
+            "layer4.1.conv2.weight": 1.0,
+            "fc.weight": 1.0
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 1.0,
+            "layer1.0.conv2.weight": 1.0,
+            "layer2.1.conv2.weight": 1.0,
+            "layer3.2.conv2.weight": 1.0,
+            "layer4.1.conv2.weight": 1.0,
+            "fc.weight": 1.0
+          },
+          "delta_hoyer_from_anchor": 0.0
+        },
+        {
+          "checkpoint_index": 1,
+          "name": "25%",
+          "global_hoyer": 0.5288,
+          "global_energy10": 86.14,
+          "by_stage_hoyer": {
+            "stem": 0.6773,
+            "stage1": 0.588,
+            "stage2": 0.4931,
+            "stage3": 0.4868,
+            "stage4": 0.5552,
+            "head": 0.7888
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.5582,
+            "conv1x1_reduce": 0.5074,
+            "conv1x1_expand": 0.5038,
+            "conv1x1_downsample": 0.5251,
+            "classifier_head": 0.7888
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.5378,
+            "layer1.0.conv2.weight": 0.2895,
+            "layer2.1.conv2.weight": 0.3146,
+            "layer3.2.conv2.weight": 0.3127,
+            "layer4.1.conv2.weight": 0.1625,
+            "fc.weight": 0.4337
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": -0.015,
+            "layer1.0.conv2.weight": 0.04,
+            "layer2.1.conv2.weight": -0.0526,
+            "layer3.2.conv2.weight": -0.0727,
+            "layer4.1.conv2.weight": -0.1147,
+            "fc.weight": -0.0895
+          },
+          "delta_hoyer_from_anchor": 0.0021
+        },
+        {
+          "checkpoint_index": 2,
+          "name": "50% (Mid)",
+          "global_hoyer": 0.5289,
+          "global_energy10": 86.02,
+          "by_stage_hoyer": {
+            "stem": 0.681,
+            "stage1": 0.5878,
+            "stage2": 0.487,
+            "stage3": 0.4899,
+            "stage4": 0.5573,
+            "head": 0.7916
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.5558,
+            "conv1x1_reduce": 0.508,
+            "conv1x1_expand": 0.5056,
+            "conv1x1_downsample": 0.5257,
+            "classifier_head": 0.7916
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.5175,
+            "layer1.0.conv2.weight": 0.2963,
+            "layer2.1.conv2.weight": 0.3019,
+            "layer3.2.conv2.weight": 0.3104,
+            "layer4.1.conv2.weight": 0.1759,
+            "fc.weight": 0.4222
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 0.4757,
+            "layer1.0.conv2.weight": -0.1078,
+            "layer2.1.conv2.weight": -0.1209,
+            "layer3.2.conv2.weight": -0.0249,
+            "layer4.1.conv2.weight": 0.167,
+            "fc.weight": 0.1834
+          },
+          "delta_hoyer_from_anchor": 0.0022
+        },
+        {
+          "checkpoint_index": 3,
+          "name": "75%",
+          "global_hoyer": 0.5203,
+          "global_energy10": 85.31,
+          "by_stage_hoyer": {
+            "stem": 0.6826,
+            "stage1": 0.5965,
+            "stage2": 0.4787,
+            "stage3": 0.4761,
+            "stage4": 0.5399,
+            "head": 0.7823
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.5448,
+            "conv1x1_reduce": 0.5049,
+            "conv1x1_expand": 0.4936,
+            "conv1x1_downsample": 0.5198,
+            "classifier_head": 0.7823
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.5242,
+            "layer1.0.conv2.weight": 0.2719,
+            "layer2.1.conv2.weight": 0.2744,
+            "layer3.2.conv2.weight": 0.2974,
+            "layer4.1.conv2.weight": 0.161,
+            "fc.weight": 0.4602
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": -0.2451,
+            "layer1.0.conv2.weight": 0.0997,
+            "layer2.1.conv2.weight": 0.0204,
+            "layer3.2.conv2.weight": 0.11,
+            "layer4.1.conv2.weight": 0.0908,
+            "fc.weight": 0.5576
+          },
+          "delta_hoyer_from_anchor": -0.0064
+        },
+        {
+          "checkpoint_index": 4,
+          "name": "100% (End)",
+          "global_hoyer": 0.5165,
+          "global_energy10": 84.93,
+          "by_stage_hoyer": {
+            "stem": 0.7411,
+            "stage1": 0.5815,
+            "stage2": 0.489,
+            "stage3": 0.4579,
+            "stage4": 0.5515,
+            "head": 0.7644
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.5413,
+            "conv1x1_reduce": 0.4961,
+            "conv1x1_expand": 0.4884,
+            "conv1x1_downsample": 0.543,
+            "classifier_head": 0.7644
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.4914,
+            "layer1.0.conv2.weight": 0.2757,
+            "layer2.1.conv2.weight": 0.2767,
+            "layer3.2.conv2.weight": 0.2901,
+            "layer4.1.conv2.weight": 0.1521,
+            "fc.weight": 0.3699
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": -0.6219,
+            "layer1.0.conv2.weight": 0.0223,
+            "layer2.1.conv2.weight": 0.0009,
+            "layer3.2.conv2.weight": 0.0125,
+            "layer4.1.conv2.weight": 0.1019,
+            "fc.weight": 0.2926
+          },
+          "delta_hoyer_from_anchor": -0.0102
+        }
+      ]
+    },
+    {
+      "epoch": 9,
+      "lr": 0.065454,
+      "train_loss": 0.9772,
+      "val_loss": 1.2733,
+      "val_acc": 58.21,
+      "epoch_time_s": 80.82,
+      "intra_epoch_hoyer_mean": 0.5113,
+      "intra_epoch_hoyer_std": 0.0048,
+      "intra_epoch_hoyer_cv_pct": 0.94,
+      "delta_hoyer_t0_to_t4": -0.013,
+      "mean_t4_mask_iou": 0.3523,
+      "mean_t4_cosine_sim": 0.2086,
+      "checkpoints": [
+        {
+          "checkpoint_index": 0,
+          "name": "0% (Start)",
+          "global_hoyer": 0.516,
+          "global_energy10": 84.99,
+          "by_stage_hoyer": {
+            "stem": 0.6422,
+            "stage1": 0.576,
+            "stage2": 0.4942,
+            "stage3": 0.4574,
+            "stage4": 0.5589,
+            "head": 0.7578
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.5385,
+            "conv1x1_reduce": 0.5038,
+            "conv1x1_expand": 0.4887,
+            "conv1x1_downsample": 0.5182,
+            "classifier_head": 0.7578
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 1.0,
+            "layer1.0.conv2.weight": 1.0,
+            "layer2.1.conv2.weight": 1.0,
+            "layer3.2.conv2.weight": 1.0,
+            "layer4.1.conv2.weight": 1.0,
+            "fc.weight": 1.0
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 1.0,
+            "layer1.0.conv2.weight": 1.0,
+            "layer2.1.conv2.weight": 1.0,
+            "layer3.2.conv2.weight": 1.0,
+            "layer4.1.conv2.weight": 1.0,
+            "fc.weight": 1.0
+          },
+          "delta_hoyer_from_anchor": 0.0
+        },
+        {
+          "checkpoint_index": 1,
+          "name": "25%",
+          "global_hoyer": 0.5088,
+          "global_energy10": 84.36,
+          "by_stage_hoyer": {
+            "stem": 0.691,
+            "stage1": 0.5828,
+            "stage2": 0.4883,
+            "stage3": 0.4533,
+            "stage4": 0.5251,
+            "head": 0.7422
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.5326,
+            "conv1x1_reduce": 0.4969,
+            "conv1x1_expand": 0.4783,
+            "conv1x1_downsample": 0.5188,
+            "classifier_head": 0.7422
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.6093,
+            "layer1.0.conv2.weight": 0.3517,
+            "layer2.1.conv2.weight": 0.314,
+            "layer3.2.conv2.weight": 0.2988,
+            "layer4.1.conv2.weight": 0.1601,
+            "fc.weight": 0.4076
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 0.0156,
+            "layer1.0.conv2.weight": 0.093,
+            "layer2.1.conv2.weight": -0.0093,
+            "layer3.2.conv2.weight": -0.0089,
+            "layer4.1.conv2.weight": -0.1575,
+            "fc.weight": -0.0887
+          },
+          "delta_hoyer_from_anchor": -0.0072
+        },
+        {
+          "checkpoint_index": 2,
+          "name": "50% (Mid)",
+          "global_hoyer": 0.5145,
+          "global_energy10": 84.79,
+          "by_stage_hoyer": {
+            "stem": 0.6824,
+            "stage1": 0.5763,
+            "stage2": 0.4774,
+            "stage3": 0.4661,
+            "stage4": 0.5509,
+            "head": 0.7649
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.5473,
+            "conv1x1_reduce": 0.491,
+            "conv1x1_expand": 0.4859,
+            "conv1x1_downsample": 0.5202,
+            "classifier_head": 0.7649
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.5175,
+            "layer1.0.conv2.weight": 0.3314,
+            "layer2.1.conv2.weight": 0.3063,
+            "layer3.2.conv2.weight": 0.2993,
+            "layer4.1.conv2.weight": 0.1563,
+            "fc.weight": 0.4697
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": -0.2424,
+            "layer1.0.conv2.weight": 0.17,
+            "layer2.1.conv2.weight": 0.1639,
+            "layer3.2.conv2.weight": -0.097,
+            "layer4.1.conv2.weight": -0.0667,
+            "fc.weight": -0.1723
+          },
+          "delta_hoyer_from_anchor": -0.0015
+        },
+        {
+          "checkpoint_index": 3,
+          "name": "75%",
+          "global_hoyer": 0.5142,
+          "global_energy10": 84.75,
+          "by_stage_hoyer": {
+            "stem": 0.6884,
+            "stage1": 0.5888,
+            "stage2": 0.4821,
+            "stage3": 0.4587,
+            "stage4": 0.5442,
+            "head": 0.7645
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.5453,
+            "conv1x1_reduce": 0.4988,
+            "conv1x1_expand": 0.4825,
+            "conv1x1_downsample": 0.5074,
+            "classifier_head": 0.7645
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.6244,
+            "layer1.0.conv2.weight": 0.3443,
+            "layer2.1.conv2.weight": 0.2927,
+            "layer3.2.conv2.weight": 0.2936,
+            "layer4.1.conv2.weight": 0.1781,
+            "fc.weight": 0.5515
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 0.2023,
+            "layer1.0.conv2.weight": 0.1311,
+            "layer2.1.conv2.weight": 0.1247,
+            "layer3.2.conv2.weight": 0.2341,
+            "layer4.1.conv2.weight": 0.1139,
+            "fc.weight": -0.0224
+          },
+          "delta_hoyer_from_anchor": -0.0018
+        },
+        {
+          "checkpoint_index": 4,
+          "name": "100% (End)",
+          "global_hoyer": 0.503,
+          "global_energy10": 83.68,
+          "by_stage_hoyer": {
+            "stem": 0.6848,
+            "stage1": 0.5834,
+            "stage2": 0.4599,
+            "stage3": 0.4467,
+            "stage4": 0.5396,
+            "head": 0.7829
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.5277,
+            "conv1x1_reduce": 0.4841,
+            "conv1x1_expand": 0.4774,
+            "conv1x1_downsample": 0.5061,
+            "classifier_head": 0.7829
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.5656,
+            "layer1.0.conv2.weight": 0.3512,
+            "layer2.1.conv2.weight": 0.2922,
+            "layer3.2.conv2.weight": 0.2769,
+            "layer4.1.conv2.weight": 0.182,
+            "fc.weight": 0.4458
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 0.1843,
+            "layer1.0.conv2.weight": -0.0949,
+            "layer2.1.conv2.weight": 0.2226,
+            "layer3.2.conv2.weight": 0.0338,
+            "layer4.1.conv2.weight": 0.2279,
+            "fc.weight": 0.6778
+          },
+          "delta_hoyer_from_anchor": -0.013
+        }
+      ]
+    },
+    {
+      "epoch": 10,
+      "lr": 0.057826,
+      "train_loss": 0.8691,
+      "val_loss": 0.9283,
+      "val_acc": 67.08,
+      "epoch_time_s": 80.28,
+      "intra_epoch_hoyer_mean": 0.4968,
+      "intra_epoch_hoyer_std": 0.0065,
+      "intra_epoch_hoyer_cv_pct": 1.32,
+      "delta_hoyer_t0_to_t4": -0.0173,
+      "mean_t4_mask_iou": 0.3111,
+      "mean_t4_cosine_sim": -0.1894,
+      "checkpoints": [
+        {
+          "checkpoint_index": 0,
+          "name": "0% (Start)",
+          "global_hoyer": 0.5095,
+          "global_energy10": 84.25,
+          "by_stage_hoyer": {
+            "stem": 0.6601,
+            "stage1": 0.5915,
+            "stage2": 0.4752,
+            "stage3": 0.4503,
+            "stage4": 0.5448,
+            "head": 0.7575
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.5343,
+            "conv1x1_reduce": 0.4976,
+            "conv1x1_expand": 0.4777,
+            "conv1x1_downsample": 0.5175,
+            "classifier_head": 0.7575
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 1.0,
+            "layer1.0.conv2.weight": 1.0,
+            "layer2.1.conv2.weight": 1.0,
+            "layer3.2.conv2.weight": 1.0,
+            "layer4.1.conv2.weight": 1.0,
+            "fc.weight": 1.0
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 1.0,
+            "layer1.0.conv2.weight": 1.0,
+            "layer2.1.conv2.weight": 1.0,
+            "layer3.2.conv2.weight": 1.0,
+            "layer4.1.conv2.weight": 1.0,
+            "fc.weight": 1.0
+          },
+          "delta_hoyer_from_anchor": 0.0
+        },
+        {
+          "checkpoint_index": 1,
+          "name": "25%",
+          "global_hoyer": 0.4943,
+          "global_energy10": 82.88,
+          "by_stage_hoyer": {
+            "stem": 0.6935,
+            "stage1": 0.5927,
+            "stage2": 0.4774,
+            "stage3": 0.4219,
+            "stage4": 0.5107,
+            "head": 0.7445
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.5256,
+            "conv1x1_reduce": 0.4694,
+            "conv1x1_expand": 0.4709,
+            "conv1x1_downsample": 0.4924,
+            "classifier_head": 0.7445
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.4661,
+            "layer1.0.conv2.weight": 0.3685,
+            "layer2.1.conv2.weight": 0.303,
+            "layer3.2.conv2.weight": 0.278,
+            "layer4.1.conv2.weight": 0.1626,
+            "fc.weight": 0.3927
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 0.4547,
+            "layer1.0.conv2.weight": -0.175,
+            "layer2.1.conv2.weight": -0.0603,
+            "layer3.2.conv2.weight": -0.1577,
+            "layer4.1.conv2.weight": -0.0703,
+            "fc.weight": 0.2898
+          },
+          "delta_hoyer_from_anchor": -0.0152
+        },
+        {
+          "checkpoint_index": 2,
+          "name": "50% (Mid)",
+          "global_hoyer": 0.4918,
+          "global_energy10": 82.73,
+          "by_stage_hoyer": {
+            "stem": 0.6705,
+            "stage1": 0.5753,
+            "stage2": 0.4568,
+            "stage3": 0.4304,
+            "stage4": 0.5294,
+            "head": 0.7263
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.5177,
+            "conv1x1_reduce": 0.4762,
+            "conv1x1_expand": 0.4662,
+            "conv1x1_downsample": 0.4886,
+            "classifier_head": 0.7263
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.5378,
+            "layer1.0.conv2.weight": 0.3844,
+            "layer2.1.conv2.weight": 0.3094,
+            "layer3.2.conv2.weight": 0.287,
+            "layer4.1.conv2.weight": 0.1687,
+            "fc.weight": 0.4013
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 0.4466,
+            "layer1.0.conv2.weight": 0.057,
+            "layer2.1.conv2.weight": 0.1175,
+            "layer3.2.conv2.weight": -0.0174,
+            "layer4.1.conv2.weight": -0.0505,
+            "fc.weight": -0.1178
+          },
+          "delta_hoyer_from_anchor": -0.0177
+        },
+        {
+          "checkpoint_index": 3,
+          "name": "75%",
+          "global_hoyer": 0.4961,
+          "global_energy10": 83.06,
+          "by_stage_hoyer": {
+            "stem": 0.6775,
+            "stage1": 0.5919,
+            "stage2": 0.4809,
+            "stage3": 0.4286,
+            "stage4": 0.5056,
+            "head": 0.7419
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.5307,
+            "conv1x1_reduce": 0.4752,
+            "conv1x1_expand": 0.4699,
+            "conv1x1_downsample": 0.4761,
+            "classifier_head": 0.7419
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.4786,
+            "layer1.0.conv2.weight": 0.3457,
+            "layer2.1.conv2.weight": 0.3094,
+            "layer3.2.conv2.weight": 0.2801,
+            "layer4.1.conv2.weight": 0.146,
+            "fc.weight": 0.3754
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": -0.6256,
+            "layer1.0.conv2.weight": -0.0432,
+            "layer2.1.conv2.weight": 0.0843,
+            "layer3.2.conv2.weight": 0.0918,
+            "layer4.1.conv2.weight": 0.0374,
+            "fc.weight": 0.1582
+          },
+          "delta_hoyer_from_anchor": -0.0134
+        },
+        {
+          "checkpoint_index": 4,
+          "name": "100% (End)",
+          "global_hoyer": 0.4922,
+          "global_energy10": 82.85,
+          "by_stage_hoyer": {
+            "stem": 0.6673,
+            "stage1": 0.5766,
+            "stage2": 0.4738,
+            "stage3": 0.4256,
+            "stage4": 0.5196,
+            "head": 0.7057
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.5235,
+            "conv1x1_reduce": 0.4711,
+            "conv1x1_expand": 0.4671,
+            "conv1x1_downsample": 0.4909,
+            "classifier_head": 0.7057
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.3952,
+            "layer1.0.conv2.weight": 0.3443,
+            "layer2.1.conv2.weight": 0.298,
+            "layer3.2.conv2.weight": 0.271,
+            "layer4.1.conv2.weight": 0.1636,
+            "fc.weight": 0.3946
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": -0.318,
+            "layer1.0.conv2.weight": -0.2873,
+            "layer2.1.conv2.weight": -0.1305,
+            "layer3.2.conv2.weight": -0.0721,
+            "layer4.1.conv2.weight": -0.0808,
+            "fc.weight": -0.2478
+          },
+          "delta_hoyer_from_anchor": -0.0173
+        }
+      ]
+    },
+    {
+      "epoch": 11,
+      "lr": 0.050005,
+      "train_loss": 0.7657,
+      "val_loss": 1.0583,
+      "val_acc": 66.47,
+      "epoch_time_s": 79.95,
+      "intra_epoch_hoyer_mean": 0.4791,
+      "intra_epoch_hoyer_std": 0.0129,
+      "intra_epoch_hoyer_cv_pct": 2.68,
+      "delta_hoyer_t0_to_t4": -0.0387,
+      "mean_t4_mask_iou": 0.3245,
+      "mean_t4_cosine_sim": -0.114,
+      "checkpoints": [
+        {
+          "checkpoint_index": 0,
+          "name": "0% (Start)",
+          "global_hoyer": 0.5032,
+          "global_energy10": 83.68,
+          "by_stage_hoyer": {
+            "stem": 0.7087,
+            "stage1": 0.5933,
+            "stage2": 0.4767,
+            "stage3": 0.4387,
+            "stage4": 0.527,
+            "head": 0.7287
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.5367,
+            "conv1x1_reduce": 0.4864,
+            "conv1x1_expand": 0.4725,
+            "conv1x1_downsample": 0.4944,
+            "classifier_head": 0.7287
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 1.0,
+            "layer1.0.conv2.weight": 1.0,
+            "layer2.1.conv2.weight": 1.0,
+            "layer3.2.conv2.weight": 1.0,
+            "layer4.1.conv2.weight": 1.0,
+            "fc.weight": 1.0
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 1.0,
+            "layer1.0.conv2.weight": 1.0,
+            "layer2.1.conv2.weight": 1.0,
+            "layer3.2.conv2.weight": 1.0,
+            "layer4.1.conv2.weight": 1.0,
+            "fc.weight": 1.0
+          },
+          "delta_hoyer_from_anchor": 0.0
+        },
+        {
+          "checkpoint_index": 1,
+          "name": "25%",
+          "global_hoyer": 0.4756,
+          "global_energy10": 81.26,
+          "by_stage_hoyer": {
+            "stem": 0.6714,
+            "stage1": 0.5777,
+            "stage2": 0.4448,
+            "stage3": 0.4141,
+            "stage4": 0.4885,
+            "head": 0.6974
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.5061,
+            "conv1x1_reduce": 0.4568,
+            "conv1x1_expand": 0.4481,
+            "conv1x1_downsample": 0.4752,
+            "classifier_head": 0.6974
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.4723,
+            "layer1.0.conv2.weight": 0.3741,
+            "layer2.1.conv2.weight": 0.2896,
+            "layer3.2.conv2.weight": 0.2678,
+            "layer4.1.conv2.weight": 0.1527,
+            "fc.weight": 0.4047
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 0.4042,
+            "layer1.0.conv2.weight": 0.0384,
+            "layer2.1.conv2.weight": 0.0154,
+            "layer3.2.conv2.weight": 0.1547,
+            "layer4.1.conv2.weight": -0.0249,
+            "fc.weight": 0.5636
+          },
+          "delta_hoyer_from_anchor": -0.0276
+        },
+        {
+          "checkpoint_index": 2,
+          "name": "50% (Mid)",
+          "global_hoyer": 0.4756,
+          "global_energy10": 81.38,
+          "by_stage_hoyer": {
+            "stem": 0.5995,
+            "stage1": 0.5633,
+            "stage2": 0.4556,
+            "stage3": 0.417,
+            "stage4": 0.4895,
+            "head": 0.7068
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.5014,
+            "conv1x1_reduce": 0.4629,
+            "conv1x1_expand": 0.4458,
+            "conv1x1_downsample": 0.4774,
+            "classifier_head": 0.7068
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.3896,
+            "layer1.0.conv2.weight": 0.3497,
+            "layer2.1.conv2.weight": 0.3069,
+            "layer3.2.conv2.weight": 0.2529,
+            "layer4.1.conv2.weight": 0.1617,
+            "fc.weight": 0.3563
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": -0.3921,
+            "layer1.0.conv2.weight": 0.0882,
+            "layer2.1.conv2.weight": -0.1136,
+            "layer3.2.conv2.weight": -0.1132,
+            "layer4.1.conv2.weight": -0.0251,
+            "fc.weight": 0.5343
+          },
+          "delta_hoyer_from_anchor": -0.0276
+        },
+        {
+          "checkpoint_index": 3,
+          "name": "75%",
+          "global_hoyer": 0.4764,
+          "global_energy10": 81.39,
+          "by_stage_hoyer": {
+            "stem": 0.6454,
+            "stage1": 0.5804,
+            "stage2": 0.4587,
+            "stage3": 0.4084,
+            "stage4": 0.4864,
+            "head": 0.6902
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.5058,
+            "conv1x1_reduce": 0.4613,
+            "conv1x1_expand": 0.4497,
+            "conv1x1_downsample": 0.4648,
+            "classifier_head": 0.6902
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.3785,
+            "layer1.0.conv2.weight": 0.372,
+            "layer2.1.conv2.weight": 0.29,
+            "layer3.2.conv2.weight": 0.2506,
+            "layer4.1.conv2.weight": 0.1475,
+            "fc.weight": 0.3941
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": -0.061,
+            "layer1.0.conv2.weight": -0.0507,
+            "layer2.1.conv2.weight": -0.0679,
+            "layer3.2.conv2.weight": -0.0687,
+            "layer4.1.conv2.weight": -0.0356,
+            "fc.weight": -0.0579
+          },
+          "delta_hoyer_from_anchor": -0.0268
+        },
+        {
+          "checkpoint_index": 4,
+          "name": "100% (End)",
+          "global_hoyer": 0.4645,
+          "global_energy10": 80.15,
+          "by_stage_hoyer": {
+            "stem": 0.6631,
+            "stage1": 0.5553,
+            "stage2": 0.4447,
+            "stage3": 0.3951,
+            "stage4": 0.4898,
+            "head": 0.6841
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.4971,
+            "conv1x1_reduce": 0.4429,
+            "conv1x1_expand": 0.442,
+            "conv1x1_downsample": 0.4481,
+            "classifier_head": 0.6841
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.4914,
+            "layer1.0.conv2.weight": 0.3685,
+            "layer2.1.conv2.weight": 0.2809,
+            "layer3.2.conv2.weight": 0.2279,
+            "layer4.1.conv2.weight": 0.1481,
+            "fc.weight": 0.4302
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": -0.1269,
+            "layer1.0.conv2.weight": 0.1052,
+            "layer2.1.conv2.weight": -0.1407,
+            "layer3.2.conv2.weight": -0.0857,
+            "layer4.1.conv2.weight": -0.0482,
+            "fc.weight": -0.388
+          },
+          "delta_hoyer_from_anchor": -0.0387
+        }
+      ]
+    },
+    {
+      "epoch": 12,
+      "lr": 0.042184,
+      "train_loss": 0.6821,
+      "val_loss": 0.8286,
+      "val_acc": 72.12,
+      "epoch_time_s": 80.33,
+      "intra_epoch_hoyer_mean": 0.4639,
+      "intra_epoch_hoyer_std": 0.0051,
+      "intra_epoch_hoyer_cv_pct": 1.09,
+      "delta_hoyer_t0_to_t4": -0.0065,
+      "mean_t4_mask_iou": 0.2928,
+      "mean_t4_cosine_sim": -0.1055,
+      "checkpoints": [
+        {
+          "checkpoint_index": 0,
+          "name": "0% (Start)",
+          "global_hoyer": 0.4687,
+          "global_energy10": 80.65,
+          "by_stage_hoyer": {
+            "stem": 0.6756,
+            "stage1": 0.5736,
+            "stage2": 0.4491,
+            "stage3": 0.4041,
+            "stage4": 0.473,
+            "head": 0.6532
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.4994,
+            "conv1x1_reduce": 0.4518,
+            "conv1x1_expand": 0.4437,
+            "conv1x1_downsample": 0.4599,
+            "classifier_head": 0.6532
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 1.0,
+            "layer1.0.conv2.weight": 1.0,
+            "layer2.1.conv2.weight": 1.0,
+            "layer3.2.conv2.weight": 1.0,
+            "layer4.1.conv2.weight": 1.0,
+            "fc.weight": 1.0
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 1.0,
+            "layer1.0.conv2.weight": 1.0,
+            "layer2.1.conv2.weight": 1.0,
+            "layer3.2.conv2.weight": 1.0,
+            "layer4.1.conv2.weight": 1.0,
+            "fc.weight": 1.0
+          },
+          "delta_hoyer_from_anchor": 0.0
+        },
+        {
+          "checkpoint_index": 1,
+          "name": "25%",
+          "global_hoyer": 0.4589,
+          "global_energy10": 79.7,
+          "by_stage_hoyer": {
+            "stem": 0.7078,
+            "stage1": 0.5633,
+            "stage2": 0.4422,
+            "stage3": 0.3956,
+            "stage4": 0.4537,
+            "head": 0.637
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.4929,
+            "conv1x1_reduce": 0.4358,
+            "conv1x1_expand": 0.4384,
+            "conv1x1_downsample": 0.4443,
+            "classifier_head": 0.637
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.4122,
+            "layer1.0.conv2.weight": 0.3637,
+            "layer2.1.conv2.weight": 0.281,
+            "layer3.2.conv2.weight": 0.2542,
+            "layer4.1.conv2.weight": 0.15,
+            "fc.weight": 0.3469
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": -0.2733,
+            "layer1.0.conv2.weight": 0.0891,
+            "layer2.1.conv2.weight": 0.1674,
+            "layer3.2.conv2.weight": 0.091,
+            "layer4.1.conv2.weight": 0.0258,
+            "fc.weight": 0.432
+          },
+          "delta_hoyer_from_anchor": -0.0098
+        },
+        {
+          "checkpoint_index": 2,
+          "name": "50% (Mid)",
+          "global_hoyer": 0.4587,
+          "global_energy10": 79.63,
+          "by_stage_hoyer": {
+            "stem": 0.6457,
+            "stage1": 0.5773,
+            "stage2": 0.4346,
+            "stage3": 0.3969,
+            "stage4": 0.4514,
+            "head": 0.6463
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.4885,
+            "conv1x1_reduce": 0.4448,
+            "conv1x1_expand": 0.4311,
+            "conv1x1_downsample": 0.4512,
+            "classifier_head": 0.6463
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.5799,
+            "layer1.0.conv2.weight": 0.3852,
+            "layer2.1.conv2.weight": 0.2756,
+            "layer3.2.conv2.weight": 0.2398,
+            "layer4.1.conv2.weight": 0.1396,
+            "fc.weight": 0.4114
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 0.1726,
+            "layer1.0.conv2.weight": 0.0261,
+            "layer2.1.conv2.weight": 0.0792,
+            "layer3.2.conv2.weight": -0.0457,
+            "layer4.1.conv2.weight": -0.0176,
+            "fc.weight": -0.3163
+          },
+          "delta_hoyer_from_anchor": -0.01
+        },
+        {
+          "checkpoint_index": 3,
+          "name": "75%",
+          "global_hoyer": 0.471,
+          "global_energy10": 80.68,
+          "by_stage_hoyer": {
+            "stem": 0.6319,
+            "stage1": 0.5739,
+            "stage2": 0.4501,
+            "stage3": 0.4063,
+            "stage4": 0.4837,
+            "head": 0.6534
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.5018,
+            "conv1x1_reduce": 0.4572,
+            "conv1x1_expand": 0.4434,
+            "conv1x1_downsample": 0.4594,
+            "classifier_head": 0.6534
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.3952,
+            "layer1.0.conv2.weight": 0.3764,
+            "layer2.1.conv2.weight": 0.2757,
+            "layer3.2.conv2.weight": 0.2446,
+            "layer4.1.conv2.weight": 0.1426,
+            "fc.weight": 0.3196
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": -0.4469,
+            "layer1.0.conv2.weight": -0.0816,
+            "layer2.1.conv2.weight": 0.0804,
+            "layer3.2.conv2.weight": -0.0373,
+            "layer4.1.conv2.weight": 0.0008,
+            "fc.weight": -0.2007
+          },
+          "delta_hoyer_from_anchor": 0.0023
+        },
+        {
+          "checkpoint_index": 4,
+          "name": "100% (End)",
+          "global_hoyer": 0.4622,
+          "global_energy10": 79.93,
+          "by_stage_hoyer": {
+            "stem": 0.6629,
+            "stage1": 0.5633,
+            "stage2": 0.4475,
+            "stage3": 0.3931,
+            "stage4": 0.4693,
+            "head": 0.6835
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.495,
+            "conv1x1_reduce": 0.4406,
+            "conv1x1_expand": 0.4396,
+            "conv1x1_downsample": 0.4446,
+            "classifier_head": 0.6835
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.4599,
+            "layer1.0.conv2.weight": 0.3685,
+            "layer2.1.conv2.weight": 0.2713,
+            "layer3.2.conv2.weight": 0.2336,
+            "layer4.1.conv2.weight": 0.1426,
+            "fc.weight": 0.2812
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": -0.2769,
+            "layer1.0.conv2.weight": 0.0368,
+            "layer2.1.conv2.weight": 0.0056,
+            "layer3.2.conv2.weight": 0.0044,
+            "layer4.1.conv2.weight": -0.0606,
+            "fc.weight": -0.3422
+          },
+          "delta_hoyer_from_anchor": -0.0065
+        }
+      ]
+    },
+    {
+      "epoch": 13,
+      "lr": 0.034556,
+      "train_loss": 0.6025,
+      "val_loss": 0.6255,
+      "val_acc": 78.52,
+      "epoch_time_s": 80.43,
+      "intra_epoch_hoyer_mean": 0.4584,
+      "intra_epoch_hoyer_std": 0.0045,
+      "intra_epoch_hoyer_cv_pct": 0.98,
+      "delta_hoyer_t0_to_t4": -0.0021,
+      "mean_t4_mask_iou": 0.3,
+      "mean_t4_cosine_sim": 0.0766,
+      "checkpoints": [
+        {
+          "checkpoint_index": 0,
+          "name": "0% (Start)",
+          "global_hoyer": 0.4595,
+          "global_energy10": 79.66,
+          "by_stage_hoyer": {
+            "stem": 0.6801,
+            "stage1": 0.5707,
+            "stage2": 0.4433,
+            "stage3": 0.3853,
+            "stage4": 0.4667,
+            "head": 0.6722
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.4915,
+            "conv1x1_reduce": 0.4425,
+            "conv1x1_expand": 0.4332,
+            "conv1x1_downsample": 0.4431,
+            "classifier_head": 0.6722
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 1.0,
+            "layer1.0.conv2.weight": 1.0,
+            "layer2.1.conv2.weight": 1.0,
+            "layer3.2.conv2.weight": 1.0,
+            "layer4.1.conv2.weight": 1.0,
+            "fc.weight": 1.0
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 1.0,
+            "layer1.0.conv2.weight": 1.0,
+            "layer2.1.conv2.weight": 1.0,
+            "layer3.2.conv2.weight": 1.0,
+            "layer4.1.conv2.weight": 1.0,
+            "fc.weight": 1.0
+          },
+          "delta_hoyer_from_anchor": 0.0
+        },
+        {
+          "checkpoint_index": 1,
+          "name": "25%",
+          "global_hoyer": 0.4515,
+          "global_energy10": 78.8,
+          "by_stage_hoyer": {
+            "stem": 0.6731,
+            "stage1": 0.5622,
+            "stage2": 0.4433,
+            "stage3": 0.3812,
+            "stage4": 0.4426,
+            "head": 0.6509
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.4807,
+            "conv1x1_reduce": 0.4417,
+            "conv1x1_expand": 0.4178,
+            "conv1x1_downsample": 0.4511,
+            "classifier_head": 0.6509
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.373,
+            "layer1.0.conv2.weight": 0.3485,
+            "layer2.1.conv2.weight": 0.277,
+            "layer3.2.conv2.weight": 0.2384,
+            "layer4.1.conv2.weight": 0.1504,
+            "fc.weight": 0.343
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 0.6042,
+            "layer1.0.conv2.weight": -0.027,
+            "layer2.1.conv2.weight": 0.1002,
+            "layer3.2.conv2.weight": 0.0903,
+            "layer4.1.conv2.weight": 0.0767,
+            "fc.weight": 0.2033
+          },
+          "delta_hoyer_from_anchor": -0.008
+        },
+        {
+          "checkpoint_index": 2,
+          "name": "50% (Mid)",
+          "global_hoyer": 0.4655,
+          "global_energy10": 80.11,
+          "by_stage_hoyer": {
+            "stem": 0.6885,
+            "stage1": 0.5629,
+            "stage2": 0.4445,
+            "stage3": 0.3951,
+            "stage4": 0.4838,
+            "head": 0.6985
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.4925,
+            "conv1x1_reduce": 0.4533,
+            "conv1x1_expand": 0.4385,
+            "conv1x1_downsample": 0.4501,
+            "classifier_head": 0.6985
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.4008,
+            "layer1.0.conv2.weight": 0.3754,
+            "layer2.1.conv2.weight": 0.2974,
+            "layer3.2.conv2.weight": 0.2385,
+            "layer4.1.conv2.weight": 0.1456,
+            "fc.weight": 0.2439
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": -0.1651,
+            "layer1.0.conv2.weight": 0.0791,
+            "layer2.1.conv2.weight": 0.1432,
+            "layer3.2.conv2.weight": -0.0287,
+            "layer4.1.conv2.weight": -0.0239,
+            "fc.weight": -0.1105
+          },
+          "delta_hoyer_from_anchor": 0.006
+        },
+        {
+          "checkpoint_index": 3,
+          "name": "75%",
+          "global_hoyer": 0.4582,
+          "global_energy10": 79.42,
+          "by_stage_hoyer": {
+            "stem": 0.6949,
+            "stage1": 0.5631,
+            "stage2": 0.4268,
+            "stage3": 0.3886,
+            "stage4": 0.4747,
+            "head": 0.7382
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.4867,
+            "conv1x1_reduce": 0.4379,
+            "conv1x1_expand": 0.4362,
+            "conv1x1_downsample": 0.4359,
+            "classifier_head": 0.7382
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.4477,
+            "layer1.0.conv2.weight": 0.3736,
+            "layer2.1.conv2.weight": 0.2659,
+            "layer3.2.conv2.weight": 0.2329,
+            "layer4.1.conv2.weight": 0.1482,
+            "fc.weight": 0.2511
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 0.2126,
+            "layer1.0.conv2.weight": 0.0521,
+            "layer2.1.conv2.weight": -0.008,
+            "layer3.2.conv2.weight": 0.047,
+            "layer4.1.conv2.weight": 0.0788,
+            "fc.weight": 0.2207
+          },
+          "delta_hoyer_from_anchor": -0.0013
+        },
+        {
+          "checkpoint_index": 4,
+          "name": "100% (End)",
+          "global_hoyer": 0.4574,
+          "global_energy10": 79.46,
+          "by_stage_hoyer": {
+            "stem": 0.7115,
+            "stage1": 0.5559,
+            "stage2": 0.4275,
+            "stage3": 0.3971,
+            "stage4": 0.4694,
+            "head": 0.6307
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.493,
+            "conv1x1_reduce": 0.4377,
+            "conv1x1_expand": 0.4328,
+            "conv1x1_downsample": 0.4399,
+            "classifier_head": 0.6307
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.3952,
+            "layer1.0.conv2.weight": 0.3617,
+            "layer2.1.conv2.weight": 0.2647,
+            "layer3.2.conv2.weight": 0.2462,
+            "layer4.1.conv2.weight": 0.1468,
+            "fc.weight": 0.3852
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 0.2096,
+            "layer1.0.conv2.weight": -0.0586,
+            "layer2.1.conv2.weight": -0.0591,
+            "layer3.2.conv2.weight": -0.024,
+            "layer4.1.conv2.weight": -0.015,
+            "fc.weight": 0.407
+          },
+          "delta_hoyer_from_anchor": -0.0021
+        }
+      ]
+    },
+    {
+      "epoch": 14,
+      "lr": 0.027308,
+      "train_loss": 0.5358,
+      "val_loss": 0.6152,
+      "val_acc": 78.28,
+      "epoch_time_s": 80.42,
+      "intra_epoch_hoyer_mean": 0.449,
+      "intra_epoch_hoyer_std": 0.0035,
+      "intra_epoch_hoyer_cv_pct": 0.77,
+      "delta_hoyer_t0_to_t4": -0.0064,
+      "mean_t4_mask_iou": 0.3389,
+      "mean_t4_cosine_sim": -0.0483,
+      "checkpoints": [
+        {
+          "checkpoint_index": 0,
+          "name": "0% (Start)",
+          "global_hoyer": 0.4521,
+          "global_energy10": 79.0,
+          "by_stage_hoyer": {
+            "stem": 0.6989,
+            "stage1": 0.5471,
+            "stage2": 0.4226,
+            "stage3": 0.3908,
+            "stage4": 0.4695,
+            "head": 0.6312
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.4869,
+            "conv1x1_reduce": 0.4306,
+            "conv1x1_expand": 0.4299,
+            "conv1x1_downsample": 0.4346,
+            "classifier_head": 0.6312
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 1.0,
+            "layer1.0.conv2.weight": 1.0,
+            "layer2.1.conv2.weight": 1.0,
+            "layer3.2.conv2.weight": 1.0,
+            "layer4.1.conv2.weight": 1.0,
+            "fc.weight": 1.0
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 1.0,
+            "layer1.0.conv2.weight": 1.0,
+            "layer2.1.conv2.weight": 1.0,
+            "layer3.2.conv2.weight": 1.0,
+            "layer4.1.conv2.weight": 1.0,
+            "fc.weight": 1.0
+          },
+          "delta_hoyer_from_anchor": 0.0
+        },
+        {
+          "checkpoint_index": 1,
+          "name": "25%",
+          "global_hoyer": 0.4541,
+          "global_energy10": 79.06,
+          "by_stage_hoyer": {
+            "stem": 0.6816,
+            "stage1": 0.5745,
+            "stage2": 0.4383,
+            "stage3": 0.3803,
+            "stage4": 0.456,
+            "head": 0.6093
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.4826,
+            "conv1x1_reduce": 0.4417,
+            "conv1x1_expand": 0.4273,
+            "conv1x1_downsample": 0.4502,
+            "classifier_head": 0.6093
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.531,
+            "layer1.0.conv2.weight": 0.3647,
+            "layer2.1.conv2.weight": 0.287,
+            "layer3.2.conv2.weight": 0.2518,
+            "layer4.1.conv2.weight": 0.1565,
+            "fc.weight": 0.2662
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": -0.4208,
+            "layer1.0.conv2.weight": -0.0349,
+            "layer2.1.conv2.weight": -0.1557,
+            "layer3.2.conv2.weight": -0.1318,
+            "layer4.1.conv2.weight": -0.0105,
+            "fc.weight": -0.1801
+          },
+          "delta_hoyer_from_anchor": 0.002
+        },
+        {
+          "checkpoint_index": 2,
+          "name": "50% (Mid)",
+          "global_hoyer": 0.4478,
+          "global_energy10": 78.43,
+          "by_stage_hoyer": {
+            "stem": 0.661,
+            "stage1": 0.5611,
+            "stage2": 0.4184,
+            "stage3": 0.378,
+            "stage4": 0.4591,
+            "head": 0.6962
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.4785,
+            "conv1x1_reduce": 0.4265,
+            "conv1x1_expand": 0.4253,
+            "conv1x1_downsample": 0.4305,
+            "classifier_head": 0.6962
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.5043,
+            "layer1.0.conv2.weight": 0.3542,
+            "layer2.1.conv2.weight": 0.2832,
+            "layer3.2.conv2.weight": 0.2395,
+            "layer4.1.conv2.weight": 0.1498,
+            "fc.weight": 0.2804
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 0.137,
+            "layer1.0.conv2.weight": 0.1732,
+            "layer2.1.conv2.weight": 0.2108,
+            "layer3.2.conv2.weight": 0.09,
+            "layer4.1.conv2.weight": 0.0494,
+            "fc.weight": -0.0733
+          },
+          "delta_hoyer_from_anchor": -0.0043
+        },
+        {
+          "checkpoint_index": 3,
+          "name": "75%",
+          "global_hoyer": 0.4455,
+          "global_energy10": 78.13,
+          "by_stage_hoyer": {
+            "stem": 0.6114,
+            "stage1": 0.5578,
+            "stage2": 0.4264,
+            "stage3": 0.3803,
+            "stage4": 0.4436,
+            "head": 0.6633
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.4708,
+            "conv1x1_reduce": 0.4283,
+            "conv1x1_expand": 0.4242,
+            "conv1x1_downsample": 0.4378,
+            "classifier_head": 0.6633
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.4599,
+            "layer1.0.conv2.weight": 0.3754,
+            "layer2.1.conv2.weight": 0.2614,
+            "layer3.2.conv2.weight": 0.2399,
+            "layer4.1.conv2.weight": 0.1424,
+            "fc.weight": 0.2397
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": -0.008,
+            "layer1.0.conv2.weight": -0.074,
+            "layer2.1.conv2.weight": -0.0606,
+            "layer3.2.conv2.weight": 0.0101,
+            "layer4.1.conv2.weight": -0.0207,
+            "fc.weight": -0.2299
+          },
+          "delta_hoyer_from_anchor": -0.0066
+        },
+        {
+          "checkpoint_index": 4,
+          "name": "100% (End)",
+          "global_hoyer": 0.4457,
+          "global_energy10": 78.28,
+          "by_stage_hoyer": {
+            "stem": 0.6342,
+            "stage1": 0.5552,
+            "stage2": 0.4267,
+            "stage3": 0.379,
+            "stage4": 0.4491,
+            "head": 0.6419
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.4764,
+            "conv1x1_reduce": 0.4247,
+            "conv1x1_expand": 0.4237,
+            "conv1x1_downsample": 0.4373,
+            "classifier_head": 0.6419
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.5378,
+            "layer1.0.conv2.weight": 0.3604,
+            "layer2.1.conv2.weight": 0.2721,
+            "layer3.2.conv2.weight": 0.2423,
+            "layer4.1.conv2.weight": 0.1576,
+            "fc.weight": 0.4634
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 0.1272,
+            "layer1.0.conv2.weight": -0.0163,
+            "layer2.1.conv2.weight": 0.0977,
+            "layer3.2.conv2.weight": 0.0126,
+            "layer4.1.conv2.weight": -0.1111,
+            "fc.weight": -0.3998
+          },
+          "delta_hoyer_from_anchor": -0.0064
+        }
+      ]
+    },
+    {
+      "epoch": 15,
+      "lr": 0.020619,
+      "train_loss": 0.4813,
+      "val_loss": 0.5073,
+      "val_acc": 82.51,
+      "epoch_time_s": 80.4,
+      "intra_epoch_hoyer_mean": 0.4433,
+      "intra_epoch_hoyer_std": 0.0047,
+      "intra_epoch_hoyer_cv_pct": 1.07,
+      "delta_hoyer_t0_to_t4": -0.0146,
+      "mean_t4_mask_iou": 0.3122,
+      "mean_t4_cosine_sim": -0.0101,
+      "checkpoints": [
+        {
+          "checkpoint_index": 0,
+          "name": "0% (Start)",
+          "global_hoyer": 0.4501,
+          "global_energy10": 78.69,
+          "by_stage_hoyer": {
+            "stem": 0.7054,
+            "stage1": 0.5502,
+            "stage2": 0.4316,
+            "stage3": 0.3815,
+            "stage4": 0.4565,
+            "head": 0.6711
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.4798,
+            "conv1x1_reduce": 0.4341,
+            "conv1x1_expand": 0.4229,
+            "conv1x1_downsample": 0.4409,
+            "classifier_head": 0.6711
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 1.0,
+            "layer1.0.conv2.weight": 1.0,
+            "layer2.1.conv2.weight": 1.0,
+            "layer3.2.conv2.weight": 1.0,
+            "layer4.1.conv2.weight": 1.0,
+            "fc.weight": 1.0
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 1.0,
+            "layer1.0.conv2.weight": 1.0,
+            "layer2.1.conv2.weight": 1.0,
+            "layer3.2.conv2.weight": 1.0,
+            "layer4.1.conv2.weight": 1.0,
+            "fc.weight": 1.0
+          },
+          "delta_hoyer_from_anchor": 0.0
+        },
+        {
+          "checkpoint_index": 1,
+          "name": "25%",
+          "global_hoyer": 0.4424,
+          "global_energy10": 77.83,
+          "by_stage_hoyer": {
+            "stem": 0.6694,
+            "stage1": 0.5608,
+            "stage2": 0.4238,
+            "stage3": 0.3739,
+            "stage4": 0.4392,
+            "head": 0.6097
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.4725,
+            "conv1x1_reduce": 0.4234,
+            "conv1x1_expand": 0.4211,
+            "conv1x1_downsample": 0.4348,
+            "classifier_head": 0.6097
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.4538,
+            "layer1.0.conv2.weight": 0.3692,
+            "layer2.1.conv2.weight": 0.2795,
+            "layer3.2.conv2.weight": 0.224,
+            "layer4.1.conv2.weight": 0.1464,
+            "fc.weight": 0.2473
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 0.0079,
+            "layer1.0.conv2.weight": 0.0702,
+            "layer2.1.conv2.weight": -0.0969,
+            "layer3.2.conv2.weight": 0.0529,
+            "layer4.1.conv2.weight": 0.1316,
+            "fc.weight": 0.0815
+          },
+          "delta_hoyer_from_anchor": -0.0077
+        },
+        {
+          "checkpoint_index": 2,
+          "name": "50% (Mid)",
+          "global_hoyer": 0.4431,
+          "global_energy10": 77.95,
+          "by_stage_hoyer": {
+            "stem": 0.6339,
+            "stage1": 0.5539,
+            "stage2": 0.4167,
+            "stage3": 0.3787,
+            "stage4": 0.4529,
+            "head": 0.6137
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.4731,
+            "conv1x1_reduce": 0.4248,
+            "conv1x1_expand": 0.4232,
+            "conv1x1_downsample": 0.4258,
+            "classifier_head": 0.6137
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.485,
+            "layer1.0.conv2.weight": 0.3779,
+            "layer2.1.conv2.weight": 0.2585,
+            "layer3.2.conv2.weight": 0.2253,
+            "layer4.1.conv2.weight": 0.1476,
+            "fc.weight": 0.2297
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 0.3607,
+            "layer1.0.conv2.weight": 0.071,
+            "layer2.1.conv2.weight": -0.05,
+            "layer3.2.conv2.weight": -0.0766,
+            "layer4.1.conv2.weight": -0.0666,
+            "fc.weight": -0.0965
+          },
+          "delta_hoyer_from_anchor": -0.007
+        },
+        {
+          "checkpoint_index": 3,
+          "name": "75%",
+          "global_hoyer": 0.4454,
+          "global_energy10": 78.2,
+          "by_stage_hoyer": {
+            "stem": 0.6677,
+            "stage1": 0.5559,
+            "stage2": 0.4331,
+            "stage3": 0.3741,
+            "stage4": 0.4485,
+            "head": 0.6039
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.4793,
+            "conv1x1_reduce": 0.4255,
+            "conv1x1_expand": 0.4232,
+            "conv1x1_downsample": 0.4305,
+            "classifier_head": 0.6039
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.4599,
+            "layer1.0.conv2.weight": 0.3502,
+            "layer2.1.conv2.weight": 0.2793,
+            "layer3.2.conv2.weight": 0.2202,
+            "layer4.1.conv2.weight": 0.1408,
+            "fc.weight": 0.364
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 0.587,
+            "layer1.0.conv2.weight": 0.1204,
+            "layer2.1.conv2.weight": -0.0279,
+            "layer3.2.conv2.weight": 0.1373,
+            "layer4.1.conv2.weight": 0.0117,
+            "fc.weight": -0.0876
+          },
+          "delta_hoyer_from_anchor": -0.0047
+        },
+        {
+          "checkpoint_index": 4,
+          "name": "100% (End)",
+          "global_hoyer": 0.4355,
+          "global_energy10": 77.05,
+          "by_stage_hoyer": {
+            "stem": 0.6532,
+            "stage1": 0.5639,
+            "stage2": 0.4093,
+            "stage3": 0.37,
+            "stage4": 0.4249,
+            "head": 0.627
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.4675,
+            "conv1x1_reduce": 0.4115,
+            "conv1x1_expand": 0.4171,
+            "conv1x1_downsample": 0.4219,
+            "classifier_head": 0.627
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.4538,
+            "layer1.0.conv2.weight": 0.3749,
+            "layer2.1.conv2.weight": 0.265,
+            "layer3.2.conv2.weight": 0.2125,
+            "layer4.1.conv2.weight": 0.1345,
+            "fc.weight": 0.4327
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 0.4466,
+            "layer1.0.conv2.weight": 0.0458,
+            "layer2.1.conv2.weight": -0.035,
+            "layer3.2.conv2.weight": 0.0046,
+            "layer4.1.conv2.weight": -0.0386,
+            "fc.weight": -0.4842
+          },
+          "delta_hoyer_from_anchor": -0.0146
+        }
+      ]
+    },
+    {
+      "epoch": 16,
+      "lr": 0.014653,
+      "train_loss": 0.4275,
+      "val_loss": 0.5073,
+      "val_acc": 82.84,
+      "epoch_time_s": 80.43,
+      "intra_epoch_hoyer_mean": 0.4357,
+      "intra_epoch_hoyer_std": 0.0023,
+      "intra_epoch_hoyer_cv_pct": 0.54,
+      "delta_hoyer_t0_to_t4": -0.0058,
+      "mean_t4_mask_iou": 0.2878,
+      "mean_t4_cosine_sim": 0.0875,
+      "checkpoints": [
+        {
+          "checkpoint_index": 0,
+          "name": "0% (Start)",
+          "global_hoyer": 0.4378,
+          "global_energy10": 77.3,
+          "by_stage_hoyer": {
+            "stem": 0.621,
+            "stage1": 0.5456,
+            "stage2": 0.424,
+            "stage3": 0.3689,
+            "stage4": 0.4405,
+            "head": 0.6371
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.4678,
+            "conv1x1_reduce": 0.4205,
+            "conv1x1_expand": 0.4144,
+            "conv1x1_downsample": 0.4229,
+            "classifier_head": 0.6371
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 1.0,
+            "layer1.0.conv2.weight": 1.0,
+            "layer2.1.conv2.weight": 1.0,
+            "layer3.2.conv2.weight": 1.0,
+            "layer4.1.conv2.weight": 1.0,
+            "fc.weight": 1.0
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 1.0,
+            "layer1.0.conv2.weight": 1.0,
+            "layer2.1.conv2.weight": 1.0,
+            "layer3.2.conv2.weight": 1.0,
+            "layer4.1.conv2.weight": 1.0,
+            "fc.weight": 1.0
+          },
+          "delta_hoyer_from_anchor": 0.0
+        },
+        {
+          "checkpoint_index": 1,
+          "name": "25%",
+          "global_hoyer": 0.4379,
+          "global_energy10": 77.43,
+          "by_stage_hoyer": {
+            "stem": 0.6526,
+            "stage1": 0.5526,
+            "stage2": 0.4218,
+            "stage3": 0.3657,
+            "stage4": 0.4432,
+            "head": 0.603
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.4649,
+            "conv1x1_reduce": 0.4212,
+            "conv1x1_expand": 0.4183,
+            "conv1x1_downsample": 0.4269,
+            "classifier_head": 0.603
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.4357,
+            "layer1.0.conv2.weight": 0.3741,
+            "layer2.1.conv2.weight": 0.2671,
+            "layer3.2.conv2.weight": 0.2172,
+            "layer4.1.conv2.weight": 0.1453,
+            "fc.weight": 0.3875
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": -0.1323,
+            "layer1.0.conv2.weight": -0.0249,
+            "layer2.1.conv2.weight": 0.0675,
+            "layer3.2.conv2.weight": 0.0276,
+            "layer4.1.conv2.weight": -0.0454,
+            "fc.weight": 0.3838
+          },
+          "delta_hoyer_from_anchor": 0.0001
+        },
+        {
+          "checkpoint_index": 2,
+          "name": "50% (Mid)",
+          "global_hoyer": 0.4339,
+          "global_energy10": 77.02,
+          "by_stage_hoyer": {
+            "stem": 0.6361,
+            "stage1": 0.5447,
+            "stage2": 0.409,
+            "stage3": 0.3705,
+            "stage4": 0.44,
+            "head": 0.5894
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.4648,
+            "conv1x1_reduce": 0.4158,
+            "conv1x1_expand": 0.4143,
+            "conv1x1_downsample": 0.4141,
+            "classifier_head": 0.5894
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.3622,
+            "layer1.0.conv2.weight": 0.3591,
+            "layer2.1.conv2.weight": 0.2745,
+            "layer3.2.conv2.weight": 0.2185,
+            "layer4.1.conv2.weight": 0.1445,
+            "fc.weight": 0.2905
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": -0.0684,
+            "layer1.0.conv2.weight": -0.16,
+            "layer2.1.conv2.weight": 0.1884,
+            "layer3.2.conv2.weight": -0.0427,
+            "layer4.1.conv2.weight": -0.0058,
+            "fc.weight": 0.2361
+          },
+          "delta_hoyer_from_anchor": -0.0039
+        },
+        {
+          "checkpoint_index": 3,
+          "name": "75%",
+          "global_hoyer": 0.4368,
+          "global_energy10": 77.28,
+          "by_stage_hoyer": {
+            "stem": 0.6532,
+            "stage1": 0.5533,
+            "stage2": 0.4093,
+            "stage3": 0.3681,
+            "stage4": 0.4494,
+            "head": 0.5917
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.4635,
+            "conv1x1_reduce": 0.4204,
+            "conv1x1_expand": 0.418,
+            "conv1x1_downsample": 0.4254,
+            "classifier_head": 0.5917
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.4298,
+            "layer1.0.conv2.weight": 0.3622,
+            "layer2.1.conv2.weight": 0.2628,
+            "layer3.2.conv2.weight": 0.2135,
+            "layer4.1.conv2.weight": 0.1433,
+            "fc.weight": 0.3082
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": -0.1504,
+            "layer1.0.conv2.weight": -0.0578,
+            "layer2.1.conv2.weight": -0.1369,
+            "layer3.2.conv2.weight": -0.0408,
+            "layer4.1.conv2.weight": -0.0772,
+            "fc.weight": -0.2064
+          },
+          "delta_hoyer_from_anchor": -0.001
+        },
+        {
+          "checkpoint_index": 4,
+          "name": "100% (End)",
+          "global_hoyer": 0.432,
+          "global_energy10": 76.8,
+          "by_stage_hoyer": {
+            "stem": 0.6588,
+            "stage1": 0.5489,
+            "stage2": 0.4108,
+            "stage3": 0.367,
+            "stage4": 0.4288,
+            "head": 0.581
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.463,
+            "conv1x1_reduce": 0.4135,
+            "conv1x1_expand": 0.411,
+            "conv1x1_downsample": 0.4214,
+            "classifier_head": 0.581
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.5043,
+            "layer1.0.conv2.weight": 0.3485,
+            "layer2.1.conv2.weight": 0.2578,
+            "layer3.2.conv2.weight": 0.2191,
+            "layer4.1.conv2.weight": 0.1497,
+            "fc.weight": 0.2476
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 0.2369,
+            "layer1.0.conv2.weight": 0.1137,
+            "layer2.1.conv2.weight": -0.0638,
+            "layer3.2.conv2.weight": 0.0132,
+            "layer4.1.conv2.weight": 0.0274,
+            "fc.weight": 0.1974
+          },
+          "delta_hoyer_from_anchor": -0.0058
+        }
+      ]
+    },
+    {
+      "epoch": 17,
+      "lr": 0.009558,
+      "train_loss": 0.3785,
+      "val_loss": 0.4458,
+      "val_acc": 85.05,
+      "epoch_time_s": 79.29,
+      "intra_epoch_hoyer_mean": 0.4267,
+      "intra_epoch_hoyer_std": 0.0031,
+      "intra_epoch_hoyer_cv_pct": 0.72,
+      "delta_hoyer_t0_to_t4": -0.0008,
+      "mean_t4_mask_iou": 0.286,
+      "mean_t4_cosine_sim": 0.0194,
+      "checkpoints": [
+        {
+          "checkpoint_index": 0,
+          "name": "0% (Start)",
+          "global_hoyer": 0.43,
+          "global_energy10": 76.53,
+          "by_stage_hoyer": {
+            "stem": 0.6671,
+            "stage1": 0.5444,
+            "stage2": 0.4113,
+            "stage3": 0.3634,
+            "stage4": 0.4242,
+            "head": 0.6115
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.4619,
+            "conv1x1_reduce": 0.415,
+            "conv1x1_expand": 0.4051,
+            "conv1x1_downsample": 0.4082,
+            "classifier_head": 0.6115
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 1.0,
+            "layer1.0.conv2.weight": 1.0,
+            "layer2.1.conv2.weight": 1.0,
+            "layer3.2.conv2.weight": 1.0,
+            "layer4.1.conv2.weight": 1.0,
+            "fc.weight": 1.0
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 1.0,
+            "layer1.0.conv2.weight": 1.0,
+            "layer2.1.conv2.weight": 1.0,
+            "layer3.2.conv2.weight": 1.0,
+            "layer4.1.conv2.weight": 1.0,
+            "fc.weight": 1.0
+          },
+          "delta_hoyer_from_anchor": 0.0
+        },
+        {
+          "checkpoint_index": 1,
+          "name": "25%",
+          "global_hoyer": 0.4218,
+          "global_energy10": 75.61,
+          "by_stage_hoyer": {
+            "stem": 0.6677,
+            "stage1": 0.5426,
+            "stage2": 0.4073,
+            "stage3": 0.3547,
+            "stage4": 0.4032,
+            "head": 0.619
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.4536,
+            "conv1x1_reduce": 0.4034,
+            "conv1x1_expand": 0.3986,
+            "conv1x1_downsample": 0.4041,
+            "classifier_head": 0.619
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.4661,
+            "layer1.0.conv2.weight": 0.3514,
+            "layer2.1.conv2.weight": 0.2831,
+            "layer3.2.conv2.weight": 0.22,
+            "layer4.1.conv2.weight": 0.1478,
+            "fc.weight": 0.1801
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 0.1922,
+            "layer1.0.conv2.weight": -0.0446,
+            "layer2.1.conv2.weight": 0.1515,
+            "layer3.2.conv2.weight": 0.0142,
+            "layer4.1.conv2.weight": 0.0045,
+            "fc.weight": -0.0097
+          },
+          "delta_hoyer_from_anchor": -0.0082
+        },
+        {
+          "checkpoint_index": 2,
+          "name": "50% (Mid)",
+          "global_hoyer": 0.428,
+          "global_energy10": 76.24,
+          "by_stage_hoyer": {
+            "stem": 0.6617,
+            "stage1": 0.5505,
+            "stage2": 0.4144,
+            "stage3": 0.3563,
+            "stage4": 0.4197,
+            "head": 0.5931
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.459,
+            "conv1x1_reduce": 0.4114,
+            "conv1x1_expand": 0.4044,
+            "conv1x1_downsample": 0.416,
+            "classifier_head": 0.5931
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.5586,
+            "layer1.0.conv2.weight": 0.3627,
+            "layer2.1.conv2.weight": 0.2627,
+            "layer3.2.conv2.weight": 0.212,
+            "layer4.1.conv2.weight": 0.1499,
+            "fc.weight": 0.3032
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": -0.2042,
+            "layer1.0.conv2.weight": 0.038,
+            "layer2.1.conv2.weight": -0.078,
+            "layer3.2.conv2.weight": -0.0365,
+            "layer4.1.conv2.weight": -0.084,
+            "fc.weight": -0.5634
+          },
+          "delta_hoyer_from_anchor": -0.002
+        },
+        {
+          "checkpoint_index": 3,
+          "name": "75%",
+          "global_hoyer": 0.4247,
+          "global_energy10": 75.86,
+          "by_stage_hoyer": {
+            "stem": 0.6567,
+            "stage1": 0.5454,
+            "stage2": 0.402,
+            "stage3": 0.3568,
+            "stage4": 0.4213,
+            "head": 0.6049
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.4534,
+            "conv1x1_reduce": 0.404,
+            "conv1x1_expand": 0.4073,
+            "conv1x1_downsample": 0.4101,
+            "classifier_head": 0.6049
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.4661,
+            "layer1.0.conv2.weight": 0.3637,
+            "layer2.1.conv2.weight": 0.2647,
+            "layer3.2.conv2.weight": 0.219,
+            "layer4.1.conv2.weight": 0.1565,
+            "fc.weight": 0.2744
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": -0.1695,
+            "layer1.0.conv2.weight": 0.1476,
+            "layer2.1.conv2.weight": 0.0411,
+            "layer3.2.conv2.weight": 0.0066,
+            "layer4.1.conv2.weight": -0.0679,
+            "fc.weight": 0.1073
+          },
+          "delta_hoyer_from_anchor": -0.0053
+        },
+        {
+          "checkpoint_index": 4,
+          "name": "100% (End)",
+          "global_hoyer": 0.4292,
+          "global_energy10": 76.28,
+          "by_stage_hoyer": {
+            "stem": 0.6301,
+            "stage1": 0.5431,
+            "stage2": 0.4135,
+            "stage3": 0.3577,
+            "stage4": 0.4319,
+            "head": 0.6233
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.4542,
+            "conv1x1_reduce": 0.4095,
+            "conv1x1_expand": 0.4149,
+            "conv1x1_downsample": 0.4102,
+            "classifier_head": 0.6233
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.4538,
+            "layer1.0.conv2.weight": 0.3517,
+            "layer2.1.conv2.weight": 0.2616,
+            "layer3.2.conv2.weight": 0.2128,
+            "layer4.1.conv2.weight": 0.1394,
+            "fc.weight": 0.2966
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 0.3033,
+            "layer1.0.conv2.weight": 0.0116,
+            "layer2.1.conv2.weight": 0.0631,
+            "layer3.2.conv2.weight": -0.044,
+            "layer4.1.conv2.weight": 0.0014,
+            "fc.weight": -0.2193
+          },
+          "delta_hoyer_from_anchor": -0.0008
+        }
+      ]
+    },
+    {
+      "epoch": 18,
+      "lr": 0.005459,
+      "train_loss": 0.3314,
+      "val_loss": 0.4121,
+      "val_acc": 86.05,
+      "epoch_time_s": 80.28,
+      "intra_epoch_hoyer_mean": 0.4253,
+      "intra_epoch_hoyer_std": 0.0027,
+      "intra_epoch_hoyer_cv_pct": 0.64,
+      "delta_hoyer_t0_to_t4": 0.0051,
+      "mean_t4_mask_iou": 0.3089,
+      "mean_t4_cosine_sim": -0.1404,
+      "checkpoints": [
+        {
+          "checkpoint_index": 0,
+          "name": "0% (Start)",
+          "global_hoyer": 0.4254,
+          "global_energy10": 75.86,
+          "by_stage_hoyer": {
+            "stem": 0.6433,
+            "stage1": 0.549,
+            "stage2": 0.4097,
+            "stage3": 0.3503,
+            "stage4": 0.4214,
+            "head": 0.6406
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.4549,
+            "conv1x1_reduce": 0.4032,
+            "conv1x1_expand": 0.4071,
+            "conv1x1_downsample": 0.4079,
+            "classifier_head": 0.6406
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 1.0,
+            "layer1.0.conv2.weight": 1.0,
+            "layer2.1.conv2.weight": 1.0,
+            "layer3.2.conv2.weight": 1.0,
+            "layer4.1.conv2.weight": 1.0,
+            "fc.weight": 1.0
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 1.0,
+            "layer1.0.conv2.weight": 1.0,
+            "layer2.1.conv2.weight": 1.0,
+            "layer3.2.conv2.weight": 1.0,
+            "layer4.1.conv2.weight": 1.0,
+            "fc.weight": 1.0
+          },
+          "delta_hoyer_from_anchor": 0.0
+        },
+        {
+          "checkpoint_index": 1,
+          "name": "25%",
+          "global_hoyer": 0.4236,
+          "global_energy10": 75.97,
+          "by_stage_hoyer": {
+            "stem": 0.631,
+            "stage1": 0.5431,
+            "stage2": 0.4029,
+            "stage3": 0.3603,
+            "stage4": 0.4157,
+            "head": 0.5716
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.451,
+            "conv1x1_reduce": 0.408,
+            "conv1x1_expand": 0.4048,
+            "conv1x1_downsample": 0.4074,
+            "classifier_head": 0.5716
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.4914,
+            "layer1.0.conv2.weight": 0.3644,
+            "layer2.1.conv2.weight": 0.2602,
+            "layer3.2.conv2.weight": 0.2145,
+            "layer4.1.conv2.weight": 0.1507,
+            "fc.weight": 0.3649
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": -0.0366,
+            "layer1.0.conv2.weight": 0.1249,
+            "layer2.1.conv2.weight": 0.0464,
+            "layer3.2.conv2.weight": -0.0151,
+            "layer4.1.conv2.weight": 0.031,
+            "fc.weight": 0.5192
+          },
+          "delta_hoyer_from_anchor": -0.0018
+        },
+        {
+          "checkpoint_index": 2,
+          "name": "50% (Mid)",
+          "global_hoyer": 0.4236,
+          "global_energy10": 75.78,
+          "by_stage_hoyer": {
+            "stem": 0.6528,
+            "stage1": 0.5436,
+            "stage2": 0.4085,
+            "stage3": 0.3519,
+            "stage4": 0.4223,
+            "head": 0.5685
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.451,
+            "conv1x1_reduce": 0.4091,
+            "conv1x1_expand": 0.4056,
+            "conv1x1_downsample": 0.402,
+            "classifier_head": 0.5685
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.6168,
+            "layer1.0.conv2.weight": 0.3489,
+            "layer2.1.conv2.weight": 0.2668,
+            "layer3.2.conv2.weight": 0.2119,
+            "layer4.1.conv2.weight": 0.1493,
+            "fc.weight": 0.3791
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": -0.3254,
+            "layer1.0.conv2.weight": 0.0246,
+            "layer2.1.conv2.weight": -0.0469,
+            "layer3.2.conv2.weight": -0.0564,
+            "layer4.1.conv2.weight": -0.0352,
+            "fc.weight": -0.4429
+          },
+          "delta_hoyer_from_anchor": -0.0018
+        },
+        {
+          "checkpoint_index": 3,
+          "name": "75%",
+          "global_hoyer": 0.4232,
+          "global_energy10": 75.73,
+          "by_stage_hoyer": {
+            "stem": 0.6551,
+            "stage1": 0.5455,
+            "stage2": 0.4103,
+            "stage3": 0.3521,
+            "stage4": 0.415,
+            "head": 0.5656
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.4508,
+            "conv1x1_reduce": 0.4098,
+            "conv1x1_expand": 0.4009,
+            "conv1x1_downsample": 0.4125,
+            "classifier_head": 0.5656
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.5516,
+            "layer1.0.conv2.weight": 0.3465,
+            "layer2.1.conv2.weight": 0.2736,
+            "layer3.2.conv2.weight": 0.2056,
+            "layer4.1.conv2.weight": 0.1485,
+            "fc.weight": 0.4443
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 0.0208,
+            "layer1.0.conv2.weight": -0.0335,
+            "layer2.1.conv2.weight": 0.0552,
+            "layer3.2.conv2.weight": 0.0391,
+            "layer4.1.conv2.weight": 0.0173,
+            "fc.weight": -0.2657
+          },
+          "delta_hoyer_from_anchor": -0.0022
+        },
+        {
+          "checkpoint_index": 4,
+          "name": "100% (End)",
+          "global_hoyer": 0.4305,
+          "global_energy10": 76.49,
+          "by_stage_hoyer": {
+            "stem": 0.6781,
+            "stage1": 0.5534,
+            "stage2": 0.4144,
+            "stage3": 0.3557,
+            "stage4": 0.4267,
+            "head": 0.6222
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.4593,
+            "conv1x1_reduce": 0.4135,
+            "conv1x1_expand": 0.41,
+            "conv1x1_downsample": 0.4105,
+            "classifier_head": 0.6222
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.5446,
+            "layer1.0.conv2.weight": 0.3728,
+            "layer2.1.conv2.weight": 0.2762,
+            "layer3.2.conv2.weight": 0.2035,
+            "layer4.1.conv2.weight": 0.1579,
+            "fc.weight": 0.2983
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": -0.2634,
+            "layer1.0.conv2.weight": -0.0068,
+            "layer2.1.conv2.weight": -0.0691,
+            "layer3.2.conv2.weight": -0.0867,
+            "layer4.1.conv2.weight": -0.0424,
+            "fc.weight": -0.3741
+          },
+          "delta_hoyer_from_anchor": 0.0051
+        }
+      ]
+    },
+    {
+      "epoch": 19,
+      "lr": 0.002457,
+      "train_loss": 0.2967,
+      "val_loss": 0.3832,
+      "val_acc": 87.01,
+      "epoch_time_s": 80.64,
+      "intra_epoch_hoyer_mean": 0.4191,
+      "intra_epoch_hoyer_std": 0.0041,
+      "intra_epoch_hoyer_cv_pct": 0.97,
+      "delta_hoyer_t0_to_t4": -0.0054,
+      "mean_t4_mask_iou": 0.2751,
+      "mean_t4_cosine_sim": -0.0341,
+      "checkpoints": [
+        {
+          "checkpoint_index": 0,
+          "name": "0% (Start)",
+          "global_hoyer": 0.4259,
+          "global_energy10": 76.0,
+          "by_stage_hoyer": {
+            "stem": 0.6422,
+            "stage1": 0.5477,
+            "stage2": 0.4116,
+            "stage3": 0.35,
+            "stage4": 0.4272,
+            "head": 0.6058
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.4523,
+            "conv1x1_reduce": 0.4083,
+            "conv1x1_expand": 0.4085,
+            "conv1x1_downsample": 0.4089,
+            "classifier_head": 0.6058
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 1.0,
+            "layer1.0.conv2.weight": 1.0,
+            "layer2.1.conv2.weight": 1.0,
+            "layer3.2.conv2.weight": 1.0,
+            "layer4.1.conv2.weight": 1.0,
+            "fc.weight": 1.0
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 1.0,
+            "layer1.0.conv2.weight": 1.0,
+            "layer2.1.conv2.weight": 1.0,
+            "layer3.2.conv2.weight": 1.0,
+            "layer4.1.conv2.weight": 1.0,
+            "fc.weight": 1.0
+          },
+          "delta_hoyer_from_anchor": 0.0
+        },
+        {
+          "checkpoint_index": 1,
+          "name": "25%",
+          "global_hoyer": 0.4173,
+          "global_energy10": 75.01,
+          "by_stage_hoyer": {
+            "stem": 0.6342,
+            "stage1": 0.5459,
+            "stage2": 0.4058,
+            "stage3": 0.3438,
+            "stage4": 0.4088,
+            "head": 0.5449
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.4459,
+            "conv1x1_reduce": 0.3995,
+            "conv1x1_expand": 0.4005,
+            "conv1x1_downsample": 0.4019,
+            "classifier_head": 0.5449
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.4599,
+            "layer1.0.conv2.weight": 0.3529,
+            "layer2.1.conv2.weight": 0.262,
+            "layer3.2.conv2.weight": 0.1999,
+            "layer4.1.conv2.weight": 0.1526,
+            "fc.weight": 0.2872
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 0.2508,
+            "layer1.0.conv2.weight": -0.0232,
+            "layer2.1.conv2.weight": -0.1032,
+            "layer3.2.conv2.weight": -0.0488,
+            "layer4.1.conv2.weight": -0.059,
+            "fc.weight": -0.0161
+          },
+          "delta_hoyer_from_anchor": -0.0086
+        },
+        {
+          "checkpoint_index": 2,
+          "name": "50% (Mid)",
+          "global_hoyer": 0.4135,
+          "global_energy10": 74.63,
+          "by_stage_hoyer": {
+            "stem": 0.6495,
+            "stage1": 0.5474,
+            "stage2": 0.3971,
+            "stage3": 0.3436,
+            "stage4": 0.3978,
+            "head": 0.534
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.445,
+            "conv1x1_reduce": 0.3985,
+            "conv1x1_expand": 0.3914,
+            "conv1x1_downsample": 0.3975,
+            "classifier_head": 0.534
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.4599,
+            "layer1.0.conv2.weight": 0.3596,
+            "layer2.1.conv2.weight": 0.2564,
+            "layer3.2.conv2.weight": 0.1993,
+            "layer4.1.conv2.weight": 0.1472,
+            "fc.weight": 0.2709
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 0.4133,
+            "layer1.0.conv2.weight": 0.0136,
+            "layer2.1.conv2.weight": 0.0972,
+            "layer3.2.conv2.weight": 0.0386,
+            "layer4.1.conv2.weight": 0.0503,
+            "fc.weight": 0.1372
+          },
+          "delta_hoyer_from_anchor": -0.0124
+        },
+        {
+          "checkpoint_index": 3,
+          "name": "75%",
+          "global_hoyer": 0.4183,
+          "global_energy10": 75.18,
+          "by_stage_hoyer": {
+            "stem": 0.6561,
+            "stage1": 0.5433,
+            "stage2": 0.4014,
+            "stage3": 0.3453,
+            "stage4": 0.4144,
+            "head": 0.5748
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.447,
+            "conv1x1_reduce": 0.4021,
+            "conv1x1_expand": 0.3982,
+            "conv1x1_downsample": 0.402,
+            "classifier_head": 0.5748
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.4661,
+            "layer1.0.conv2.weight": 0.3448,
+            "layer2.1.conv2.weight": 0.2568,
+            "layer3.2.conv2.weight": 0.2023,
+            "layer4.1.conv2.weight": 0.1502,
+            "fc.weight": 0.2465
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 0.2576,
+            "layer1.0.conv2.weight": -0.0077,
+            "layer2.1.conv2.weight": -0.1228,
+            "layer3.2.conv2.weight": 0.0255,
+            "layer4.1.conv2.weight": 0.0328,
+            "fc.weight": 0.1544
+          },
+          "delta_hoyer_from_anchor": -0.0076
+        },
+        {
+          "checkpoint_index": 4,
+          "name": "100% (End)",
+          "global_hoyer": 0.4205,
+          "global_energy10": 75.39,
+          "by_stage_hoyer": {
+            "stem": 0.6875,
+            "stage1": 0.5467,
+            "stage2": 0.4077,
+            "stage3": 0.3468,
+            "stage4": 0.41,
+            "head": 0.5641
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.4474,
+            "conv1x1_reduce": 0.4072,
+            "conv1x1_expand": 0.3987,
+            "conv1x1_downsample": 0.4109,
+            "classifier_head": 0.5641
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.4417,
+            "layer1.0.conv2.weight": 0.3596,
+            "layer2.1.conv2.weight": 0.2559,
+            "layer3.2.conv2.weight": 0.1974,
+            "layer4.1.conv2.weight": 0.151,
+            "fc.weight": 0.245
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 0.1353,
+            "layer1.0.conv2.weight": -0.1205,
+            "layer2.1.conv2.weight": -0.0322,
+            "layer3.2.conv2.weight": -0.0223,
+            "layer4.1.conv2.weight": -0.0304,
+            "fc.weight": -0.1347
+          },
+          "delta_hoyer_from_anchor": -0.0054
+        }
+      ]
+    },
+    {
+      "epoch": 20,
+      "lr": 0.000626,
+      "train_loss": 0.2726,
+      "val_loss": 0.3686,
+      "val_acc": 87.32,
+      "epoch_time_s": 80.63,
+      "intra_epoch_hoyer_mean": 0.4177,
+      "intra_epoch_hoyer_std": 0.0029,
+      "intra_epoch_hoyer_cv_pct": 0.68,
+      "delta_hoyer_t0_to_t4": 0.0,
+      "mean_t4_mask_iou": 0.2683,
+      "mean_t4_cosine_sim": 0.0519,
+      "checkpoints": [
+        {
+          "checkpoint_index": 0,
+          "name": "0% (Start)",
+          "global_hoyer": 0.4145,
+          "global_energy10": 74.66,
+          "by_stage_hoyer": {
+            "stem": 0.6392,
+            "stage1": 0.5392,
+            "stage2": 0.4003,
+            "stage3": 0.3434,
+            "stage4": 0.4024,
+            "head": 0.5994
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.4415,
+            "conv1x1_reduce": 0.3981,
+            "conv1x1_expand": 0.3941,
+            "conv1x1_downsample": 0.4006,
+            "classifier_head": 0.5994
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 1.0,
+            "layer1.0.conv2.weight": 1.0,
+            "layer2.1.conv2.weight": 1.0,
+            "layer3.2.conv2.weight": 1.0,
+            "layer4.1.conv2.weight": 1.0,
+            "fc.weight": 1.0
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 1.0,
+            "layer1.0.conv2.weight": 1.0,
+            "layer2.1.conv2.weight": 1.0,
+            "layer3.2.conv2.weight": 1.0,
+            "layer4.1.conv2.weight": 1.0,
+            "fc.weight": 1.0
+          },
+          "delta_hoyer_from_anchor": 0.0
+        },
+        {
+          "checkpoint_index": 1,
+          "name": "25%",
+          "global_hoyer": 0.4198,
+          "global_energy10": 75.38,
+          "by_stage_hoyer": {
+            "stem": 0.6823,
+            "stage1": 0.5441,
+            "stage2": 0.4026,
+            "stage3": 0.3484,
+            "stage4": 0.4107,
+            "head": 0.5816
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.4511,
+            "conv1x1_reduce": 0.3985,
+            "conv1x1_expand": 0.4,
+            "conv1x1_downsample": 0.4103,
+            "classifier_head": 0.5816
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.418,
+            "layer1.0.conv2.weight": 0.3504,
+            "layer2.1.conv2.weight": 0.2497,
+            "layer3.2.conv2.weight": 0.1959,
+            "layer4.1.conv2.weight": 0.1506,
+            "fc.weight": 0.2151
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": -0.2173,
+            "layer1.0.conv2.weight": 0.009,
+            "layer2.1.conv2.weight": -0.0218,
+            "layer3.2.conv2.weight": 0.0128,
+            "layer4.1.conv2.weight": -0.0134,
+            "fc.weight": 0.0484
+          },
+          "delta_hoyer_from_anchor": 0.0053
+        },
+        {
+          "checkpoint_index": 2,
+          "name": "50% (Mid)",
+          "global_hoyer": 0.4217,
+          "global_energy10": 75.47,
+          "by_stage_hoyer": {
+            "stem": 0.6721,
+            "stage1": 0.5511,
+            "stage2": 0.4118,
+            "stage3": 0.3481,
+            "stage4": 0.4067,
+            "head": 0.5567
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.4503,
+            "conv1x1_reduce": 0.4095,
+            "conv1x1_expand": 0.397,
+            "conv1x1_downsample": 0.4146,
+            "classifier_head": 0.5567
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.4661,
+            "layer1.0.conv2.weight": 0.3581,
+            "layer2.1.conv2.weight": 0.2511,
+            "layer3.2.conv2.weight": 0.1994,
+            "layer4.1.conv2.weight": 0.1514,
+            "fc.weight": 0.2776
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 0.3286,
+            "layer1.0.conv2.weight": 0.0784,
+            "layer2.1.conv2.weight": -0.0424,
+            "layer3.2.conv2.weight": -0.0438,
+            "layer4.1.conv2.weight": -0.0636,
+            "fc.weight": -0.3209
+          },
+          "delta_hoyer_from_anchor": 0.0072
+        },
+        {
+          "checkpoint_index": 3,
+          "name": "75%",
+          "global_hoyer": 0.4179,
+          "global_energy10": 74.96,
+          "by_stage_hoyer": {
+            "stem": 0.6442,
+            "stage1": 0.5478,
+            "stage2": 0.402,
+            "stage3": 0.3454,
+            "stage4": 0.402,
+            "head": 0.6353
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.4436,
+            "conv1x1_reduce": 0.4054,
+            "conv1x1_expand": 0.3926,
+            "conv1x1_downsample": 0.4051,
+            "classifier_head": 0.6353
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.4065,
+            "layer1.0.conv2.weight": 0.3723,
+            "layer2.1.conv2.weight": 0.2614,
+            "layer3.2.conv2.weight": 0.1898,
+            "layer4.1.conv2.weight": 0.1529,
+            "fc.weight": 0.222
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": -0.177,
+            "layer1.0.conv2.weight": 0.0953,
+            "layer2.1.conv2.weight": 0.094,
+            "layer3.2.conv2.weight": 0.0213,
+            "layer4.1.conv2.weight": -0.1356,
+            "fc.weight": -0.4094
+          },
+          "delta_hoyer_from_anchor": 0.0034
+        },
+        {
+          "checkpoint_index": 4,
+          "name": "100% (End)",
+          "global_hoyer": 0.4145,
+          "global_energy10": 74.73,
+          "by_stage_hoyer": {
+            "stem": 0.6561,
+            "stage1": 0.5358,
+            "stage2": 0.4035,
+            "stage3": 0.341,
+            "stage4": 0.4089,
+            "head": 0.5554
+          },
+          "by_type_hoyer": {
+            "conv3x3_spatial": 0.4415,
+            "conv1x1_reduce": 0.4014,
+            "conv1x1_expand": 0.3947,
+            "conv1x1_downsample": 0.3965,
+            "classifier_head": 0.5554
+          },
+          "mask_iou_from_anchor": {
+            "conv1.weight": 0.4239,
+            "layer1.0.conv2.weight": 0.3596,
+            "layer2.1.conv2.weight": 0.2551,
+            "layer3.2.conv2.weight": 0.1893,
+            "layer4.1.conv2.weight": 0.1512,
+            "fc.weight": 0.2308
+          },
+          "cosine_sim_from_anchor": {
+            "conv1.weight": 0.1403,
+            "layer1.0.conv2.weight": -0.0969,
+            "layer2.1.conv2.weight": 0.0653,
+            "layer3.2.conv2.weight": 0.0402,
+            "layer4.1.conv2.weight": 0.0439,
+            "fc.weight": 0.1189
+          },
+          "delta_hoyer_from_anchor": 0.0
+        }
+      ]
+    }
+  ]
+}

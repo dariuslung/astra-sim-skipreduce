@@ -213,7 +213,7 @@ def plot_mask_iou_across_epochs(data: dict, output_dir: str):
 def main():
     parser = argparse.ArgumentParser(description="Plot ResNet-50 multi-epoch sparsity figures.")
     parser.add_argument("--json", type=str, default="training/logs/resnet50_convergence_sparsity.json", help="Path to profile JSON")
-    parser.add_argument("--output-dir", type=str, default="training/figures", help="Output directory for figures")
+    parser.add_argument("--output-dir", type=str, default="training/figures/convergence", help="Output directory for figures")
     args = parser.parse_args()
 
     setup_style()

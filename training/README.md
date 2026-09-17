@@ -79,16 +79,29 @@ python training/experiments/plot_sparsity.py --json training/logs/profile_gpt_ep
 # Multi-Epoch Convergence & Sparsity Profiling (20 Epochs, ResNet-50)
 python training/experiments/train_and_profile_resnet50.py --epochs 20 --lr 0.1 --batch-size 128
 python training/experiments/plot_resnet50_epoch_sparsity.py
+
+# Intra-Epoch Gradient Stability Test (390-Step Horizons across 20 Epochs)
+python training/experiments/test_intra_epoch_stability.py --epochs 20 --batch-size 128
+python training/experiments/plot_intra_epoch_stability.py
 ```
-Output plots are saved directly to `training/figures/`:
-* `fig1_layer_type_sparsity_<model>.png`: Hypothesis 1 (Layer Type Heterogeneity).
-* `fig2_depth_vs_density_<model>.png`: Hypothesis 2 (Controlled depth vs density across identical submodules).
-* `fig3_iteration_sparsity_<model>.png`: Hypothesis 3 (Sparsity growth over training steps).
-* `fig4_temporal_mask_iou_<model>.png`: Predictability (Top-10% Mask IoU across step lags $\Delta t$).
-* `fig_resnet50_convergence_vs_sparsity.png`: ResNet-50 Multi-Epoch Convergence vs. Global Sparsity.
-* `fig_resnet50_stages_across_epochs.png`: ResNet-50 Stage-Wise Sparsity Evolution Across 20 Epochs.
-* `fig_resnet50_layertypes_across_epochs.png`: ResNet-50 Layer-Type Sparsity Evolution Across 20 Epochs.
-* `fig_resnet50_mask_iou_across_epochs.png`: ResNet-50 Temporal Mask Persistence Across 20 Epochs.
+Output plots are organized cleanly into experiment directories under `training/figures/`:
+* `training/figures/sparsity_profiling/`:
+  - `fig1_layer_type_sparsity_<model>.png`: Hypothesis 1 (Layer Type Heterogeneity).
+  - `fig2_depth_vs_density_<model>.png`: Hypothesis 2 (Controlled depth vs density across identical submodules).
+  - `fig3_iteration_sparsity_<model>.png`: Hypothesis 3 (Sparsity growth over training steps).
+  - `fig4_temporal_mask_iou_<model>.png`: Predictability (Top-10% Mask IoU across step lags $\Delta t$).
+* `training/figures/convergence/`:
+  - `fig_resnet50_convergence_vs_sparsity.png`: ResNet-50 Multi-Epoch Convergence vs. Global Sparsity.
+  - `fig_resnet50_stages_across_epochs.png`: ResNet-50 Stage-Wise Sparsity Evolution Across 20 Epochs.
+  - `fig_resnet50_layertypes_across_epochs.png`: ResNet-50 Layer-Type Sparsity Evolution Across 20 Epochs.
+  - `fig_resnet50_mask_iou_across_epochs.png`: ResNet-50 Temporal Mask Persistence Across 20 Epochs.
+* `training/figures/intra_epoch_stability/`:
+  - `fig_intra_epoch_metric_variance.png`: Intra-epoch Hoyer variance & CV% across 20 epochs.
+  - `fig_intra_epoch_mask_decay.png`: Long-range Mask IoU decay from $0\% \to 100\%$ of the epoch.
+  - `fig_intra_epoch_cosine_drift.png`: Intra-epoch gradient direction cosine similarity decay.
+* `training/figures/compute_savings/`:
+  - `fig_compute_breakdown_<model>.png`: Latency breakdown (Forward, Backward, Optimizer).
+  - `fig_compute_savings_summary_<model>.png`: Speedup vs % parameters skipped.
 
 ### 5. Benchmark Hardware Compute Savings
 ```bash
