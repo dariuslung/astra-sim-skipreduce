@@ -30,6 +30,7 @@ from training.core.sparsity import (
     compute_energy_concentration,
     compute_relative_threshold_sparsity,
     compute_mask_iou,
+    compute_k_energy,
 )
 
 
@@ -178,7 +179,11 @@ def main():
             ckpt_hoyer_list = []
             ckpt_energy10_list = []
             ckpt_stage_hoyer = defaultdict(list)
+            ckpt_stage_energy10 = defaultdict(list)
+            ckpt_stage_k90 = defaultdict(list)
             ckpt_type_hoyer = defaultdict(list)
+            ckpt_type_energy10 = defaultdict(list)
+            ckpt_type_k90 = defaultdict(list)
             ckpt_masks = {}
             ckpt_grads = {}
 
@@ -191,11 +196,16 @@ def main():
 
                 hoyer = compute_hoyer_sparsity(avg_grad)
                 energy10, mask = compute_energy_concentration(avg_grad, top_fraction=0.10)
+                k90 = compute_k_energy(avg_grad, energy_threshold=0.90)
 
                 ckpt_hoyer_list.append(hoyer)
                 ckpt_energy10_list.append(energy10)
                 ckpt_stage_hoyer[stage].append(hoyer)
+                ckpt_stage_energy10[stage].append(energy10)
+                ckpt_stage_k90[stage].append(k90)
                 ckpt_type_hoyer[ltype].append(hoyer)
+                ckpt_type_energy10[ltype].append(energy10)
+                ckpt_type_k90[ltype].append(k90)
 
                 if name in tracked_layers:
                     ckpt_masks[name] = mask
@@ -211,7 +221,11 @@ def main():
                 "global_hoyer": global_h,
                 "global_energy10": global_e10,
                 "by_stage_hoyer": {s: round(float(np.mean(vals)), 4) for s, vals in ckpt_stage_hoyer.items()},
+                "by_stage_energy10": {s: round(float(np.mean(vals)), 2) for s, vals in ckpt_stage_energy10.items()},
+                "by_stage_k90": {s: round(float(np.mean(vals)), 2) for s, vals in ckpt_stage_k90.items()},
                 "by_type_hoyer": {t: round(float(np.mean(vals)), 4) for t, vals in ckpt_type_hoyer.items()},
+                "by_type_energy10": {t: round(float(np.mean(vals)), 2) for t, vals in ckpt_type_energy10.items()},
+                "by_type_k90": {t: round(float(np.mean(vals)), 2) for t, vals in ckpt_type_k90.items()},
             }
 
             if ckpt_idx == 0:

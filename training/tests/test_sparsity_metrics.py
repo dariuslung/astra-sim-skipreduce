@@ -13,7 +13,9 @@ from training.core.sparsity.metrics import (
     compute_hoyer_sparsity,
     compute_energy_concentration,
     compute_relative_threshold_sparsity,
-    compute_mask_iou
+    compute_mask_iou,
+    compute_k_energy,
+    compute_gini_index
 )
 
 
@@ -69,6 +71,38 @@ class TestSparsityMetrics(unittest.TestCase):
         self.assertAlmostEqual(compute_mask_iou(m1, m3), 0.0, places=5)
         # Partial
         self.assertAlmostEqual(compute_mask_iou(m1, m4), 0.5, places=5)
+
+    def test_k_energy(self):
+        d = 1000
+        # Dense uniform vector: need 90% of elements to get 90% of energy
+        uniform = torch.ones(d)
+        k90_unif = compute_k_energy(uniform, energy_threshold=0.90)
+        self.assertAlmostEqual(k90_unif, 90.0, places=1)
+
+        # One-hot vector: 1 element out of 1000 is 100% of energy -> 0.1%
+        one_hot = torch.zeros(d)
+        one_hot[0] = 50.0
+        k90_one_hot = compute_k_energy(one_hot, energy_threshold=0.90)
+        self.assertAlmostEqual(k90_one_hot, 0.1, places=1)
+
+        # Empty or all zeros
+        zeros = torch.zeros(d)
+        self.assertEqual(compute_k_energy(zeros), 0.0)
+
+    def test_gini_index(self):
+        d = 1000
+        # Dense uniform vector: Gini = 0.0
+        uniform = torch.ones(d)
+        self.assertAlmostEqual(compute_gini_index(uniform), 0.0, places=3)
+
+        # One-hot vector: Gini close to 1.0 (1 - 1/d = 0.999)
+        one_hot = torch.zeros(d)
+        one_hot[0] = 100.0
+        self.assertAlmostEqual(compute_gini_index(one_hot), 0.999, places=3)
+
+        # All zeros edge case
+        zeros = torch.zeros(d)
+        self.assertEqual(compute_gini_index(zeros), 0.0)
 
 
 if __name__ == "__main__":

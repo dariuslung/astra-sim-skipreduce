@@ -83,7 +83,12 @@ python training/experiments/plot_resnet50_epoch_sparsity.py
 # Intra-Epoch Gradient Stability Test (390-Step Horizons across 20 Epochs)
 python training/experiments/test_intra_epoch_stability.py --epochs 20 --batch-size 128
 python training/experiments/plot_intra_epoch_stability.py
+
+# Protocol A: Layer Recoverability Ablation Probe (Hypothesis 5)
+python training/experiments/probe_layer_recoverability.py --epochs 20 --conditions all
+python training/experiments/plot_layer_recoverability.py
 ```
+
 Output plots are organized cleanly into experiment directories under `training/figures/`:
 * `training/figures/sparsity_profiling/`:
   - `fig1_layer_type_sparsity_<model>.png`: Hypothesis 1 (Layer Type Heterogeneity).
@@ -97,8 +102,14 @@ Output plots are organized cleanly into experiment directories under `training/f
   - `fig_resnet50_mask_iou_across_epochs.png`: ResNet-50 Temporal Mask Persistence Across 20 Epochs.
 * `training/figures/intra_epoch_stability/`:
   - `fig_intra_epoch_metric_variance.png`: Intra-epoch Hoyer variance & CV% across 20 epochs.
+  - `fig_intra_epoch_layertype_trajectories.png`: Trajectories of individual layer types across checkpoints ($T_0 \to T_4$).
+  - `fig_intra_epoch_layertype_cv.png`: Intra-epoch CV (%) for individual layer types and stages across 20 epochs.
   - `fig_intra_epoch_mask_decay.png`: Long-range Mask IoU decay from $0\% \to 100\%$ of the epoch.
   - `fig_intra_epoch_cosine_drift.png`: Intra-epoch gradient direction cosine similarity decay.
+* `training/figures/convergence/`:
+  - `fig_layer_recoverability_accuracy.png`: Protocol A Final Validation Accuracy & ΔAcc across layer-type skipping conditions.
+  - `fig_layer_recoverability_convergence.png`: Multi-condition convergence trajectories (Val Acc and Train Loss).
+  - `fig_layer_sensitivity_normalized.png`: Empirical layer sensitivity vs parameter volume (Hypothesis 5 evaluation).
 * `training/figures/compute_savings/`:
   - `fig_compute_breakdown_<model>.png`: Latency breakdown (Forward, Backward, Optimizer).
   - `fig_compute_savings_summary_<model>.png`: Speedup vs % parameters skipped.

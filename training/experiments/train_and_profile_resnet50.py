@@ -28,6 +28,7 @@ from training.core.sparsity import (
     compute_energy_concentration,
     compute_relative_threshold_sparsity,
     compute_mask_iou,
+    compute_k_energy,
 )
 
 
@@ -80,24 +81,31 @@ def profile_model_gradients(model: nn.Module) -> Dict[str, Any]:
         g = param.grad
         hoyer = compute_hoyer_sparsity(g)
         energy10, top_mask = compute_energy_concentration(g, top_fraction=0.10)
+        k90 = compute_k_energy(g, energy_threshold=0.90)
         rel_thresh = compute_relative_threshold_sparsity(g, factor=0.05)
 
         hoyer_list.append(hoyer)
         energy10_list.append(energy10)
+        k90_list = stage_stats.setdefault("_k90_list", [])
+        k90_list.append(k90)
         rel_thresh_list.append(rel_thresh)
 
         stage_stats[stage]["hoyer"].append(hoyer)
         stage_stats[stage]["energy10"].append(energy10)
+        stage_stats[stage]["k90"].append(k90)
 
         type_stats[layer_type]["hoyer"].append(hoyer)
         type_stats[layer_type]["energy10"].append(energy10)
+        type_stats[layer_type]["k90"].append(k90)
 
         masks[name] = top_mask
 
+    k90_all = stage_stats.pop("_k90_list", [])
     by_stage = {
         s: {
             "hoyer": round(float(sum(v["hoyer"]) / len(v["hoyer"])), 4),
             "energy10": round(float(sum(v["energy10"]) / len(v["energy10"])), 2),
+            "k90": round(float(sum(v["k90"]) / len(v["k90"])), 2),
         }
         for s, v in stage_stats.items() if v["hoyer"]
     }
@@ -106,6 +114,7 @@ def profile_model_gradients(model: nn.Module) -> Dict[str, Any]:
         t: {
             "hoyer": round(float(sum(v["hoyer"]) / len(v["hoyer"])), 4),
             "energy10": round(float(sum(v["energy10"]) / len(v["energy10"])), 2),
+            "k90": round(float(sum(v["k90"]) / len(v["k90"])), 2),
         }
         for t, v in type_stats.items() if v["hoyer"]
     }
@@ -113,6 +122,7 @@ def profile_model_gradients(model: nn.Module) -> Dict[str, Any]:
     return {
         "global_hoyer": round(float(sum(hoyer_list) / max(1, len(hoyer_list))), 4),
         "global_energy10": round(float(sum(energy10_list) / max(1, len(energy10_list))), 2),
+        "global_k90": round(float(sum(k90_all) / max(1, len(k90_all))), 2),
         "global_rel_thresh": round(float(sum(rel_thresh_list) / max(1, len(rel_thresh_list))), 2),
         "by_stage": by_stage,
         "by_layer_type": by_type,

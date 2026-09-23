@@ -226,55 +226,115 @@ def plot_layertype_trajectories(data: dict, output_dir: str):
     print(f"Saved: {out_path}")
 
 
-def plot_layertype_ratios(data: dict, output_dir: str):
+def plot_layertype_cv(data: dict, output_dir: str):
+    """
+    Plots the intra-epoch Coefficient of Variation (CV %) for every individual layer type
+    and architectural stage across all 20 epochs.
+    """
     epochs_data = data["epochs_data"]
-    target_epochs = [5, 10, 15, 20]
-    positions = [0, 25, 50, 75, 100]
+    epochs = [d["epoch"] for d in epochs_data if d["epoch"] >= 2]
 
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(13, 5), dpi=300)
-
-    epoch_colors = {
-        5: "#ff7f0e",
-        10: "#2ca02c",
-        15: "#1f77b4",
-        20: "#9467bd",
+    type_labels = {
+        "conv3x3_spatial": "3x3 Spatial Conv",
+        "conv1x1_reduce": "1x1 Reduce Conv",
+        "conv1x1_expand": "1x1 Expand Conv",
+        "conv1x1_downsample": "1x1 Shortcut Conv",
+        "classifier_head": "Classifier Head (fc)",
+    }
+    type_colors = {
+        "conv3x3_spatial": "#ff7f0e",
+        "conv1x1_reduce": "#1f77b4",
+        "conv1x1_expand": "#2ca02c",
+        "conv1x1_downsample": "#17becf",
+        "classifier_head": "#d62728",
+    }
+    type_markers = {
+        "conv3x3_spatial": "o",
+        "conv1x1_reduce": "s",
+        "conv1x1_expand": "^",
+        "conv1x1_downsample": "v",
+        "classifier_head": "D",
     }
 
-    for ep in target_epochs:
-        ckpts = epochs_data[ep - 1]["checkpoints"]
-        ratio_exp = [c["by_type_hoyer"]["conv3x3_spatial"] / c["by_type_hoyer"]["conv1x1_expand"] for c in ckpts]
-        ratio_red = [c["by_type_hoyer"]["conv3x3_spatial"] / c["by_type_hoyer"]["conv1x1_reduce"] for c in ckpts]
+    stage_labels = {
+        "stem": "Stem (Conv1)",
+        "stage1": "Stage 1 (32x32)",
+        "stage2": "Stage 2 (16x16)",
+        "stage3": "Stage 3 (8x8)",
+        "stage4": "Stage 4 (4x4)",
+        "head": "Classifier Head",
+    }
+    stage_colors = {
+        "stem": "#8c564b",
+        "stage1": "#1f77b4",
+        "stage2": "#ff7f0e",
+        "stage3": "#2ca02c",
+        "stage4": "#d62728",
+        "head": "#9467bd",
+    }
+    stage_markers = {
+        "stem": "o",
+        "stage1": "s",
+        "stage2": "^",
+        "stage3": "v",
+        "stage4": "<",
+        "head": "D",
+    }
 
-        cv_exp = (np.std(ratio_exp) / np.mean(ratio_exp)) * 100.0
-        cv_red = (np.std(ratio_red) / np.mean(ratio_red)) * 100.0
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 5.5), dpi=300)
 
-        ax1.plot(positions, ratio_exp, marker="o", linewidth=2.2, color=epoch_colors[ep],
-                 label=f"Epoch {ep} (CV: {cv_exp:.2f}%)")
-        ax2.plot(positions, ratio_red, marker="s", linewidth=2.2, color=epoch_colors[ep],
-                 label=f"Epoch {ep} (CV: {cv_red:.2f}%)")
+    # Panel 1: By Layer Type
+    for lt, label in type_labels.items():
+        cvs = []
+        for d in epochs_data:
+            if d["epoch"] >= 2:
+                ckpts = d["checkpoints"]
+                vals = [c["by_type_hoyer"][lt] for c in ckpts]
+                cv = (np.std(vals) / np.mean(vals)) * 100.0 if np.mean(vals) > 0 else 0.0
+                cvs.append(cv)
+        ax1.plot(epochs, cvs, marker=type_markers[lt], linewidth=2.0, markersize=6,
+                 color=type_colors[lt], label=label)
 
-    ax1.set_title("Sparsity Ratio: 3x3 Spatial / 1x1 Expand Conv", fontsize=12, fontweight="bold")
-    ax1.set_xlabel("Intra-Epoch Step Progression (%)", fontweight="bold")
-    ax1.set_ylabel("Hoyer Ratio", fontweight="bold")
-    ax1.set_xticks(positions)
-    ax1.set_xticklabels(["0%", "25%", "50%", "75%", "100%"])
-    ax1.set_ylim(0.95, 1.25)
-    ax1.grid(True)
+    ax1.axhline(5.0, color="#d62728", linestyle="--", linewidth=1.5, alpha=0.8, label="5% Invariance Bound")
+    ax1.set_title("Intra-Epoch Sparsity CV by Layer Type", fontsize=12, fontweight="bold")
+    ax1.set_xlabel("Training Epoch", fontweight="bold")
+    ax1.set_ylabel("Intra-Epoch Hoyer CV (%)", fontweight="bold")
+    ax1.set_xticks(epochs)
+    ax1.set_ylim(0, 9.5)
+    ax1.grid(True, linestyle="--", alpha=0.6)
     ax1.legend(loc="upper right", frameon=True, fontsize=9)
+    ax1.text(0.03, 0.92, "Epoch 1 (Random Init) CV ≈ 20–31%\nomitted for scale",
+             transform=ax1.transAxes, fontsize=8.5,
+             bbox=dict(boxstyle="round,pad=0.3", facecolor="#f0f0f0", edgecolor="#cccccc", alpha=0.85))
 
-    ax2.set_title("Sparsity Ratio: 3x3 Spatial / 1x1 Reduce Conv", fontsize=12, fontweight="bold")
-    ax2.set_xlabel("Intra-Epoch Step Progression (%)", fontweight="bold")
-    ax2.set_ylabel("Hoyer Ratio", fontweight="bold")
-    ax2.set_xticks(positions)
-    ax2.set_xticklabels(["0%", "25%", "50%", "75%", "100%"])
-    ax2.set_ylim(0.95, 1.25)
-    ax2.grid(True)
+    # Panel 2: By Architectural Stage
+    for st, label in stage_labels.items():
+        cvs = []
+        for d in epochs_data:
+            if d["epoch"] >= 2:
+                ckpts = d["checkpoints"]
+                vals = [c["by_stage_hoyer"][st] for c in ckpts]
+                cv = (np.std(vals) / np.mean(vals)) * 100.0 if np.mean(vals) > 0 else 0.0
+                cvs.append(cv)
+        ax2.plot(epochs, cvs, marker=stage_markers[st], linewidth=2.0, markersize=6,
+                 color=stage_colors[st], label=label)
+
+    ax2.axhline(5.0, color="#d62728", linestyle="--", linewidth=1.5, alpha=0.8, label="5% Invariance Bound")
+    ax2.set_title("Intra-Epoch Sparsity CV by Architectural Stage", fontsize=12, fontweight="bold")
+    ax2.set_xlabel("Training Epoch", fontweight="bold")
+    ax2.set_ylabel("Intra-Epoch Hoyer CV (%)", fontweight="bold")
+    ax2.set_xticks(epochs)
+    ax2.set_ylim(0, 9.5)
+    ax2.grid(True, linestyle="--", alpha=0.6)
     ax2.legend(loc="upper right", frameon=True, fontsize=9)
+    ax2.text(0.03, 0.92, "Epoch 1 (Random Init) CV ≈ 20–31%\nomitted for scale",
+             transform=ax2.transAxes, fontsize=8.5,
+             bbox=dict(boxstyle="round,pad=0.3", facecolor="#f0f0f0", edgecolor="#cccccc", alpha=0.85))
 
-    plt.suptitle("Relative Layer-Type Sparsity Ratios Across Intra-Epoch Checkpoints (T0 -> T4)\n(Evaluating Hypothesis 1: Relative Proportions Between Layer Types Across Intra-Epoch Steps)",
+    plt.suptitle("ResNet-50 Layer-Wise Intra-Epoch Sparsity Stability Across 20 Epochs\n(Evaluating Hypothesis 1: Intra-Epoch Invariance (CV < 5%) Across Individual Layers)",
                  fontsize=13, fontweight="bold", y=0.98)
     plt.tight_layout(rect=[0, 0, 1, 0.90])
-    out_path = os.path.join(output_dir, "fig_intra_epoch_layertype_ratios.png")
+    out_path = os.path.join(output_dir, "fig_intra_epoch_layertype_cv.png")
     plt.savefig(out_path, bbox_inches="tight")
     plt.close()
     print(f"Saved: {out_path}")
@@ -295,7 +355,7 @@ def main():
     plot_mask_decay(data, args.output_dir)
     plot_cosine_drift(data, args.output_dir)
     plot_layertype_trajectories(data, args.output_dir)
-    plot_layertype_ratios(data, args.output_dir)
+    plot_layertype_cv(data, args.output_dir)
     print("All intra-epoch stability figures successfully plotted!")
 
 
