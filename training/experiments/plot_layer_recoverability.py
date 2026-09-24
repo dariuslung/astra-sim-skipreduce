@@ -3,9 +3,9 @@ Publication-Quality Visualization Suite for Protocol A:
 Layer Recoverability & Sensitivity Ablation (Hypothesis 5).
 
 Generates 3 publication figures saved into training/figures/convergence/:
-1. fig_layer_recoverability_accuracy.png: Bar chart of Final Val Accuracy & Delta Acc across conditions.
-2. fig_layer_recoverability_convergence.png: Multi-line convergence curves (Val Accuracy and Train Loss).
-3. fig_layer_sensitivity_normalized.png: Parameter count vs accuracy drop evaluating H0 vs H1.
+1. fig08a_layer_recoverability_accuracy.png: Bar chart of Final Val Accuracy & Delta Acc across conditions.
+2. fig08b_layer_recoverability_convergence.png: Multi-line convergence curves (Val Accuracy and Train Loss).
+3. fig08c_layer_sensitivity_normalized.png: Parameter count vs accuracy drop evaluating H0 vs H1.
 """
 
 import argparse
@@ -113,7 +113,7 @@ def plot_accuracy_summary(data: dict, output_dir: str):
     )
     plt.tight_layout(rect=[0, 0, 1, 0.90])
 
-    out_path = os.path.join(output_dir, "fig_layer_recoverability_accuracy.png")
+    out_path = os.path.join(output_dir, "fig08a_layer_recoverability_accuracy.png")
     plt.savefig(out_path, dpi=300, bbox_inches="tight")
     plt.close()
     print(f"Saved: {out_path}")
@@ -160,7 +160,7 @@ def plot_convergence_trajectories(data: dict, output_dir: str):
     )
     plt.tight_layout(rect=[0, 0, 1, 0.90])
 
-    out_path = os.path.join(output_dir, "fig_layer_recoverability_convergence.png")
+    out_path = os.path.join(output_dir, "fig08b_layer_recoverability_convergence.png")
     plt.savefig(out_path, dpi=300, bbox_inches="tight")
     plt.close()
     print(f"Saved: {out_path}")
@@ -273,7 +273,7 @@ def plot_sensitivity_normalized(data: dict, output_dir: str):
     )
     plt.tight_layout(rect=[0, 0, 1, 0.90])
 
-    out_path = os.path.join(output_dir, "fig_layer_sensitivity_normalized.png")
+    out_path = os.path.join(output_dir, "fig08c_layer_sensitivity_normalized.png")
     plt.savefig(out_path, dpi=300, bbox_inches="tight")
     plt.close()
     print(f"Saved: {out_path}")
@@ -282,7 +282,7 @@ def plot_sensitivity_normalized(data: dict, output_dir: str):
 def main():
     parser = argparse.ArgumentParser(description="Plot Protocol A Layer Recoverability Results")
     parser.add_argument("--log-path", type=str, default="training/logs/layer_recoverability_ablation.json")
-    parser.add_argument("--output-dir", type=str, default="training/figures/convergence")
+    parser.add_argument("--output-dir", type=str, default="training/figures/exp08_layer_recoverability")
     args = parser.parse_args()
 
     setup_style()

@@ -1,10 +1,10 @@
 """
 Visualization suite for ResNet-50 Multi-Epoch Convergence and Gradient Sparsity.
 Plots:
-1. fig_resnet50_convergence_vs_sparsity.png (Loss & Val Acc vs. Hoyer & Energy10)
-2. fig_resnet50_stages_across_epochs.png    (Hoyer Sparsity by Stage across Epochs)
-3. fig_resnet50_layertypes_across_epochs.png (Hoyer Sparsity by Layer Type across Epochs)
-4. fig_resnet50_mask_iou_across_epochs.png   (Top-10% Mask Persistence across Epochs)
+1. fig06a_resnet50_convergence_vs_sparsity.png (Loss & Val Acc vs. Hoyer & Energy10)
+2. fig06b_resnet50_stages_across_epochs.png    (Hoyer Sparsity by Stage across Epochs)
+3. fig06c_resnet50_layertypes_across_epochs.png (Hoyer Sparsity by Layer Type across Epochs)
+4. fig06d_resnet50_mask_iou_across_epochs.png   (Top-10% Mask Persistence across Epochs)
 """
 
 import argparse
@@ -88,7 +88,7 @@ def plot_convergence_vs_sparsity(data: dict, output_dir: str):
     ax_bot.set_xticks(epochs)
 
     plt.tight_layout()
-    out_path = os.path.join(output_dir, "fig_resnet50_convergence_vs_sparsity.png")
+    out_path = os.path.join(output_dir, "fig06a_resnet50_convergence_vs_sparsity.png")
     plt.savefig(out_path)
     plt.close()
     print(f"Saved: {out_path}")
@@ -133,7 +133,7 @@ def plot_stages_across_epochs(data: dict, output_dir: str):
     ax.legend(loc="best", frameon=True)
 
     plt.tight_layout()
-    out_path = os.path.join(output_dir, "fig_resnet50_stages_across_epochs.png")
+    out_path = os.path.join(output_dir, "fig06b_resnet50_stages_across_epochs.png")
     plt.savefig(out_path)
     plt.close()
     print(f"Saved: {out_path}")
@@ -176,7 +176,7 @@ def plot_layertypes_across_epochs(data: dict, output_dir: str):
     ax.legend(loc="best", frameon=True)
 
     plt.tight_layout()
-    out_path = os.path.join(output_dir, "fig_resnet50_layertypes_across_epochs.png")
+    out_path = os.path.join(output_dir, "fig06c_resnet50_layertypes_across_epochs.png")
     plt.savefig(out_path)
     plt.close()
     print(f"Saved: {out_path}")
@@ -204,7 +204,7 @@ def plot_mask_iou_across_epochs(data: dict, output_dir: str):
     ax.legend(loc="best", frameon=True)
 
     plt.tight_layout()
-    out_path = os.path.join(output_dir, "fig_resnet50_mask_iou_across_epochs.png")
+    out_path = os.path.join(output_dir, "fig06d_resnet50_mask_iou_across_epochs.png")
     plt.savefig(out_path)
     plt.close()
     print(f"Saved: {out_path}")
@@ -213,7 +213,7 @@ def plot_mask_iou_across_epochs(data: dict, output_dir: str):
 def main():
     parser = argparse.ArgumentParser(description="Plot ResNet-50 multi-epoch sparsity figures.")
     parser.add_argument("--json", type=str, default="training/logs/resnet50_convergence_sparsity.json", help="Path to profile JSON")
-    parser.add_argument("--output-dir", type=str, default="training/figures/convergence", help="Output directory for figures")
+    parser.add_argument("--output-dir", type=str, default="training/figures/exp06_resnet50_convergence", help="Output directory for figures")
     args = parser.parse_args()
 
     setup_style()

@@ -1,6 +1,8 @@
 """
-Plotting script for compute time savings across layer skipping configurations.
-Generates stacked breakdown and savings efficiency figures.
+Plotting script for compute time savings across layer skipping configurations (EXP-05).
+Generates:
+1. fig05a_compute_breakdown_<model>.png
+2. fig05b_compute_savings_summary_<model>.png
 """
 
 import argparse
@@ -79,7 +81,7 @@ def plot_compute_breakdown(data: dict, model_name: str, output_dir: str):
 
     ax.legend(loc="upper right", frameon=True)
     plt.tight_layout()
-    out_path = os.path.join(output_dir, f"fig_compute_breakdown_{model_name}.png")
+    out_path = os.path.join(output_dir, f"fig05a_compute_breakdown_{model_name}.png")
     plt.savefig(out_path)
     plt.close()
     print(f"Saved: {out_path}")
@@ -119,7 +121,7 @@ def plot_savings_efficiency(data: dict, model_name: str, output_dir: str):
 
     ax.legend(loc="lower right", frameon=True)
     plt.tight_layout()
-    out_path = os.path.join(output_dir, f"fig_compute_savings_summary_{model_name}.png")
+    out_path = os.path.join(output_dir, f"fig05b_compute_savings_summary_{model_name}.png")
     plt.savefig(out_path)
     plt.close()
     print(f"Saved: {out_path}")
@@ -128,7 +130,7 @@ def plot_savings_efficiency(data: dict, model_name: str, output_dir: str):
 def main():
     parser = argparse.ArgumentParser(description="Plot compute savings benchmarks.")
     parser.add_argument("--json", type=str, required=True, help="Path to compute savings JSON")
-    parser.add_argument("--output-dir", type=str, default="training/figures/compute_savings", help="Output directory for plots")
+    parser.add_argument("--output-dir", type=str, default="training/figures/exp05_compute_savings", help="Output directory for plots")
 
     args = parser.parse_args()
 

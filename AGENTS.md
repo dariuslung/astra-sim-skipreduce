@@ -23,11 +23,16 @@ This document records explicit user instructions, scientific phrasing rules, and
 ---
 
 ## 4. Figure Organization & Visualization Standards
-* **Folder Hierarchy**: All figures must be saved into categorized subdirectories under `training/figures/`:
-  - `sparsity_profiling/`: Layer-type, depth, and iteration sparsity sweeps.
-  - `compute_savings/`: FLOP reductions, speedup breakdowns, and theoretical scaling.
-  - `convergence/`: 20-epoch training convergence vs. gradient dynamics.
-  - `intra_epoch_stability/`: Intra-epoch checkpoint trajectories, mask decay, and variance analysis.
+* **Folder Hierarchy**: All figures must be saved into experiment-specific subdirectories under `training/figures/`:
+  - `exp01_layer_type_sparsity/`: Layer-type sparsity sweeps (`fig01_*`).
+  - `exp02_depth_vs_density/`: Controlled depth vs density sweeps (`fig02_*`).
+  - `exp03_iteration_sparsity/`: Iteration-by-iteration sparsity evolution (`fig03_*`).
+  - `exp04_temporal_mask_iou/`: Temporal mask persistence across lags (`fig04_*`).
+  - `exp05_compute_savings/`: Hardware latency breakdowns & speedups (`fig05a_*`, `fig05b_*`).
+  - `exp06_resnet50_convergence/`: Multi-epoch convergence vs. gradient dynamics (`fig06a_*` - `fig06d_*`).
+  - `exp07_intra_epoch_stability/`: Intra-epoch checkpoint trajectories, mask decay, CV% (`fig07a_*` - `fig07e_*`).
+  - `exp08_layer_recoverability/`: Protocol A layer skipping sensitivity ablation (`fig08a_*` - `fig08c_*`).
+  - `exp09_sparsity_vs_sensitivity/`: Baseline sparsity vs. sensitivity correlation (`fig09_*`).
 * **Headroom & Title Clipping Prevention**:
   - Super-titles (`plt.suptitle`) must have sufficient margin. Always call `plt.tight_layout(rect=[0, 0, 1, 0.90])` (or adjust `top`) to leave space for multi-line titles.
   - Always export figures with `plt.savefig(..., bbox_inches="tight")` to ensure labels, titles, and legends are never cropped.

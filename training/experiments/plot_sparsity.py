@@ -1,10 +1,10 @@
 """
 Plotting module to evaluate Hypotheses 1, 2, and 3 for gradient sparsity.
 Generates:
-1. fig1_layer_type_sparsity_<model>.png   (Hypothesis 1: Layer Type Heterogeneity)
-2. fig2_depth_vs_density_<model>.png     (Hypothesis 2: Depth vs Gradient Density)
-3. fig3_iteration_sparsity_<model>.png   (Hypothesis 3: Sparsity Evolution over Iterations)
-4. fig4_temporal_mask_iou_<model>.png    (Predictability: Mask IoU Persistence)
+1. fig01_layer_type_sparsity_<model>.png   (Hypothesis 1: Layer Type Heterogeneity)
+2. fig02_depth_vs_density_<model>.png     (Hypothesis 2: Depth vs Gradient Density)
+3. fig03_iteration_sparsity_<model>.png   (Hypothesis 3: Sparsity Evolution over Iterations)
+4. fig04_temporal_mask_iou_<model>.png    (Predictability: Mask IoU Persistence)
 """
 
 import argparse
@@ -106,7 +106,8 @@ def plot_layer_type_sparsity(data: dict, model_name: str, output_dir: str):
     ax1.legend(lines1 + lines2, labels1 + labels2, loc="upper left", frameon=True)
 
     plt.tight_layout()
-    out_path = os.path.join(output_dir, f"fig1_layer_type_sparsity_{model_name}.png")
+    os.makedirs(output_dir, exist_ok=True)
+    out_path = os.path.join(output_dir, f"fig01_layer_type_sparsity_{model_name}.png")
     plt.savefig(out_path)
     plt.close()
     print(f"Saved: {out_path}")
@@ -177,7 +178,8 @@ def plot_depth_vs_density(data: dict, model_name: str, output_dir: str):
               fontsize=13, fontweight="bold", pad=12)
     ax.legend(loc="upper right", frameon=True)
     plt.tight_layout()
-    out_path = os.path.join(output_dir, f"fig2_depth_vs_density_{model_name}.png")
+    os.makedirs(output_dir, exist_ok=True)
+    out_path = os.path.join(output_dir, f"fig02_depth_vs_density_{model_name}.png")
     plt.savefig(out_path)
     plt.close()
     print(f"Saved: {out_path}")
@@ -234,7 +236,8 @@ def plot_iteration_sparsity_evolution(data: dict, model_name: str, output_dir: s
     ax1.legend([line1, line2], [line1.get_label(), line2.get_label()], loc="center right", frameon=True)
 
     plt.tight_layout()
-    out_path = os.path.join(output_dir, f"fig3_iteration_sparsity_{model_name}.png")
+    os.makedirs(output_dir, exist_ok=True)
+    out_path = os.path.join(output_dir, f"fig03_iteration_sparsity_{model_name}.png")
     plt.savefig(out_path)
     plt.close()
     print(f"Saved: {out_path}")
@@ -274,7 +277,8 @@ def plot_temporal_mask_iou(data: dict, model_name: str, output_dir: str):
 
     ax.legend(loc="upper right", frameon=True)
     plt.tight_layout()
-    out_path = os.path.join(output_dir, f"fig4_temporal_mask_iou_{model_name}.png")
+    os.makedirs(output_dir, exist_ok=True)
+    out_path = os.path.join(output_dir, f"fig04_temporal_mask_iou_{model_name}.png")
     plt.savefig(out_path)
     plt.close()
     print(f"Saved: {out_path}")
@@ -283,7 +287,7 @@ def plot_temporal_mask_iou(data: dict, model_name: str, output_dir: str):
 def main():
     parser = argparse.ArgumentParser(description="Generate gradient sparsity figures.")
     parser.add_argument("--json", type=str, required=True, help="Path to profile JSON log")
-    parser.add_argument("--output-dir", type=str, default="training/figures/sparsity_profiling", help="Output directory for plots")
+    parser.add_argument("--output-dir", type=str, default="training/figures", help="Output base directory for plots")
 
     args = parser.parse_args()
 
@@ -292,12 +296,20 @@ def main():
         data = json.load(f)
 
     model_name = data["model"].lower()
-    os.makedirs(args.output_dir, exist_ok=True)
 
-    plot_layer_type_sparsity(data, model_name, args.output_dir)
-    plot_depth_vs_density(data, model_name, args.output_dir)
-    plot_iteration_sparsity_evolution(data, model_name, args.output_dir)
-    plot_temporal_mask_iou(data, model_name, args.output_dir)
+    # Route each experiment to its respective directory
+    if os.path.basename(os.path.normpath(args.output_dir)) == "figures":
+        exp01_dir = os.path.join(args.output_dir, "exp01_layer_type_sparsity")
+        exp02_dir = os.path.join(args.output_dir, "exp02_depth_vs_density")
+        exp03_dir = os.path.join(args.output_dir, "exp03_iteration_sparsity")
+        exp04_dir = os.path.join(args.output_dir, "exp04_temporal_mask_iou")
+    else:
+        exp01_dir = exp02_dir = exp03_dir = exp04_dir = args.output_dir
+
+    plot_layer_type_sparsity(data, model_name, exp01_dir)
+    plot_depth_vs_density(data, model_name, exp02_dir)
+    plot_iteration_sparsity_evolution(data, model_name, exp03_dir)
+    plot_temporal_mask_iou(data, model_name, exp04_dir)
     print(f"All figures generated successfully for {model_name}!")
 
 

@@ -92,31 +92,6 @@ def compute_mask_iou(mask1: torch.Tensor, mask2: torch.Tensor) -> float:
     return float((intersection / union).item())
 
 
-def compute_k_energy(g: torch.Tensor, energy_threshold: float = 0.90) -> float:
-    """
-    Computes K_energy: The minimum percentage of parameters (coordinates) needed
-    to capture `energy_threshold` (e.g. 0.90 = 90%) of total L2^2 gradient energy.
-    Returns:
-        k_pct (float): in [0.0, 100.0]
-    """
-    d = g.numel()
-    if d == 0:
-        return 0.0
-    
-    g_flat = g.detach().flatten().float()
-    sq = g_flat.pow(2)
-    total_energy = sq.sum()
-    if total_energy == 0.0 or torch.isnan(total_energy):
-        return 0.0
-    
-    sorted_sq, _ = torch.sort(sq, descending=True)
-    cumsum = torch.cumsum(sorted_sq, dim=0)
-    target = energy_threshold * total_energy
-    idx = torch.searchsorted(cumsum, target)
-    k_count = min(d, idx.item() + 1)
-    return float(round((k_count / d) * 100.0, 2))
-
-
 def compute_gini_index(g: torch.Tensor) -> float:
     """
     Computes the Gini index of the vector magnitudes (Hurley & Rickard, 2009).

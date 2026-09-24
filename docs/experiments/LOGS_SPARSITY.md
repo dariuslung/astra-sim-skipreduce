@@ -15,9 +15,24 @@ This document catalogs all profiling runs measuring layer-wise gradient sparsity
 | `prof_resnet50_intra_stability` | 2026-09-16 | ResNet-50 | 23.5M | CIFAR-10 | 20 | 7,800 | 0.3007 | **0.4145** | **75.40%** | **0.4240** | 1633.5s (27.2m) |
 | `ablation_layer_recoverability` | 2026-09-23 | ResNet-50 | 23.5M | CIFAR-10 | 20 (x7) | 54,600 | N/A | **88.19%** (base) | N/A | N/A | ~3.1 hours (7 conds) |
 
+### Experiment & Figure Index Map
+| Experiment ID | Logical Research Focus | Evaluated Models | Associated Publication Figures |
+| :--- | :--- | :--- | :--- |
+| **EXP-01** | Hypothesis 1: Layer-Type Sparsity Heterogeneity | ResNet-50, ViT, GPT | [`fig01_layer_type_sparsity_<model>.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp01_layer_type_sparsity/fig01_layer_type_sparsity_resnet50.png) |
+| **EXP-02** | Hypothesis 2: Controlled Depth vs. Density | ResNet-50, ViT, GPT | [`fig02_depth_vs_density_<model>.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp02_depth_vs_density/fig02_depth_vs_density_resnet50.png) |
+| **EXP-03** | Hypothesis 3: Sparsity Evolution Across Iterations | ResNet-50, ViT, GPT | [`fig03_iteration_sparsity_<model>.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp03_iteration_sparsity/fig03_iteration_sparsity_resnet50.png) |
+| **EXP-04** | Hypothesis 4: Temporal Sparsity Persistence (Mask IoU) | ResNet-50, ViT, GPT | [`fig04_temporal_mask_iou_<model>.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp04_temporal_mask_iou/fig04_temporal_mask_iou_resnet50.png) |
+| **EXP-05** | Hypotheses A & B: Hardware Compute Time Savings | ResNet-50, ViT, GPT | [`fig05a_compute_breakdown_<model>.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp05_compute_savings/fig05a_compute_breakdown_resnet50.png), [`fig05b_compute_savings_summary_<model>.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp05_compute_savings/fig05b_compute_savings_summary_resnet50.png) |
+| **EXP-06** | Multi-Epoch ResNet-50 Convergence vs. Sparsity | ResNet-50 | [`fig06a`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp06_resnet50_convergence/fig06a_resnet50_convergence_vs_sparsity.png), [`fig06b`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp06_resnet50_convergence/fig06b_resnet50_stages_across_epochs.png), [`fig06c`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp06_resnet50_convergence/fig06c_resnet50_layertypes_across_epochs.png), [`fig06d`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp06_resnet50_convergence/fig06d_resnet50_mask_iou_across_epochs.png) |
+| **EXP-07** | Intra-Epoch Invariance & Stability (390-Step Horizons) | ResNet-50 | [`fig07a`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp07_intra_epoch_stability/fig07a_intra_epoch_metric_variance.png), [`fig07b`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp07_intra_epoch_stability/fig07b_intra_epoch_layertype_cv.png), [`fig07c`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp07_intra_epoch_stability/fig07c_intra_epoch_mask_decay.png), [`fig07d`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp07_intra_epoch_stability/fig07d_intra_epoch_cosine_drift.png), [`fig07e`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp07_intra_epoch_stability/fig07e_intra_epoch_layertype_trajectories.png) |
+| **EXP-08** | Hypothesis 5: Heterogeneous Layer Recoverability | ResNet-50 | [`fig08a`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp08_layer_recoverability/fig08a_layer_recoverability_accuracy.png), [`fig08b`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp08_layer_recoverability/fig08b_layer_recoverability_convergence.png), [`fig08c`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp08_layer_recoverability/fig08c_layer_sensitivity_normalized.png) |
+| **EXP-09** | Hypothesis 6: Sparsity vs. Sensitivity Correlation | ResNet-50 | [`fig09_sparsity_vs_sensitivity.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp09_sparsity_vs_sensitivity/fig09_sparsity_vs_sensitivity.png) |
+
 ---
 
-## 2. Hypothesis 1: Layer-Type Heterogeneity
+## 2. EXP-01: Layer-Type Heterogeneity (Hypothesis 1)
+
+* **Figures**: [`training/figures/exp01_layer_type_sparsity/fig01_layer_type_sparsity_<model>.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp01_layer_type_sparsity/fig01_layer_type_sparsity_resnet50.png) (`resnet50`, `vit`, `gpt`)
 
 Mean metrics averaged over the final 50 steps of Epoch 1:
 
@@ -103,7 +118,9 @@ Gradient Density is defined as $1 - \text{Hoyer}(\mathbf{g})$.
 
 ---
 
-## 4. Hypothesis 2 Re-evaluation: Depth Controlled by Layer Type
+## 4. EXP-02: Depth Controlled by Layer Type (Hypothesis 2)
+
+* **Figures**: [`training/figures/exp02_depth_vs_density/fig02_depth_vs_density_<model>.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp02_depth_vs_density/fig02_depth_vs_density_resnet50.png) (`resnet50`, `vit`, `gpt`)
 
 Because Hypothesis 1 demonstrated that different layer types have vastly different baseline sparsity (e.g. classification head is hyper-sparse due to one-hot targets), we isolate depth by comparing **identical submodule types across stages**:
 
@@ -144,7 +161,9 @@ Because Hypothesis 1 demonstrated that different layer types have vastly differe
 
 ---
 
-## 5. Hypothesis 1 Over Time: Epoch-Wide Persistence
+## 5. EXP-03: Sparsity Evolution Across Iterations & Persistence (Hypothesis 3)
+
+* **Figures**: [`training/figures/exp03_iteration_sparsity/fig03_iteration_sparsity_<model>.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp03_iteration_sparsity/fig03_iteration_sparsity_resnet50.png) (`resnet50`, `vit`, `gpt`)
 
 Does the layer-type hierarchy stay true for the entire epoch?
 
@@ -172,7 +191,9 @@ Does the layer-type hierarchy stay true for the entire epoch?
 
 ---
 
-## 7. Temporal Sparsity Predictability: Top-10% Mask Jaccard IoU
+## 7. EXP-04: Temporal Sparsity Predictability: Top-10% Mask Jaccard IoU (Hypothesis 4)
+
+* **Figures**: [`training/figures/exp04_temporal_mask_iou/fig04_temporal_mask_iou_<model>.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp04_temporal_mask_iou/fig04_temporal_mask_iou_resnet50.png) (`resnet50`, `vit`, `gpt`)
 
 Persistence of Top-10% coordinate indices across step lags $\Delta t$:
 
@@ -191,7 +212,11 @@ Persistence of Top-10% coordinate indices across step lags $\Delta t$:
 
 ---
 
-## 8. Empirical Compute Savings: Selective Gradient Skipping on NVIDIA RTX 4060 Ti
+## 8. EXP-05: Empirical Compute Savings: Selective Gradient Skipping on NVIDIA RTX 4060 Ti
+
+* **Figures**:
+  - Breakdown: [`training/figures/exp05_compute_savings/fig05a_compute_breakdown_<model>.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp05_compute_savings/fig05a_compute_breakdown_resnet50.png) (`resnet50`, `vit`, `gpt`)
+  - Efficiency: [`training/figures/exp05_compute_savings/fig05b_compute_savings_summary_<model>.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp05_compute_savings/fig05b_compute_savings_summary_resnet50.png) (`resnet50`, `vit`, `gpt`)
 
 To rigorously validate whether selectively skipping weight gradient computations ($\nabla_W \mathcal{L} = \mathbf{x}^T \delta_{\mathbf{y}}$) translates into actual hardware runtime speedups, we timed each stage (Forward, Backward, Optimizer) over 150 iterations with 25 warmup steps using synchronized CUDA Events on an NVIDIA GeForce RTX 4060 Ti.
 
@@ -268,7 +293,7 @@ When a layer is skipped (`param.requires_grad = False`), PyTorch autograd contin
 
 ---
 
-## 10. Multi-Epoch ResNet-50 Convergence and Sparsity Profiling (Hypotheses 1–4 Under Full Convergence)
+## 10. EXP-06: Multi-Epoch ResNet-50 Convergence and Sparsity Profiling (Hypotheses 1–4 Under Full Convergence)
 
 To resolve whether gradient sparsity patterns stabilize or change during true training convergence, we trained **ResNet-50 on CIFAR-10 across 20 full epochs** (7,800 steps, batch size 128) using SGD with momentum (0.9), weight decay ($5\times 10^{-4}$), and `CosineAnnealingLR` ($\eta_0 = 0.1 \to 0$).
 
@@ -277,6 +302,11 @@ To resolve whether gradient sparsity patterns stabilize or change during true tr
 * **Total Training Time**: 1592.86s (26.55 mins)
 * **Final Validation Accuracy**: **89.67%** (Train loss: $0.1964$, Val loss: $0.3199$)
 * **Log File**: [`training/logs/resnet50_convergence_sparsity.json`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/logs/resnet50_convergence_sparsity.json)
+* **Figures**:
+  - Convergence vs. Sparsity: [`training/figures/exp06_resnet50_convergence/fig06a_resnet50_convergence_vs_sparsity.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp06_resnet50_convergence/fig06a_resnet50_convergence_vs_sparsity.png)
+  - Stage-Wise Evolution: [`training/figures/exp06_resnet50_convergence/fig06b_resnet50_stages_across_epochs.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp06_resnet50_convergence/fig06b_resnet50_stages_across_epochs.png)
+  - Layer-Type Evolution: [`training/figures/exp06_resnet50_convergence/fig06c_resnet50_layertypes_across_epochs.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp06_resnet50_convergence/fig06c_resnet50_layertypes_across_epochs.png)
+  - Mask Persistence: [`training/figures/exp06_resnet50_convergence/fig06d_resnet50_mask_iou_across_epochs.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp06_resnet50_convergence/fig06d_resnet50_mask_iou_across_epochs.png)
 
 ### 10.1 Epoch-by-Epoch Trajectory
 
@@ -349,7 +379,7 @@ To resolve whether gradient sparsity patterns stabilize or change during true tr
 
 ---
 
-## 11. Intra-Epoch Gradient Stability Across Full Epoch Horizons (390-Step Horizons)
+## 11. EXP-07: Intra-Epoch Gradient Stability Across Full Epoch Horizons (390-Step Horizons)
 
 To answer whether sampling the first few iterations of an epoch ($T_0$, Batches 1–5) provides an accurate proxy for the remaining 385+ iterations of that same epoch, we captured full gradient snapshots across **5 checkpoints per epoch ($0\%, 25\%, 50\%, 75\%, 100\%$) across all 20 epochs** (7,800 steps total).
 
@@ -357,6 +387,12 @@ To answer whether sampling the first few iterations of an epoch ($T_0$, Batches 
 * **Model**: ResNet-50 on CIFAR-10 (batch size 128, 390 steps/epoch)
 * **Checkpoints**: $T_0$ (batches 0–4), $T_1$ (95–99), $T_2$ (190–194), $T_3$ (285–289), $T_4$ (385–389)
 * **Log File**: [`training/logs/resnet50_intra_epoch_stability.json`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/logs/resnet50_intra_epoch_stability.json)
+* **Figures**:
+  - Metric Variance & CV: [`training/figures/exp07_intra_epoch_stability/fig07a_intra_epoch_metric_variance.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp07_intra_epoch_stability/fig07a_intra_epoch_metric_variance.png)
+  - Layer-Type & Stage CV: [`training/figures/exp07_intra_epoch_stability/fig07b_intra_epoch_layertype_cv.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp07_intra_epoch_stability/fig07b_intra_epoch_layertype_cv.png)
+  - Mask Persistence Decay: [`training/figures/exp07_intra_epoch_stability/fig07c_intra_epoch_mask_decay.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp07_intra_epoch_stability/fig07c_intra_epoch_mask_decay.png)
+  - Cosine Drift: [`training/figures/exp07_intra_epoch_stability/fig07d_intra_epoch_cosine_drift.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp07_intra_epoch_stability/fig07d_intra_epoch_cosine_drift.png)
+  - Layer Trajectories: [`training/figures/exp07_intra_epoch_stability/fig07e_intra_epoch_layertype_trajectories.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp07_intra_epoch_stability/fig07e_intra_epoch_layertype_trajectories.png)
 
 ### 11.1 20-Epoch Intra-Epoch Stability Trajectory
 
@@ -413,7 +449,7 @@ Rather than tracking indirect pairwise ratios, we evaluate the intra-epoch Coeff
 
 ---
 
-## 12. Hypothesis 5: Heterogeneous Layer Recoverability Under Gradient Skipping (Protocol A)
+## 12. EXP-08: Hypothesis 5: Heterogeneous Layer Recoverability Under Gradient Skipping (Protocol A)
 
 * **Experiment**: `training/experiments/probe_layer_recoverability.py`
 * **Dataset & Model**: ResNet-50 on CIFAR-10, 20 epochs per condition, Batch Size 128, initial LR 0.1, CosineAnnealingLR.
@@ -421,7 +457,7 @@ Rather than tracking indirect pairwise ratios, we evaluate the intra-epoch Coeff
 * **Skipping Schedule**: 50% update skipping (batches $t \pmod 2 == 1$ have target parameter gradients cleared to `None`).
 * **Artifacts**:
   - Raw Log: [`training/logs/layer_recoverability_ablation.json`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/logs/layer_recoverability_ablation.json)
-  - Figures: [`training/figures/convergence/fig_layer_recoverability_accuracy.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/convergence/fig_layer_recoverability_accuracy.png), [`fig_layer_recoverability_convergence.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/convergence/fig_layer_recoverability_convergence.png), [`fig_layer_sensitivity_normalized.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/convergence/fig_layer_sensitivity_normalized.png)
+  - Figures: [`training/figures/exp08_layer_recoverability/fig08a_layer_recoverability_accuracy.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp08_layer_recoverability/fig08a_layer_recoverability_accuracy.png), [`fig08b_layer_recoverability_convergence.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp08_layer_recoverability/fig08b_layer_recoverability_convergence.png), [`fig08c_layer_sensitivity_normalized.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp08_layer_recoverability/fig08c_layer_sensitivity_normalized.png)
 
 ### Quantitative Ablation Results:
 | Condition | Skipped Layer Type | Skipped Params | % of Network | Final Val Acc | $\Delta \text{Acc}$ vs Base | Normalized Sensitivity ($\Delta\text{Acc}/\text{MParam}$) | Convergence Behavior |
@@ -439,6 +475,40 @@ Rather than tracking indirect pairwise ratios, we evaluate the intra-epoch Coeff
 2. **Rejection of Linear Parameter Volume Scaling ($H_0$)**: $1\times 1$ convs account for **12.13M parameters (51.6% of the network)**, yet produce near-zero accuracy drop ($0.0\text{--}0.97\%$). In contrast, $3\times 3$ spatial convs produce a dramatic $5.12\%$ collapse.
 3. **Sensitivity Ratio**: $3\times 3$ spatial convs are **$4.0\times$ more sensitive per parameter** than $1\times 1$ reduce convs ($0.452$ vs $0.113\text{ pp/M}$).
 4. **SkipReduce Design Principle**: SkipReduce should deploy aggressive skipping / high-ratio Compressive Sensing on all $1\times 1$ convs (saving $>50\%$ of communication payload with no accuracy loss), while reserving full fidelity or conservative schedules for $3\times 3$ spatial convs.
+
+---
+
+## 13. EXP-09: Hypothesis 6: Correlation Between Layer Sensitivity and Baseline Gradient Sparsity (Hoyer & $E_{10}$)
+
+* **Research Question**: Does a layer's baseline gradient sparsity ($E_{10}$ and Hoyer) correlate with its empirical sensitivity to gradient skipping?
+* **Figure**: [`training/figures/exp09_sparsity_vs_sensitivity/fig09_sparsity_vs_sensitivity.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp09_sparsity_vs_sensitivity/fig09_sparsity_vs_sensitivity.png)
+* **Script**: [`training/experiments/plot_sparsity_vs_sensitivity.py`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/experiments/plot_sparsity_vs_sensitivity.py)
+
+### Empirical Correlation Table:
+| Layer Type | Top-10% Energy ($E_{10}$) | Hoyer Sparsity [0-1] | Accuracy Drop ($\Delta\text{Acc}$) | Normalized Sensitivity Index ($\Delta\text{Acc}/\text{MParam}$) | Sparsity Rank | Sensitivity Rank |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| `conv3x3_spatial` | **89.3%** | **0.5799** | **-5.12%** | **+0.452 pp/M** | 5 (Least Sparse) | **1 (Most Sensitive)** |
+| `conv1x1_expand` | **91.4%** | **0.6018** | **-0.97%** | **+0.193 pp/M** | 4 | **2** |
+| `conv1x1_reduce` | **93.0%** | **0.6277** | **-0.49%** | **+0.113 pp/M** | 3 | **3** |
+| `conv1x1_downsample`| **95.8%** | **0.6952** | **+0.02%** | **-0.007 pp/M** | 2 | **4** |
+| `classifier_head` | **99.2%** | **0.7851** | **+0.44%** | **-21.474 pp/M** | 1 (Most Sparse) | **5 (Least Sensitive / Gain)** |
+
+### Statistical Evaluation:
+1. **Perfect Monotonic Ordering**:
+   * Across all convolutional layers: **Spearman $\rho = -1.0000$** for both $E_{10}$ and Hoyer vs. Sensitivity Index.
+   * Across all 5 isolated probe conditions (including classifier head): **Spearman $\rho = -1.0000$** for both $E_{10}$ and Hoyer vs. Absolute Accuracy Drop.
+2. **Linear Regression Fit**:
+   * **$E_{10}$ vs. Sensitivity Index**:
+     $$\text{Sensitivity} = -0.0680 \times E_{10} + 6.4674 \quad (R^2 = 0.9183, \; r = -0.9583, \; p = 0.0417)$$
+     *Finding*: Statistically significant ($p < 0.05$) linear relationship accounting for $>91\%$ of variance.
+   * **Hoyer vs. Sensitivity Index**:
+     $$\text{Sensitivity} = -3.4540 \times \text{Hoyer} + 2.3505 \quad (R^2 = 0.7895, \; r = -0.8885, \; p = 0.1115)$$
+
+### Key Scientific Insights:
+* **Hypothesis 6 Confirmed**: Baseline gradient sparsity is strongly and inversely correlated with layer skipping sensitivity.
+* **$E_{10}$ Superiority Over Hoyer ($R^2 = 0.918$ vs. $0.789$)**: Because $E_{10}$ measures the direct energy preservation ratio under truncation, it provides a stronger physical proxy for skipping resilience than geometric shape metrics.
+* **Omission of $K_{90}$**: $K_{90}$ is mathematically dual to $E_{10}$ along the cumulative Lorenz curve and is omitted to eliminate redundancy and avoid full-vector sorting overhead ($\mathcal{O}(n \log n)$ vs $\mathcal{O}(n)$).
+* **System Impact**: SkipReduce can use epoch-onset $E_{10}$ measurements as a zero-cost analytical predictor for layer skipping budgets, removing the need for empirical sensitivity searches.
 
 
 

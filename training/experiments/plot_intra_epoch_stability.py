@@ -1,9 +1,11 @@
 """
 Visualization suite for Intra-Epoch Gradient Stability in ResNet-50.
 Plots:
-1. fig_intra_epoch_metric_variance.png (Anchor T0 Hoyer vs. Intra-Epoch Spread & CV%)
-2. fig_intra_epoch_mask_decay.png       (Top-10% Mask IoU Decay Across Intra-Epoch Steps)
-3. fig_intra_epoch_cosine_drift.png     (Gradient Vector Cosine Similarity Decay with T0)
+1. fig07a_intra_epoch_metric_variance.png (Anchor T0 Hoyer vs. Intra-Epoch Spread & CV%)
+2. fig07b_intra_epoch_layertype_cv.png     (Intra-Epoch Sparsity CV by Layer Type & Stage)
+3. fig07c_intra_epoch_mask_decay.png       (Top-10% Mask IoU Decay Across Intra-Epoch Steps)
+4. fig07d_intra_epoch_cosine_drift.png     (Gradient Vector Cosine Similarity Decay with T0)
+5. fig07e_intra_epoch_layertype_trajectories.png (Layer-Type Sparsity Trajectories Across Checkpoints)
 """
 
 import argparse
@@ -69,7 +71,7 @@ def plot_metric_variance(data: dict, output_dir: str):
     ax2.legend(loc="upper right", frameon=True)
 
     plt.tight_layout()
-    out_path = os.path.join(output_dir, "fig_intra_epoch_metric_variance.png")
+    out_path = os.path.join(output_dir, "fig07a_intra_epoch_metric_variance.png")
     plt.savefig(out_path, bbox_inches="tight")
     plt.close()
     print(f"Saved: {out_path}")
@@ -123,7 +125,7 @@ def plot_mask_decay(data: dict, output_dir: str):
         ax.legend(loc="upper right", frameon=True, fontsize=9)
 
     plt.tight_layout()
-    out_path = os.path.join(output_dir, "fig_intra_epoch_mask_decay.png")
+    out_path = os.path.join(output_dir, "fig07c_intra_epoch_mask_decay.png")
     plt.savefig(out_path, bbox_inches="tight")
     plt.close()
     print(f"Saved: {out_path}")
@@ -169,7 +171,7 @@ def plot_cosine_drift(data: dict, output_dir: str):
     ax.legend(loc="upper right", frameon=True)
 
     plt.tight_layout()
-    out_path = os.path.join(output_dir, "fig_intra_epoch_cosine_drift.png")
+    out_path = os.path.join(output_dir, "fig07d_intra_epoch_cosine_drift.png")
     plt.savefig(out_path, bbox_inches="tight")
     plt.close()
     print(f"Saved: {out_path}")
@@ -220,7 +222,7 @@ def plot_layertype_trajectories(data: dict, output_dir: str):
     plt.suptitle("ResNet-50 Layer-Type Sparsity Trajectories Across Intra-Epoch Checkpoints (T0 -> T4)\n(Evaluating Hypothesis 1: Individual Layer-Type Invariance Across Intra-Epoch Steps)",
                  fontsize=13, fontweight="bold", y=0.98)
     plt.tight_layout(rect=[0, 0, 1, 0.93])
-    out_path = os.path.join(output_dir, "fig_intra_epoch_layertype_trajectories.png")
+    out_path = os.path.join(output_dir, "fig07e_intra_epoch_layertype_trajectories.png")
     plt.savefig(out_path, bbox_inches="tight")
     plt.close()
     print(f"Saved: {out_path}")
@@ -334,7 +336,7 @@ def plot_layertype_cv(data: dict, output_dir: str):
     plt.suptitle("ResNet-50 Layer-Wise Intra-Epoch Sparsity Stability Across 20 Epochs\n(Evaluating Hypothesis 1: Intra-Epoch Invariance (CV < 5%) Across Individual Layers)",
                  fontsize=13, fontweight="bold", y=0.98)
     plt.tight_layout(rect=[0, 0, 1, 0.90])
-    out_path = os.path.join(output_dir, "fig_intra_epoch_layertype_cv.png")
+    out_path = os.path.join(output_dir, "fig07b_intra_epoch_layertype_cv.png")
     plt.savefig(out_path, bbox_inches="tight")
     plt.close()
     print(f"Saved: {out_path}")
@@ -343,7 +345,7 @@ def plot_layertype_cv(data: dict, output_dir: str):
 def main():
     parser = argparse.ArgumentParser(description="Plot Intra-Epoch Gradient Stability Figures")
     parser.add_argument("--json", type=str, default="training/logs/resnet50_intra_epoch_stability.json", help="Path to JSON log")
-    parser.add_argument("--output-dir", type=str, default="training/figures/intra_epoch_stability", help="Output directory")
+    parser.add_argument("--output-dir", type=str, default="training/figures/exp07_intra_epoch_stability", help="Output directory")
     args = parser.parse_args()
 
     setup_style()

@@ -27,8 +27,12 @@ training/
 │   ├── train_cifar.py           # Single-GPU virtual multi-rank CIFAR training
 │   ├── run_sweep.py             # Automated grid sweep orchestrator
 │   ├── profile_sparsity.py      # Multi-architecture gradient sparsity profiler
-│   ├── plot_sparsity.py         # Visualizes Figures 1 to 4 for gradient sparsity
-│   └── plot_compute_savings.py  # Visualizes compute latency breakdowns & speedup curves
+│   ├── plot_sparsity.py         # Visualizes Figures 01 to 04 (EXP-01 - EXP-04)
+│   ├── plot_compute_savings.py  # Visualizes compute latency breakdowns & speedup curves (EXP-05: Figures 05a, 05b)
+│   ├── plot_resnet50_epoch_sparsity.py # Visualizes multi-epoch convergence & sparsity (EXP-06: Figures 06a - 06d)
+│   ├── plot_intra_epoch_stability.py   # Visualizes intra-epoch invariance & stability (EXP-07: Figures 07a - 07e)
+│   ├── plot_layer_recoverability.py    # Visualizes layer recoverability & sensitivity (EXP-08: Figures 08a - 08c)
+│   └── plot_sparsity_vs_sensitivity.py # Visualizes sparsity vs sensitivity correlation (EXP-09: Figure 09)
 ├── tests/                       # Unified test suite (`python -m unittest discover -s training/tests -v`)
 │   ├── test_models.py           # Model architectures and metadata tagging tests
 │   ├── test_gpt.py              # Autoregressive transformer test
@@ -71,48 +75,56 @@ python training/experiments/profile_sparsity.py --model resnet50 --epochs 1
 python training/experiments/profile_sparsity.py --model vit --epochs 1
 python training/experiments/profile_sparsity.py --model gpt --epochs 1
 
-# Generate Figures 1 to 4 (1-Epoch Exploration)
+# Generate Figures 01 to 04 (EXP-01 - EXP-04: 1-Epoch Exploration)
 python training/experiments/plot_sparsity.py --json training/logs/profile_resnet50_epoch1.json
 python training/experiments/plot_sparsity.py --json training/logs/profile_vit_epoch1.json
 python training/experiments/plot_sparsity.py --json training/logs/profile_gpt_epoch1.json
 
-# Multi-Epoch Convergence & Sparsity Profiling (20 Epochs, ResNet-50)
+# Multi-Epoch Convergence & Sparsity Profiling (EXP-06: 20 Epochs, ResNet-50)
 python training/experiments/train_and_profile_resnet50.py --epochs 20 --lr 0.1 --batch-size 128
 python training/experiments/plot_resnet50_epoch_sparsity.py
 
-# Intra-Epoch Gradient Stability Test (390-Step Horizons across 20 Epochs)
+# Intra-Epoch Gradient Stability Test (EXP-07: 390-Step Horizons across 20 Epochs)
 python training/experiments/test_intra_epoch_stability.py --epochs 20 --batch-size 128
 python training/experiments/plot_intra_epoch_stability.py
 
-# Protocol A: Layer Recoverability Ablation Probe (Hypothesis 5)
+# Protocol A: Layer Recoverability Ablation Probe (EXP-08: Hypothesis 5)
 python training/experiments/probe_layer_recoverability.py --epochs 20 --conditions all
 python training/experiments/plot_layer_recoverability.py
+
+# Hypothesis 6: Sparsity vs. Sensitivity Correlation Analysis (EXP-09)
+python training/experiments/plot_sparsity_vs_sensitivity.py
 ```
 
 Output plots are organized cleanly into experiment directories under `training/figures/`:
-* `training/figures/sparsity_profiling/`:
-  - `fig1_layer_type_sparsity_<model>.png`: Hypothesis 1 (Layer Type Heterogeneity).
-  - `fig2_depth_vs_density_<model>.png`: Hypothesis 2 (Controlled depth vs density across identical submodules).
-  - `fig3_iteration_sparsity_<model>.png`: Hypothesis 3 (Sparsity growth over training steps).
-  - `fig4_temporal_mask_iou_<model>.png`: Predictability (Top-10% Mask IoU across step lags $\Delta t$).
-* `training/figures/convergence/`:
-  - `fig_resnet50_convergence_vs_sparsity.png`: ResNet-50 Multi-Epoch Convergence vs. Global Sparsity.
-  - `fig_resnet50_stages_across_epochs.png`: ResNet-50 Stage-Wise Sparsity Evolution Across 20 Epochs.
-  - `fig_resnet50_layertypes_across_epochs.png`: ResNet-50 Layer-Type Sparsity Evolution Across 20 Epochs.
-  - `fig_resnet50_mask_iou_across_epochs.png`: ResNet-50 Temporal Mask Persistence Across 20 Epochs.
-* `training/figures/intra_epoch_stability/`:
-  - `fig_intra_epoch_metric_variance.png`: Intra-epoch Hoyer variance & CV% across 20 epochs.
-  - `fig_intra_epoch_layertype_trajectories.png`: Trajectories of individual layer types across checkpoints ($T_0 \to T_4$).
-  - `fig_intra_epoch_layertype_cv.png`: Intra-epoch CV (%) for individual layer types and stages across 20 epochs.
-  - `fig_intra_epoch_mask_decay.png`: Long-range Mask IoU decay from $0\% \to 100\%$ of the epoch.
-  - `fig_intra_epoch_cosine_drift.png`: Intra-epoch gradient direction cosine similarity decay.
-* `training/figures/convergence/`:
-  - `fig_layer_recoverability_accuracy.png`: Protocol A Final Validation Accuracy & ΔAcc across layer-type skipping conditions.
-  - `fig_layer_recoverability_convergence.png`: Multi-condition convergence trajectories (Val Acc and Train Loss).
-  - `fig_layer_sensitivity_normalized.png`: Empirical layer sensitivity vs parameter volume (Hypothesis 5 evaluation).
-* `training/figures/compute_savings/`:
-  - `fig_compute_breakdown_<model>.png`: Latency breakdown (Forward, Backward, Optimizer).
-  - `fig_compute_savings_summary_<model>.png`: Speedup vs % parameters skipped.
+* `training/figures/exp01_layer_type_sparsity/`:
+  - `fig01_layer_type_sparsity_<model>.png`: EXP-01: Hypothesis 1 (Layer Type Heterogeneity).
+* `training/figures/exp02_depth_vs_density/`:
+  - `fig02_depth_vs_density_<model>.png`: EXP-02: Hypothesis 2 (Controlled depth vs density across identical submodules).
+* `training/figures/exp03_iteration_sparsity/`:
+  - `fig03_iteration_sparsity_<model>.png`: EXP-03: Hypothesis 3 (Sparsity growth over training steps).
+* `training/figures/exp04_temporal_mask_iou/`:
+  - `fig04_temporal_mask_iou_<model>.png`: EXP-04: Temporal Predictability (Top-10% Mask IoU across step lags $\Delta t$).
+* `training/figures/exp05_compute_savings/`:
+  - `fig05a_compute_breakdown_<model>.png`: EXP-05: Latency breakdown (Forward, Backward, Optimizer).
+  - `fig05b_compute_savings_summary_<model>.png`: EXP-05: Speedup vs % parameters skipped.
+* `training/figures/exp06_resnet50_convergence/`:
+  - `fig06a_resnet50_convergence_vs_sparsity.png`: EXP-06: ResNet-50 Multi-Epoch Convergence vs. Global Sparsity.
+  - `fig06b_resnet50_stages_across_epochs.png`: EXP-06: ResNet-50 Stage-Wise Sparsity Evolution Across 20 Epochs.
+  - `fig06c_resnet50_layertypes_across_epochs.png`: EXP-06: ResNet-50 Layer-Type Sparsity Evolution Across 20 Epochs.
+  - `fig06d_resnet50_mask_iou_across_epochs.png`: EXP-06: ResNet-50 Temporal Mask Persistence Across 20 Epochs.
+* `training/figures/exp07_intra_epoch_stability/`:
+  - `fig07a_intra_epoch_metric_variance.png`: EXP-07: Intra-epoch Hoyer variance & CV% across 20 epochs.
+  - `fig07b_intra_epoch_layertype_cv.png`: EXP-07: Intra-epoch CV (%) for individual layer types and stages across 20 epochs.
+  - `fig07c_intra_epoch_mask_decay.png`: EXP-07: Long-range Mask IoU decay from $0\% \to 100\%$ of the epoch.
+  - `fig07d_intra_epoch_cosine_drift.png`: EXP-07: Intra-epoch gradient direction cosine similarity decay.
+  - `fig07e_intra_epoch_layertype_trajectories.png`: EXP-07: Trajectories of individual layer types across checkpoints ($T_0 \to T_4$).
+* `training/figures/exp08_layer_recoverability/`:
+  - `fig08a_layer_recoverability_accuracy.png`: EXP-08: Protocol A Final Validation Accuracy & ΔAcc across layer-type skipping conditions.
+  - `fig08b_layer_recoverability_convergence.png`: EXP-08: Multi-condition convergence trajectories (Val Acc and Train Loss).
+  - `fig08c_layer_sensitivity_normalized.png`: EXP-08: Empirical layer sensitivity vs parameter volume (Hypothesis 5 evaluation).
+* `training/figures/exp09_sparsity_vs_sensitivity/`:
+  - `fig09_sparsity_vs_sensitivity.png`: EXP-09: Baseline gradient sparsity (Hoyer & $E_{10}$) vs skipping sensitivity (Hypothesis 6 evaluation).
 
 ### 5. Benchmark Hardware Compute Savings
 ```bash

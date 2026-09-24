@@ -24,7 +24,6 @@ from training.core.sparsity.metrics import (
     compute_energy_concentration,
     compute_relative_threshold_sparsity,
     compute_mask_iou,
-    compute_k_energy,
     compute_gini_index
 )
 from training.models.resnet50 import get_cifar_resnet50, get_resnet50_layer_metadata
@@ -125,7 +124,6 @@ def profile_gradient_step(
         g = param.grad
         hoyer = compute_hoyer_sparsity(g)
         energy10, top_mask = compute_energy_concentration(g, top_fraction=0.10)
-        k90 = compute_k_energy(g, energy_threshold=0.90)
         gini = compute_gini_index(g)
         rel_thresh = compute_relative_threshold_sparsity(g, factor=0.05)
         
@@ -145,21 +143,18 @@ def profile_gradient_step(
             "hoyer": round(hoyer, 4),
             "density": round(1.0 - hoyer, 4),
             "energy10": round(energy10, 2),
-            "k90": round(k90, 2),
             "gini": round(gini, 4),
             "rel_thresh": round(rel_thresh, 2),
         })
 
         type_aggregates[layer_type]["hoyer"].append(hoyer)
         type_aggregates[layer_type]["energy10"].append(energy10)
-        type_aggregates[layer_type]["k90"].append(k90)
         type_aggregates[layer_type]["gini"].append(gini)
         type_aggregates[layer_type]["rel_thresh"].append(rel_thresh)
         type_aggregates[layer_type]["count"] += 1
 
         stage_aggregates[stage]["hoyer"].append(hoyer)
         stage_aggregates[stage]["energy10"].append(energy10)
-        stage_aggregates[stage]["k90"].append(k90)
         stage_aggregates[stage]["gini"].append(gini)
         stage_aggregates[stage]["rel_thresh"].append(rel_thresh)
         stage_aggregates[stage]["depth_index"] = depth_idx
@@ -171,7 +166,6 @@ def profile_gradient_step(
         layer_type_summary[ltype] = {
             "mean_hoyer": round(float(sum(vals["hoyer"]) / len(vals["hoyer"])), 4),
             "mean_energy10": round(float(sum(vals["energy10"]) / len(vals["energy10"])), 2),
-            "mean_k90": round(float(sum(vals["k90"]) / len(vals["k90"])), 2),
             "mean_gini": round(float(sum(vals["gini"]) / len(vals["gini"])), 4),
             "mean_rel_thresh": round(float(sum(vals["rel_thresh"]) / len(vals["rel_thresh"])), 2),
             "num_tensors": vals["count"],
@@ -186,7 +180,6 @@ def profile_gradient_step(
             "mean_hoyer": round(mean_h, 4),
             "mean_density": round(1.0 - mean_h, 4),
             "mean_energy10": round(float(sum(vals["energy10"]) / len(vals["energy10"])), 2),
-            "mean_k90": round(float(sum(vals["k90"]) / len(vals["k90"])), 2),
             "mean_gini": round(float(sum(vals["gini"]) / len(vals["gini"])), 4),
             "mean_rel_thresh": round(float(sum(vals["rel_thresh"]) / len(vals["rel_thresh"])), 2),
             "num_tensors": vals["count"],
@@ -195,18 +188,15 @@ def profile_gradient_step(
     # Global model averages
     all_hoyer = [s["hoyer"] for s in layer_stats]
     all_energy = [s["energy10"] for s in layer_stats]
-    all_k90 = [s["k90"] for s in layer_stats]
     all_gini = [s["gini"] for s in layer_stats]
     global_hoyer = float(sum(all_hoyer) / len(all_hoyer)) if all_hoyer else 0.0
     global_energy = float(sum(all_energy) / len(all_energy)) if all_energy else 0.0
-    global_k90 = float(sum(all_k90) / len(all_k90)) if all_k90 else 0.0
     global_gini = float(sum(all_gini) / len(all_gini)) if all_gini else 0.0
 
     return {
         "global_hoyer": round(global_hoyer, 4),
         "global_density": round(1.0 - global_hoyer, 4),
         "global_energy10": round(global_energy, 2),
-        "global_k90": round(global_k90, 2),
         "global_gini": round(global_gini, 4),
         "by_layer_type": layer_type_summary,
         "by_stage": stage_summary,
