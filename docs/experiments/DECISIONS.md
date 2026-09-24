@@ -86,5 +86,12 @@ This document records architectural, methodology, and operational decisions esta
   3. **Figure output directory**: `training/figures/exp01_<name>/` through `training/figures/exp09_<name>/`
 * **Rationale**: Eliminates ambiguity between multiple independent experiments previously lumped into broad category folders (`convergence/` or `sparsity_profiling/`), allowing automated tracking, modular reproducibility, and clear paper artifact mapping.
 
+---
+
+## 10. Default Gradient Sparsity Profiling for Future Experiments (DEC-010)
+* **Decision**: Standardize automated mathematical gradient sparsity tracking ($E_{10}$, Hoyer sparsity, relative threshold sparsity, layer-type and stage breakdowns) across all training pipelines and experimental runners by default.
+* **Architecture**: Implemented [`GradientSparsityTracker`](training/core/sparsity/tracker.py) in `training.core.sparsity`. The tracker auto-detects model architectures (ResNet-50, ViT, GPT, or generic modules), profiles active non-skipped steps on sampled batches ($<0.5\%$ runtime overhead), and records structured telemetry in all run artifacts without requiring ad-hoc profiling flags.
+
+
 
 

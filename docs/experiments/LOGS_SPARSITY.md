@@ -26,7 +26,7 @@ This document catalogs all profiling runs measuring layer-wise gradient sparsity
 | **EXP-06** | Multi-Epoch ResNet-50 Convergence vs. Sparsity | ResNet-50 | [`fig06a`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp06_resnet50_convergence/fig06a_resnet50_convergence_vs_sparsity.png), [`fig06b`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp06_resnet50_convergence/fig06b_resnet50_stages_across_epochs.png), [`fig06c`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp06_resnet50_convergence/fig06c_resnet50_layertypes_across_epochs.png), [`fig06d`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp06_resnet50_convergence/fig06d_resnet50_mask_iou_across_epochs.png) |
 | **EXP-07** | Intra-Epoch Invariance & Stability (390-Step Horizons) | ResNet-50 | [`fig07a`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp07_intra_epoch_stability/fig07a_intra_epoch_metric_variance.png), [`fig07b`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp07_intra_epoch_stability/fig07b_intra_epoch_layertype_cv.png), [`fig07c`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp07_intra_epoch_stability/fig07c_intra_epoch_mask_decay.png), [`fig07d`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp07_intra_epoch_stability/fig07d_intra_epoch_cosine_drift.png), [`fig07e`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp07_intra_epoch_stability/fig07e_intra_epoch_layertype_trajectories.png) |
 | **EXP-08** | Hypothesis 5: Heterogeneous Layer Recoverability | ResNet-50 | [`fig08a`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp08_layer_recoverability/fig08a_layer_recoverability_accuracy.png), [`fig08b`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp08_layer_recoverability/fig08b_layer_recoverability_convergence.png), [`fig08c`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp08_layer_recoverability/fig08c_layer_sensitivity_normalized.png) |
-| **EXP-09** | Hypothesis 6: Sparsity vs. Sensitivity Correlation | ResNet-50 | [`fig09_sparsity_vs_sensitivity.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp09_sparsity_vs_sensitivity/fig09_sparsity_vs_sensitivity.png) |
+| **EXP-09** | Hypothesis 6: Sparsity vs. Sensitivity Correlation | ResNet-50 | [`fig09a`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp09_sparsity_vs_sensitivity/fig09a_sparsity_vs_sensitivity_epochs.png), [`fig09b`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp09_sparsity_vs_sensitivity/fig09b_correlation_trajectory.png), [`fig09c`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp09_sparsity_vs_sensitivity/fig09c_active_skipped_e10.png) |
 
 ---
 
@@ -120,7 +120,7 @@ Gradient Density is defined as $1 - \text{Hoyer}(\mathbf{g})$.
 
 ## 4. EXP-02: Depth Controlled by Layer Type (Hypothesis 2)
 
-* **Figures**: [`training/figures/exp02_depth_vs_density/fig02_depth_vs_density_<model>.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp02_depth_vs_density/fig02_depth_vs_density_resnet50.png) (`resnet50`, `vit`, `gpt`)
+* **Figures**: [`training/figures/exp02_depth_vs_density/fig02_depth_vs_density_<model>.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp02_depth_vs_density/fig02_depth_vs_density_resnet50.png) (`resnet50`, `vit`, `gpt` — Dual-panel: Gradient Density $1-\text{Hoyer}$ on left, Top-10% Energy Concentration $E_{10}$ on right)
 
 Because Hypothesis 1 demonstrated that different layer types have vastly different baseline sparsity (e.g. classification head is hyper-sparse due to one-hot targets), we isolate depth by comparing **identical submodule types across stages**:
 
@@ -163,7 +163,7 @@ Because Hypothesis 1 demonstrated that different layer types have vastly differe
 
 ## 5. EXP-03: Sparsity Evolution Across Iterations & Persistence (Hypothesis 3)
 
-* **Figures**: [`training/figures/exp03_iteration_sparsity/fig03_iteration_sparsity_<model>.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp03_iteration_sparsity/fig03_iteration_sparsity_resnet50.png) (`resnet50`, `vit`, `gpt`)
+* **Figures**: [`training/figures/exp03_iteration_sparsity/fig03_iteration_sparsity_<model>.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp03_iteration_sparsity/fig03_iteration_sparsity_resnet50.png) (`resnet50`, `vit`, `gpt` — Dual-panel: Global Hoyer Sparsity & Loss on top, Top-10% Energy Concentration $E_{10}$ & Loss on bottom)
 
 Does the layer-type hierarchy stay true for the entire epoch?
 
@@ -304,8 +304,8 @@ To resolve whether gradient sparsity patterns stabilize or change during true tr
 * **Log File**: [`training/logs/resnet50_convergence_sparsity.json`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/logs/resnet50_convergence_sparsity.json)
 * **Figures**:
   - Convergence vs. Sparsity: [`training/figures/exp06_resnet50_convergence/fig06a_resnet50_convergence_vs_sparsity.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp06_resnet50_convergence/fig06a_resnet50_convergence_vs_sparsity.png)
-  - Stage-Wise Evolution: [`training/figures/exp06_resnet50_convergence/fig06b_resnet50_stages_across_epochs.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp06_resnet50_convergence/fig06b_resnet50_stages_across_epochs.png)
-  - Layer-Type Evolution: [`training/figures/exp06_resnet50_convergence/fig06c_resnet50_layertypes_across_epochs.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp06_resnet50_convergence/fig06c_resnet50_layertypes_across_epochs.png)
+  - Stage-Wise Evolution (Hoyer & $E_{10}$ Dual-Panel): [`training/figures/exp06_resnet50_convergence/fig06b_resnet50_stages_across_epochs.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp06_resnet50_convergence/fig06b_resnet50_stages_across_epochs.png)
+  - Layer-Type Evolution (Hoyer & $E_{10}$ Dual-Panel): [`training/figures/exp06_resnet50_convergence/fig06c_resnet50_layertypes_across_epochs.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp06_resnet50_convergence/fig06c_resnet50_layertypes_across_epochs.png)
   - Mask Persistence: [`training/figures/exp06_resnet50_convergence/fig06d_resnet50_mask_iou_across_epochs.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp06_resnet50_convergence/fig06d_resnet50_mask_iou_across_epochs.png)
 
 ### 10.1 Epoch-by-Epoch Trajectory
@@ -388,7 +388,7 @@ To answer whether sampling the first few iterations of an epoch ($T_0$, Batches 
 * **Checkpoints**: $T_0$ (batches 0–4), $T_1$ (95–99), $T_2$ (190–194), $T_3$ (285–289), $T_4$ (385–389)
 * **Log File**: [`training/logs/resnet50_intra_epoch_stability.json`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/logs/resnet50_intra_epoch_stability.json)
 * **Figures**:
-  - Metric Variance & CV: [`training/figures/exp07_intra_epoch_stability/fig07a_intra_epoch_metric_variance.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp07_intra_epoch_stability/fig07a_intra_epoch_metric_variance.png)
+  - Metric Variance & CV ($2\times 2$ Grid: Hoyer and $E_{10}$ Envelopes & CV%): [`training/figures/exp07_intra_epoch_stability/fig07a_intra_epoch_metric_variance.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp07_intra_epoch_stability/fig07a_intra_epoch_metric_variance.png)
   - Layer-Type & Stage CV: [`training/figures/exp07_intra_epoch_stability/fig07b_intra_epoch_layertype_cv.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp07_intra_epoch_stability/fig07b_intra_epoch_layertype_cv.png)
   - Mask Persistence Decay: [`training/figures/exp07_intra_epoch_stability/fig07c_intra_epoch_mask_decay.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp07_intra_epoch_stability/fig07c_intra_epoch_mask_decay.png)
   - Cosine Drift: [`training/figures/exp07_intra_epoch_stability/fig07d_intra_epoch_cosine_drift.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp07_intra_epoch_stability/fig07d_intra_epoch_cosine_drift.png)
@@ -396,28 +396,28 @@ To answer whether sampling the first few iterations of an epoch ($T_0$, Batches 
 
 ### 11.1 20-Epoch Intra-Epoch Stability Trajectory
 
-| Epoch | Learning Rate | Train Loss | Val Acc (%) | $T_0$ Hoyer (Start) | $T_4$ Hoyer (End) | $\Delta \text{Hoyer}$ ($T_4 - T_0$) | Hoyer CV (%) | $T_4$ Mask IoU (vs. $T_0$) | $T_4$ Cosine Sim |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| 1 | 0.1000 | 3.0925 | 10.33% | 0.3007 | 0.6161 | +0.3154 | 22.68% | 0.0480 | -0.0177 |
-| 2 | 0.0994 | 2.2214 | 15.72% | 0.6135 | 0.6596 | +0.0461 | **2.86%** | 0.1520 | 0.1227 |
-| 3 | 0.0976 | 1.9781 | 24.44% | 0.6649 | 0.6405 | -0.0244 | **1.73%** | **0.3395** | 0.0081 |
-| 4 | 0.0946 | 1.8287 | 35.84% | 0.6339 | 0.6169 | -0.0170 | **2.11%** | **0.3459** | -0.0042 |
-| 5 | 0.0905 | 1.6337 | 39.62% | 0.6049 | 0.5630 | -0.0419 | **2.66%** | **0.3344** | 0.1814 |
-| 6 | 0.0854 | 1.4300 | 52.05% | 0.5683 | 0.5652 | -0.0031 | **0.67%** | **0.3465** | -0.1894 |
-| 7 | 0.0794 | 1.2488 | 49.58% | 0.5575 | 0.5519 | -0.0056 | **1.78%** | **0.3163** | 0.0264 |
-| 8 | 0.0727 | 1.1008 | 63.61% | 0.5267 | 0.5165 | -0.0102 | **0.95%** | **0.3093** | -0.0320 |
-| 9 | 0.0655 | 0.9772 | 58.21% | 0.5160 | 0.5030 | -0.0130 | **0.94%** | **0.3523** | 0.2086 |
-| 10 | 0.0578 | 0.8691 | 67.08% | 0.5095 | 0.4922 | -0.0173 | **1.32%** | **0.3111** | -0.1894 |
-| 11 | 0.0500 | 0.7657 | 66.47% | 0.5032 | 0.4645 | -0.0387 | **2.68%** | **0.3245** | -0.1140 |
-| 12 | 0.0422 | 0.6821 | 72.12% | 0.4687 | 0.4622 | -0.0065 | **1.09%** | **0.2928** | -0.1055 |
-| 13 | 0.0346 | 0.6025 | 78.52% | 0.4595 | 0.4574 | -0.0021 | **0.98%** | **0.3000** | 0.0766 |
-| 14 | 0.0273 | 0.5358 | 78.28% | 0.4521 | 0.4457 | -0.0064 | **0.77%** | **0.3389** | -0.0483 |
-| 15 | 0.0206 | 0.4813 | 82.51% | 0.4501 | 0.4355 | -0.0146 | **1.07%** | **0.3122** | -0.0101 |
-| 16 | 0.0147 | 0.4275 | 82.84% | 0.4378 | 0.4320 | -0.0058 | **0.54%** | **0.2878** | 0.0875 |
-| 17 | 0.0096 | 0.3785 | 85.05% | 0.4300 | 0.4292 | -0.0008 | **0.72%** | **0.2860** | 0.0194 |
-| 18 | 0.0055 | 0.3314 | 86.05% | 0.4254 | 0.4305 | +0.0051 | **0.64%** | **0.3089** | -0.1404 |
-| 19 | 0.0025 | 0.2967 | 87.01% | 0.4259 | 0.4205 | -0.0054 | **0.97%** | **0.2751** | -0.0341 |
-| 20 | 0.0006 | 0.2726 | 87.32% | 0.4145 | 0.4145 | **+0.0000** | **0.68%** | **0.2683** | 0.0519 |
+| Epoch | Learning Rate | Train Loss | Val Acc (%) | $T_0$ Hoyer (Start) | $T_4$ Hoyer (End) | $\Delta \text{Hoyer}$ ($T_4 - T_0$) | Hoyer CV (%) | $E_{10}$ CV (%) | $T_4$ Mask IoU (vs. $T_0$) | $T_4$ Cosine Sim |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| 1 | 0.1000 | 3.0925 | 10.33% | 0.3007 | 0.6161 | +0.3154 | 22.68% | 14.26% | 0.0480 | -0.0177 |
+| 2 | 0.0994 | 2.2214 | 15.72% | 0.6135 | 0.6596 | +0.0461 | **2.86%** | **1.19%** | 0.1520 | 0.1227 |
+| 3 | 0.0976 | 1.9781 | 24.44% | 0.6649 | 0.6405 | -0.0244 | **1.73%** | **0.64%** | **0.3395** | 0.0081 |
+| 4 | 0.0946 | 1.8287 | 35.84% | 0.6339 | 0.6169 | -0.0170 | **2.11%** | **0.88%** | **0.3459** | -0.0042 |
+| 5 | 0.0905 | 1.6337 | 39.62% | 0.6049 | 0.5630 | -0.0419 | **2.66%** | **1.19%** | **0.3344** | 0.1814 |
+| 6 | 0.0854 | 1.4300 | 52.05% | 0.5683 | 0.5652 | -0.0031 | **0.67%** | **0.39%** | **0.3465** | -0.1894 |
+| 7 | 0.0794 | 1.2488 | 49.58% | 0.5575 | 0.5519 | -0.0056 | **1.78%** | **0.93%** | **0.3163** | 0.0264 |
+| 8 | 0.0727 | 1.1008 | 63.61% | 0.5267 | 0.5165 | -0.0102 | **0.95%** | **0.53%** | **0.3093** | -0.0320 |
+| 9 | 0.0655 | 0.9772 | 58.21% | 0.5160 | 0.5030 | -0.0130 | **0.94%** | **0.55%** | **0.3523** | 0.2086 |
+| 10 | 0.0578 | 0.8691 | 67.08% | 0.5095 | 0.4922 | -0.0173 | **1.32%** | **0.67%** | **0.3111** | -0.1894 |
+| 11 | 0.0500 | 0.7657 | 66.47% | 0.5032 | 0.4645 | -0.0387 | **2.68%** | **1.41%** | **0.3245** | -0.1140 |
+| 12 | 0.0422 | 0.6821 | 72.12% | 0.4687 | 0.4622 | -0.0065 | **1.09%** | **0.57%** | **0.2928** | -0.1055 |
+| 13 | 0.0346 | 0.6025 | 78.52% | 0.4595 | 0.4574 | -0.0021 | **0.98%** | **0.53%** | **0.3000** | 0.0766 |
+| 14 | 0.0273 | 0.5358 | 78.28% | 0.4521 | 0.4457 | -0.0064 | **0.77%** | **0.48%** | **0.3389** | -0.0483 |
+| 15 | 0.0206 | 0.4813 | 82.51% | 0.4501 | 0.4355 | -0.0146 | **1.07%** | **0.69%** | **0.3122** | -0.0101 |
+| 16 | 0.0147 | 0.4275 | 82.84% | 0.4378 | 0.4320 | -0.0058 | **0.54%** | **0.29%** | **0.2878** | 0.0875 |
+| 17 | 0.0096 | 0.3785 | 85.05% | 0.4300 | 0.4292 | -0.0008 | **0.72%** | **0.43%** | **0.2860** | 0.0194 |
+| 18 | 0.0055 | 0.3314 | 86.05% | 0.4254 | 0.4305 | +0.0051 | **0.64%** | **0.36%** | **0.3089** | -0.1404 |
+| 19 | 0.0025 | 0.2967 | 87.01% | 0.4259 | 0.4205 | -0.0054 | **0.97%** | **0.60%** | **0.2751** | -0.0341 |
+| 20 | 0.0006 | 0.2726 | 87.32% | 0.4145 | 0.4145 | **+0.0000** | **0.68%** | **0.44%** | **0.2683** | 0.0519 |
 
 ### 11.3 Layer-Wise Intra-Epoch Stability (CV %)
 
@@ -481,7 +481,10 @@ Rather than tracking indirect pairwise ratios, we evaluate the intra-epoch Coeff
 ## 13. EXP-09: Hypothesis 6: Correlation Between Layer Sensitivity and Baseline Gradient Sparsity (Hoyer & $E_{10}$)
 
 * **Research Question**: Does a layer's baseline gradient sparsity ($E_{10}$ and Hoyer) correlate with its empirical sensitivity to gradient skipping?
-* **Figure**: [`training/figures/exp09_sparsity_vs_sensitivity/fig09_sparsity_vs_sensitivity.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp09_sparsity_vs_sensitivity/fig09_sparsity_vs_sensitivity.png)
+* **Figures**:
+  - [`fig09a_sparsity_vs_sensitivity_epochs.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp09_sparsity_vs_sensitivity/fig09a_sparsity_vs_sensitivity_epochs.png): 6-panel multi-epoch scatter plot tracking regime transition.
+  - [`fig09b_correlation_trajectory.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp09_sparsity_vs_sensitivity/fig09b_correlation_trajectory.png): Standalone 20-epoch correlation trajectory ($r, \rho$) with shaded regimes and crossover callout.
+  - [`fig09c_active_skipped_e10.png`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/figures/exp09_sparsity_vs_sensitivity/fig09c_active_skipped_e10.png): Active skipped vs. baseline $E_{10}$ comparison (20-epoch bar means and trajectories).
 * **Script**: [`training/experiments/plot_sparsity_vs_sensitivity.py`](file:///home/dalius/Projects/dalius/astra-sim/skipreduce/training/experiments/plot_sparsity_vs_sensitivity.py)
 
 ### Empirical Correlation Table:
@@ -509,6 +512,35 @@ Rather than tracking indirect pairwise ratios, we evaluate the intra-epoch Coeff
 * **$E_{10}$ Superiority Over Hoyer ($R^2 = 0.918$ vs. $0.789$)**: Because $E_{10}$ measures the direct energy preservation ratio under truncation, it provides a stronger physical proxy for skipping resilience than geometric shape metrics.
 * **Omission of $K_{90}$**: $K_{90}$ is mathematically dual to $E_{10}$ along the cumulative Lorenz curve and is omitted to eliminate redundancy and avoid full-vector sorting overhead ($\mathcal{O}(n \log n)$ vs $\mathcal{O}(n)$).
 * **System Impact**: SkipReduce can use epoch-onset $E_{10}$ measurements as a zero-cost analytical predictor for layer skipping budgets, removing the need for empirical sensitivity searches.
+
+---
+
+### 13.2 Multi-Epoch Dynamics & Active Skipped Gradient Profiling
+
+#### 1. Resolution of Early vs. Late Training Sparsity Patterns
+Across multi-epoch training, layer-wise gradient energy concentration undergoes a systematic shift that explains the relationship between baseline sparsity and skipping sensitivity:
+* **Early Training (Epoch 1)**: Spatial $3\times 3$ convs undergo broad, dense gradient updates across spatial filter taps to establish foundational visual primitives, resulting in lower energy concentration ($E_{10} = 89.3\%$, lowest among convs). Pointwise $1\times 1$ convs exhibit higher concentration ($91.4\%\text{--}95.8\%$). In this phase, lower $E_{10}$ strictly predicts higher sensitivity to skipped updates ($r = -0.73$, Spearman $\rho = -1.00$).
+* **Late Training (Epochs 5–20)**: Spatial feature extractors stabilize, maintaining $E_{10} \approx 80.5\%$. In contrast, $1\times 1$ pointwise convs (mixing up to 2048 channels) receive dense, isotropic class-refinement backpropagation across channels, causing their $E_{10}$ to drop to $74.0\%\text{--}74.8\%$. This causes the correlation between baseline $E_{10}$ and Protocol A sensitivity to invert in late epochs ($r = +0.73$).
+
+#### 2. Why Early-Epoch Profiling Governs Overall Sensitivity
+Protocol A measured cumulative 20-epoch skipping applied from step 1. Because early-epoch representation learning is critical for downstream feature formation, skipping $3\times 3$ spatial updates in early epochs inflicts representational debt that the network cannot overcome ($\Delta\text{Acc} = -5.12\%$).
+Consequently, **epoch-onset (Epoch 1) gradient profiling ($E_{10}$) captures the critical regime that dictates skipping survivability across the entire training lifecycle**.
+
+#### 3. Active Skipped Gradient Profiling Under Active Conditions
+To evaluate whether applying gradient skipping alters the gradient energy distribution of active (non-skipped) steps:
+* In `probe_layer_recoverability.py`, active even batches ($t \pmod 2 == 0$) were profiled across all 20 epochs before the gradient zeroing step.
+* All 4 convolutional conditions were executed to completion, yielding full gradient energy trajectories under active skipping:
+
+| Layer Type | Parameters (% Model) | Baseline Mean $E_{10}$ | Active Skipped Mean $E_{10}$ | Active Skipped Epoch 1 $E_{10}$ | Active Skipped Epoch 20 $E_{10}$ | Final Val Acc | $\Delta\text{Acc}$ | Sensitivity Index |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| `conv3x3_spatial` | 11.32M (48.1%) | 86.1% | **94.0%** | 83.1% | 92.2% | 83.07% | -5.12% | 0.452 pp/M |
+| `conv1x1_expand` | 5.03M (21.4%) | 80.6% | **84.9%** | 82.5% | 81.1% | 87.22% | -0.97% | 0.193 pp/M |
+| `conv1x1_reduce` | 4.33M (18.4%) | 80.3% | **78.7%** | 78.8% | 76.2% | 87.70% | -0.49% | 0.113 pp/M |
+| `conv1x1_downsample`| 2.77M (11.8%) | 82.8% | **86.9%** | 86.1% | 81.8% | 88.21% | +0.02% | -0.007 pp/M |
+
+* **Key Takeaway**: Across all layer types, preserved gradient updates on active steps maintain high energy concentration ($E_{10} \in [78.7\%, 94.0\%]$). For $3\times 3$ spatial convs, active step $E_{10}$ rises from 86.1% to 94.0%, indicating that omitting half the updates further concentrates the remaining update energy onto dominant directional coordinates. For all $1\times 1$ convs, active $E_{10}$ remains close to baseline ($\pm 1\text{--}4\%$), confirming that skipping does not cause gradient dispersion or representation instability.
+
+
 
 
 

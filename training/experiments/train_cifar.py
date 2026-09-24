@@ -19,7 +19,9 @@ import torchvision
 import torchvision.transforms as transforms
 
 from training.core.ring import simulate_skipreduce_ring, ErrorFeedbackBuffer
+from training.core.sparsity import GradientSparsityTracker
 from training.models import get_cifar_resnet50
+
 
 
 
@@ -89,6 +91,13 @@ def train(args):
 
     ef_buffer = ErrorFeedbackBuffer(num_ranks=args.ranks) if args.use_ef else None
 
+    # Gradient sparsity tracker for future-proof profiling
+    tracker = (
+        GradientSparsityTracker(model, sample_per_epoch=args.sample_per_epoch)
+        if getattr(args, "track_sparsity", True)
+        else None
+    )
+
     # Run metadata & tracking
     run_id = f"ranks{args.ranks}_skip{args.skip}_{args.transform}_r{args.retention}_{'ef' if args.use_ef else 'noef'}_{int(time.time())}"
     history = {
@@ -104,6 +113,7 @@ def train(args):
         "step_batch_size": args.micro_batch_size * args.ranks,
         "epochs_data": []
     }
+
 
     print("\n" + "=" * 80)
     print(f"Run ID: {run_id}")
@@ -164,6 +174,9 @@ def train(args):
                 step_cos_sims.append(stats["cos_sim"])
                 step_rel_errors.append(stats["rel_l2_error"])
 
+            if tracker and tracker.should_sample(batch_idx):
+                tracker.record_step(batch_idx)
+
             optimizer.step()
 
             epoch_cos_sims.append(sum(step_cos_sims) / len(step_cos_sims))
@@ -183,15 +196,21 @@ def train(args):
             f"Val Acc: {val_acc:.2f}% | CosSim: {mean_cos_sim:.4f} | RelErr: {mean_rel_error:.4f}"
         )
 
-        history["epochs_data"].append({
+        epoch_record = {
             "epoch": epoch + 1,
             "train_loss": round(train_loss, 4),
             "val_loss": round(val_loss, 4),
             "val_acc": round(val_acc, 2),
             "mean_cos_sim": round(mean_cos_sim, 4),
             "mean_rel_error": round(mean_rel_error, 4),
-            "epoch_time_s": round(epoch_time, 2)
-        })
+            "epoch_time_s": round(epoch_time, 2),
+        }
+        if tracker:
+            epoch_record["gradient_sparsity"] = tracker.finish_epoch(epoch + 1)
+        history["epochs_data"].append(epoch_record)
+
+    if tracker:
+        history["gradient_sparsity_summary"] = tracker.get_summary()
 
     # Save output log
     os.makedirs(args.log_dir, exist_ok=True)
@@ -210,7 +229,10 @@ def main():
     parser.add_argument("--transform", type=str, default="none", choices=["none", "dct", "hadamard"])
     parser.add_argument("--retention", type=float, default=0.0, help="Retention ratio r in [0, 1]")
     parser.add_argument("--use-ef", action="store_true", help="Enable Error Feedback buffer")
+    parser.add_argument("--track-sparsity", action=argparse.BooleanOptionalAction, default=True, help="Track and log mathematical gradient sparsity metrics (E10, Hoyer) per epoch")
+    parser.add_argument("--sample-per-epoch", type=int, default=5, help="Number of gradient sample batches per epoch")
     parser.add_argument("--epochs", type=int, default=20, help="Total training epochs")
+
     parser.add_argument("--micro-batch-size", type=int, default=32, help="Batch size per virtual rank")
     parser.add_argument("--lr", type=float, default=0.1, help="Initial learning rate")
     parser.add_argument("--seed", type=int, default=42, help="Random seed")

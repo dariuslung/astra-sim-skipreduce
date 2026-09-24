@@ -116,8 +116,8 @@ def plot_layer_type_sparsity(data: dict, model_name: str, output_dir: str):
 def plot_depth_vs_density(data: dict, model_name: str, output_dir: str):
     """
     Figure 2: Evaluates Hypothesis 2 controlled for layer type.
-    Compares identical layer types across network depth to evaluate whether
-    deeper layers exhibit denser or sparser gradients.
+    Compares identical layer types across network depth for both
+    Gradient Density (1 - Hoyer) and Top-10% Energy Concentration (E10).
     """
     from collections import defaultdict
     rec_last = data["trajectory"][-1]
@@ -129,7 +129,7 @@ def plot_depth_vs_density(data: dict, model_name: str, output_dir: str):
     for it in fls:
         by_type[it["layer_type"]].append(it)
 
-    fig, ax = plt.subplots(figsize=(9, 5), dpi=300)
+    fig, (ax_density, ax_energy) = plt.subplots(1, 2, figsize=(14, 5.2), dpi=300)
 
     if model_name == "resnet50":
         target_types = ["conv3x3_spatial", "conv1x1_reduce", "conv1x1_expand"]
@@ -139,17 +139,25 @@ def plot_depth_vs_density(data: dict, model_name: str, output_dir: str):
 
         for lt in target_types:
             items = by_type[lt]
-            stage_vals = []
+            stage_densities = []
+            stage_energies = []
             for st in stages:
-                vals = [it["density"] for it in items if it["stage"] == st]
-                stage_vals.append(np.mean(vals) if vals else np.nan)
+                dens_vals = [it["density"] for it in items if it["stage"] == st]
+                e10_vals = [it["energy10"] for it in items if it["stage"] == st]
+                stage_densities.append(np.mean(dens_vals) if dens_vals else np.nan)
+                stage_energies.append(np.mean(e10_vals) if e10_vals else np.nan)
 
             clean_name = lt.replace("_", " ").title()
-            ax.plot(stages, stage_vals, marker=markers[lt], color=colors[lt], linewidth=2.2, markersize=8, label=clean_name)
+            ax_density.plot(stages, stage_densities, marker=markers[lt], color=colors[lt],
+                            linewidth=2.2, markersize=8, label=clean_name)
+            ax_energy.plot(stages, stage_energies, marker=markers[lt], color=colors[lt],
+                           linewidth=2.2, markersize=8, label=clean_name)
 
-        ax.set_xticks(range(len(stages)))
-        ax.set_xticklabels([s.title() for s in stages])
-        ax.set_xlabel("Depth Stage (Shallow -> Deep)", fontweight="bold")
+        for ax in (ax_density, ax_energy):
+            ax.set_xticks(range(len(stages)))
+            ax.set_xticklabels([s.title() for s in stages])
+            ax.set_xlabel("Depth Stage (Shallow -> Deep)", fontweight="bold")
+            ax.grid(True)
         title_model = "ResNet-50"
     else:  # ViT or GPT
         target_types = ["attn_qkv", "attn_proj", "ffn_up", "ffn_down"]
@@ -159,36 +167,48 @@ def plot_depth_vs_density(data: dict, model_name: str, output_dir: str):
 
         for lt in target_types:
             items = by_type[lt]
-            block_vals = []
+            block_densities = []
+            block_energies = []
             for blk in blocks:
-                vals = [it["density"] for it in items if it["stage"] == blk]
-                block_vals.append(np.mean(vals) if vals else np.nan)
+                dens_vals = [it["density"] for it in items if it["stage"] == blk]
+                e10_vals = [it["energy10"] for it in items if it["stage"] == blk]
+                block_densities.append(np.mean(dens_vals) if dens_vals else np.nan)
+                block_energies.append(np.mean(e10_vals) if e10_vals else np.nan)
 
             clean_name = lt.replace("_", " ").title()
-            ax.plot(blocks, block_vals, marker=markers[lt], color=colors[lt], linewidth=2.2, markersize=7, label=clean_name)
+            ax_density.plot(blocks, block_densities, marker=markers[lt], color=colors[lt],
+                            linewidth=2.2, markersize=7, label=clean_name)
+            ax_energy.plot(blocks, block_energies, marker=markers[lt], color=colors[lt],
+                           linewidth=2.2, markersize=7, label=clean_name)
 
-        ax.set_xticks(range(len(blocks)))
-        ax.set_xticklabels([b.replace("_", " ").title() for b in blocks])
-        ax.set_xlabel("Transformer Block Index (0 = Shallow -> 5 = Deep)", fontweight="bold")
+        for ax in (ax_density, ax_energy):
+            ax.set_xticks(range(len(blocks)))
+            ax.set_xticklabels([b.replace("_", " ").title() for b in blocks])
+            ax.set_xlabel("Transformer Block Index (0 = Shallow -> 5 = Deep)", fontweight="bold")
+            ax.grid(True)
         title_model = get_title_model(model_name)
 
-    ax.set_ylabel("Gradient Density (1 - Hoyer Sparsity)", fontweight="bold")
-    ax.set_ylim(0.2, 0.85)
-    plt.title(f"Gradient Density vs. Depth (Controlled by Layer Type): {title_model}\n(Hypothesis 2: Evaluated Across Identical Submodules)",
-              fontsize=13, fontweight="bold", pad=12)
-    ax.legend(loc="upper right", frameon=True)
-    plt.tight_layout()
+    ax_density.set_ylabel("Gradient Density (1 - Hoyer Sparsity)", fontweight="bold")
+    ax_density.set_title("Gradient Density vs. Depth", fontsize=11, fontweight="bold")
+    ax_density.legend(loc="best", frameon=True)
+
+    ax_energy.set_ylabel("Top-10% Energy Concentration ($E_{10}$ %)", fontweight="bold")
+    ax_energy.set_title("Top-10% Energy Concentration ($E_{10}$) vs. Depth", fontsize=11, fontweight="bold")
+    ax_energy.legend(loc="best", frameon=True)
+
+    plt.suptitle(f"Gradient Density & Energy Concentration vs. Depth: {title_model}\n(Hypothesis 2: Evaluated Across Identical Submodules)",
+                 fontsize=13, fontweight="bold", y=0.98)
+    plt.tight_layout(rect=[0, 0, 1, 0.90])
     os.makedirs(output_dir, exist_ok=True)
     out_path = os.path.join(output_dir, f"fig02_depth_vs_density_{model_name}.png")
-    plt.savefig(out_path)
+    plt.savefig(out_path, bbox_inches="tight")
     plt.close()
     print(f"Saved: {out_path}")
 
 
-
 def plot_iteration_sparsity_evolution(data: dict, model_name: str, output_dir: str):
     """
-    Figure 3: Evaluates Hypothesis 3 (Gradient sparsity increases with iterations as loss stabilizes).
+    Figure 3: Evaluates Hypothesis 3 (Gradient sparsity and energy concentration increase with iterations as loss stabilizes).
     """
     trajectory = data["trajectory"]
     steps = [r["step"] for r in trajectory]
@@ -196,7 +216,7 @@ def plot_iteration_sparsity_evolution(data: dict, model_name: str, output_dir: s
     hoyers = [r["global_hoyer"] for r in trajectory]
     energies = [r["global_energy10"] for r in trajectory]
 
-    fig, ax1 = plt.subplots(figsize=(9, 5), dpi=300)
+    fig, (ax_hoyer, ax_e10) = plt.subplots(2, 1, figsize=(10, 7.5), dpi=300, sharex=True)
 
     color_loss = "#7f7f7f"
     color_hoyer = "#2ca02c"
@@ -214,31 +234,53 @@ def plot_iteration_sparsity_evolution(data: dict, model_name: str, output_dir: s
     smooth_energies = moving_avg(energies, w)
     smooth_losses = moving_avg(losses, w)
 
-    ax1.plot(steps, hoyers, color=color_hoyer, alpha=0.25)
-    line1, = ax1.plot(smooth_steps, smooth_hoyers, color=color_hoyer, linewidth=2.5,
-                      label="Mean Hoyer Sparsity (10-step MA)")
-    ax1.set_xlabel("Training Iteration (Step)", fontweight="bold")
-    ax1.set_ylabel("Global Hoyer Sparsity Index [0-1]", color=color_hoyer, fontweight="bold")
-    ax1.tick_params(axis="y", labelcolor=color_hoyer)
-    ax1.set_ylim(min(hoyers) * 0.9, min(1.0, max(hoyers) * 1.1))
+    # --- TOP PANEL: Hoyer Sparsity ---
+    ax_hoyer.plot(steps, hoyers, color=color_hoyer, alpha=0.25)
+    line_hoyer, = ax_hoyer.plot(smooth_steps, smooth_hoyers, color=color_hoyer, linewidth=2.5,
+                                label="Mean Hoyer Sparsity (10-step MA)")
+    ax_hoyer.set_ylabel("Global Hoyer Sparsity [0-1]", color=color_hoyer, fontweight="bold")
+    ax_hoyer.tick_params(axis="y", labelcolor=color_hoyer)
+    ax_hoyer.set_ylim(min(hoyers) * 0.9, min(1.0, max(hoyers) * 1.1))
+    ax_hoyer.grid(True)
 
-    ax2 = ax1.twinx()
-    ax2.plot(steps, losses, color=color_loss, alpha=0.25)
-    line2, = ax2.plot(smooth_steps, smooth_losses, color=color_loss, linestyle="--", linewidth=2.0,
-                      label="Training Loss (Cross-Entropy)")
-    ax2.set_ylabel("Training Loss", color=color_loss, fontweight="bold")
-    ax2.tick_params(axis="y", labelcolor=color_loss)
+    ax_hoyer_r = ax_hoyer.twinx()
+    ax_hoyer_r.plot(steps, losses, color=color_loss, alpha=0.25)
+    line_loss1, = ax_hoyer_r.plot(smooth_steps, smooth_losses, color=color_loss, linestyle="--", linewidth=2.0,
+                                  label="Training Loss (Cross-Entropy)")
+    ax_hoyer_r.set_ylabel("Training Loss", color=color_loss, fontweight="bold")
+    ax_hoyer_r.tick_params(axis="y", labelcolor=color_loss)
+    ax_hoyer.set_title("Global Hoyer Sparsity Index Over Iterations", fontsize=11, fontweight="bold")
+    ax_hoyer.legend([line_hoyer, line_loss1], [line_hoyer.get_label(), line_loss1.get_label()],
+                    loc="center right", frameon=True)
+
+    # --- BOTTOM PANEL: Top-10% Energy Concentration (E10) ---
+    ax_e10.plot(steps, energies, color=color_energy, alpha=0.25)
+    line_e10, = ax_e10.plot(smooth_steps, smooth_energies, color=color_energy, linewidth=2.5,
+                            label="Top-10% Energy ($E_{10}$) (10-step MA)")
+    ax_e10.set_xlabel("Training Iteration (Step)", fontweight="bold")
+    ax_e10.set_ylabel("Top-10% Energy ($E_{10}$ %)", color=color_energy, fontweight="bold")
+    ax_e10.tick_params(axis="y", labelcolor=color_energy)
+    ax_e10.set_ylim(min(energies) * 0.9, min(102.0, max(energies) * 1.05))
+    ax_e10.grid(True)
+
+    ax_e10_r = ax_e10.twinx()
+    ax_e10_r.plot(steps, losses, color=color_loss, alpha=0.25)
+    line_loss2, = ax_e10_r.plot(smooth_steps, smooth_losses, color=color_loss, linestyle="--", linewidth=2.0,
+                                label="Training Loss (Cross-Entropy)")
+    ax_e10_r.set_ylabel("Training Loss", color=color_loss, fontweight="bold")
+    ax_e10_r.tick_params(axis="y", labelcolor=color_loss)
+    ax_e10.set_title("Top-10% Energy Concentration ($E_{10}$) Over Iterations", fontsize=11, fontweight="bold")
+    ax_e10.legend([line_e10, line_loss2], [line_e10.get_label(), line_loss2.get_label()],
+                  loc="center right", frameon=True)
 
     title_model = get_title_model(model_name)
-    plt.title(f"Gradient Sparsity Evolution Over Training: {title_model}\n(Hypothesis 3: Sparsity Increases with Iterations)",
-              fontsize=13, fontweight="bold", pad=12)
+    plt.suptitle(f"Gradient Sparsity & Energy Concentration Evolution: {title_model}\n(Hypothesis 3: Sparsity & Energy Concentration Over Iterations)",
+                 fontsize=13, fontweight="bold", y=0.98)
 
-    ax1.legend([line1, line2], [line1.get_label(), line2.get_label()], loc="center right", frameon=True)
-
-    plt.tight_layout()
+    plt.tight_layout(rect=[0, 0, 1, 0.92])
     os.makedirs(output_dir, exist_ok=True)
     out_path = os.path.join(output_dir, f"fig03_iteration_sparsity_{model_name}.png")
-    plt.savefig(out_path)
+    plt.savefig(out_path, bbox_inches="tight")
     plt.close()
     print(f"Saved: {out_path}")
 

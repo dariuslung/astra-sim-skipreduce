@@ -37,40 +37,83 @@ def plot_metric_variance(data: dict, output_dir: str):
     epochs_data = data["epochs_data"]
     epochs = [d["epoch"] for d in epochs_data]
 
+    # Hoyer metrics
     t0_hoyers = [d["checkpoints"][0]["global_hoyer"] for d in epochs_data]
     min_hoyers = [min(c["global_hoyer"] for c in d["checkpoints"]) for d in epochs_data]
     max_hoyers = [max(c["global_hoyer"] for c in d["checkpoints"]) for d in epochs_data]
     cv_hoyers = [d["intra_epoch_hoyer_cv_pct"] for d in epochs_data]
 
-    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(9, 7.5), dpi=300, sharex=True)
+    # Energy-10 metrics
+    t0_energies = [d["checkpoints"][0]["global_energy10"] for d in epochs_data]
+    min_energies = [min(c["global_energy10"] for c in d["checkpoints"]) for d in epochs_data]
+    max_energies = [max(c["global_energy10"] for c in d["checkpoints"]) for d in epochs_data]
+    cv_energies = []
+    for d in epochs_data:
+        ckpts_e10 = [c["global_energy10"] for c in d["checkpoints"]]
+        m = float(np.mean(ckpts_e10))
+        s = float(np.std(ckpts_e10))
+        cv = (s / m * 100.0) if m > 0 else 0.0
+        cv_energies.append(round(cv, 2))
 
-    # Top Panel: Anchor Hoyer with Min-Max Intra-Epoch Envelope
+    fig, ((ax1, ax3), (ax2, ax4)) = plt.subplots(2, 2, figsize=(15, 8.0), dpi=300, sharex=True)
+
+    # --- Top-Left Panel: Anchor Hoyer with Min-Max Intra-Epoch Envelope ---
     color_hoyer = "#2ca02c"
-    color_band = "#98df8a"
+    color_band_h = "#98df8a"
 
-    ax1.plot(epochs, t0_hoyers, color=color_hoyer, marker="o", linewidth=2.5, label="Initial Anchor (Batches 1-5)")
-    ax1.fill_between(epochs, min_hoyers, max_hoyers, color=color_band, alpha=0.4, label="Intra-Epoch Range (Min to Max Checkpoint)")
+    ax1.plot(epochs, t0_hoyers, color=color_hoyer, marker="o", linewidth=2.5, label=r"Initial Anchor $T_0$ (Batches 1-5)")
+    ax1.fill_between(epochs, min_hoyers, max_hoyers, color=color_band_h, alpha=0.4, label=r"Intra-Epoch Range ($T_0 \to T_4$)")
     ax1.plot(epochs, min_hoyers, color=color_hoyer, linestyle=":", alpha=0.7)
     ax1.plot(epochs, max_hoyers, color=color_hoyer, linestyle=":", alpha=0.7)
 
     ax1.set_ylabel("Global Hoyer Sparsity [0-1]", fontweight="bold")
-    ax1.set_title("ResNet-50 Intra-Epoch Sparsity Stability Across 20 Epochs\n(Evaluating Whether Initial Anchor Proxy Holds Across 390 Batches)",
-                  fontsize=13, fontweight="bold", pad=10)
+    ax1.set_title(r"Hoyer Sparsity: Anchor $T_0$ vs. Intra-Epoch Spread", fontsize=11, fontweight="bold")
     ax1.grid(True)
     ax1.legend(loc="upper right", frameon=True)
 
-    # Bottom Panel: Coefficient of Variation (CV %)
-    color_cv = "#1f77b4"
-    ax2.bar(epochs, cv_hoyers, color=color_cv, alpha=0.8, width=0.6, label="Intra-Epoch Hoyer CV (%)")
+    # --- Bottom-Left Panel: Hoyer Coefficient of Variation (CV %) ---
+    color_cv_h = "#1f77b4"
+    ax2.bar(epochs, cv_hoyers, color=color_cv_h, edgecolor="#333333", linewidth=0.8, alpha=0.85, width=0.6,
+            label="Intra-Epoch Hoyer CV (%)")
     ax2.axhline(5.0, color="#d62728", linestyle="--", linewidth=1.8, label="5% Invariance Threshold")
 
     ax2.set_xlabel("Training Epoch", fontweight="bold")
-    ax2.set_ylabel("Coefficient of Variation (CV %)", fontweight="bold")
+    ax2.set_ylabel("Hoyer CV (%)", fontweight="bold")
     ax2.set_xticks(epochs)
+    ax2.set_title("Intra-Epoch Hoyer CV (%) Across Epochs", fontsize=11, fontweight="bold")
     ax2.grid(True)
     ax2.legend(loc="upper right", frameon=True)
 
-    plt.tight_layout()
+    # --- Top-Right Panel: Anchor E10 with Min-Max Intra-Epoch Envelope ---
+    color_e10 = "#9467bd"
+    color_band_e = "#c5b0d5"
+
+    ax3.plot(epochs, t0_energies, color=color_e10, marker="s", linewidth=2.5, label=r"Initial Anchor $T_0$ (Batches 1-5)")
+    ax3.fill_between(epochs, min_energies, max_energies, color=color_band_e, alpha=0.4, label=r"Intra-Epoch Range ($T_0 \to T_4$)")
+    ax3.plot(epochs, min_energies, color=color_e10, linestyle=":", alpha=0.7)
+    ax3.plot(epochs, max_energies, color=color_e10, linestyle=":", alpha=0.7)
+
+    ax3.set_ylabel("Top-10% Energy Concentration ($E_{10}$ %)", fontweight="bold")
+    ax3.set_title("Top-10% Energy: Anchor $T_0$ vs. Intra-Epoch Spread", fontsize=11, fontweight="bold")
+    ax3.grid(True)
+    ax3.legend(loc="upper right", frameon=True)
+
+    # --- Bottom-Right Panel: Energy-10 Coefficient of Variation (CV %) ---
+    color_cv_e = "#ff7f0e"
+    ax4.bar(epochs, cv_energies, color=color_cv_e, edgecolor="#333333", linewidth=0.8, alpha=0.85, width=0.6,
+            label="Intra-Epoch $E_{10}$ CV (%)")
+    ax4.axhline(5.0, color="#d62728", linestyle="--", linewidth=1.8, label="5% Invariance Threshold")
+
+    ax4.set_xlabel("Training Epoch", fontweight="bold")
+    ax4.set_ylabel("Energy-10 CV (%)", fontweight="bold")
+    ax4.set_xticks(epochs)
+    ax4.set_title("Intra-Epoch Top-10% Energy ($E_{10}$) CV (%) Across Epochs", fontsize=11, fontweight="bold")
+    ax4.grid(True)
+    ax4.legend(loc="upper right", frameon=True)
+
+    plt.suptitle("ResNet-50 Intra-Epoch Sparsity & Energy Stability Across 20 Epochs\n(Evaluating Whether Initial Anchor Proxy Holds Across 390 Batches for Hoyer & $E_{10}$)",
+                 fontsize=13, fontweight="bold", y=0.98)
+    plt.tight_layout(rect=[0, 0, 1, 0.92])
     out_path = os.path.join(output_dir, "fig07a_intra_epoch_metric_variance.png")
     plt.savefig(out_path, bbox_inches="tight")
     plt.close()

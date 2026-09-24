@@ -86,7 +86,41 @@ class TestSparsityMetrics(unittest.TestCase):
         zeros = torch.zeros(d)
         self.assertEqual(compute_gini_index(zeros), 0.0)
 
+    def test_gradient_sparsity_tracker(self):
+        from training.core.sparsity import GradientSparsityTracker
+        from training.models import get_cifar_resnet50
+
+        model = get_cifar_resnet50(num_classes=10)
+        tracker = GradientSparsityTracker(model, sample_per_epoch=2)
+
+        self.assertTrue(tracker.should_sample(0))
+        self.assertTrue(tracker.should_sample(1))
+        self.assertFalse(tracker.should_sample(2))
+
+        # Synthetic forward & backward
+        x = torch.randn(4, 3, 32, 32)
+        target = torch.randint(0, 10, (4,))
+        criterion = torch.nn.CrossEntropyLoss()
+
+        out = model(x)
+        loss = criterion(out, target)
+        loss.backward()
+
+        tracker.record_step(0)
+        epoch_stats = tracker.finish_epoch(1)
+
+        self.assertIn("global", epoch_stats)
+        self.assertIn("by_layer_type", epoch_stats)
+        self.assertIn("by_stage", epoch_stats)
+        self.assertGreater(epoch_stats["global"]["energy10"], 0.0)
+        self.assertLessEqual(epoch_stats["global"]["energy10"], 100.0)
+        self.assertGreater(epoch_stats["global"]["hoyer"], 0.0)
+        self.assertLessEqual(epoch_stats["global"]["hoyer"], 1.0)
+        self.assertIn("conv3x3_spatial", epoch_stats["by_layer_type"])
+        self.assertIn("stage1", epoch_stats["by_stage"])
+
 
 if __name__ == "__main__":
     unittest.main()
+
 

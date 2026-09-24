@@ -24,6 +24,7 @@ import torch.optim as optim
 import torchvision
 import torchvision.transforms as transforms
 
+from training.core.sparsity import compute_hoyer_sparsity, compute_energy_concentration
 from training.models import get_cifar_resnet50, get_resnet50_layer_metadata
 
 
@@ -141,6 +142,8 @@ def run_condition(
     device: torch.device,
     seed: int,
     num_workers: int = 4,
+    profile_gradients: bool = True,
+    sample_per_epoch: int = 5,
 ) -> Dict[str, Any]:
     print(f"\n{'='*80}")
     print(f"Condition: [{cond_key}] - {cfg['description']}")
@@ -183,6 +186,15 @@ def run_condition(
     epochs_history = []
     condition_start = time.time()
 
+    num_batches = len(trainloader)
+    if profile_gradients:
+        raw_samples = [int(round(i * (num_batches - 1) / (sample_per_epoch - 1))) for i in range(sample_per_epoch)]
+        # For skipped runs (skip_freq == 2), ensure samples land on non-skipped (even) batches
+        # so gradients exist on all layers prior to stepping
+        sample_indices = set([idx if (idx % 2 == 0) else max(0, idx - 1) for idx in raw_samples])
+    else:
+        sample_indices = set()
+
     print(f"{'Epoch':>5} | {'LR':>7} | {'Train Loss':>10} | {'Val Loss':>8} | {'Val Acc %':>9} | {'Time (s)':>8}")
     print("-" * 65)
 
@@ -190,6 +202,9 @@ def run_condition(
         epoch_start = time.time()
         model.train()
         running_loss = 0.0
+
+        epoch_by_type_samples = defaultdict(lambda: {"hoyer": [], "energy10": []})
+        epoch_by_stage_samples = defaultdict(lambda: {"hoyer": [], "energy10": []})
 
         for batch_idx, (inputs, targets) in enumerate(trainloader):
             inputs = inputs.to(device, non_blocking=True)
@@ -199,6 +214,29 @@ def run_condition(
             outputs = model(inputs)
             loss = criterion(outputs, targets)
             loss.backward()
+
+            # Profile gradients on active (even) sample batches BEFORE zeroing
+            if profile_gradients and (batch_idx in sample_indices):
+                batch_type_stats = defaultdict(lambda: {"hoyer": [], "energy10": []})
+                batch_stage_stats = defaultdict(lambda: {"hoyer": [], "energy10": []})
+                for name, p in model.named_parameters():
+                    if p.grad is not None and p.dim() >= 2:
+                        meta = get_resnet50_layer_metadata(name)
+                        lt = meta["layer_type"]
+                        stg = meta["stage"]
+                        h = compute_hoyer_sparsity(p.grad)
+                        e, _ = compute_energy_concentration(p.grad, top_fraction=0.10)
+                        batch_type_stats[lt]["hoyer"].append(h)
+                        batch_type_stats[lt]["energy10"].append(e)
+                        batch_stage_stats[stg]["hoyer"].append(h)
+                        batch_stage_stats[stg]["energy10"].append(e)
+
+                for lt, vals in batch_type_stats.items():
+                    epoch_by_type_samples[lt]["hoyer"].append(float(np.mean(vals["hoyer"])))
+                    epoch_by_type_samples[lt]["energy10"].append(float(np.mean(vals["energy10"])))
+                for stg, vals in batch_stage_stats.items():
+                    epoch_by_stage_samples[stg]["hoyer"].append(float(np.mean(vals["hoyer"])))
+                    epoch_by_stage_samples[stg]["energy10"].append(float(np.mean(vals["energy10"])))
 
             # Protocol A Skipping: Set targeted parameter gradients to None
             # when batch_idx % skip_freq != 0.
@@ -217,6 +255,19 @@ def run_condition(
         val_loss, val_acc = evaluate(model, testloader, criterion, device)
         epoch_time = round(time.time() - epoch_start, 2)
 
+        type_summary = {}
+        for lt, vals in epoch_by_type_samples.items():
+            type_summary[lt] = {
+                "hoyer": round(float(np.mean(vals["hoyer"])), 4),
+                "energy10": round(float(np.mean(vals["energy10"])), 2),
+            }
+        stage_summary = {}
+        for stg, vals in epoch_by_stage_samples.items():
+            stage_summary[stg] = {
+                "hoyer": round(float(np.mean(vals["hoyer"])), 4),
+                "energy10": round(float(np.mean(vals["energy10"])), 2),
+            }
+
         epochs_history.append({
             "epoch": epoch,
             "lr": round(current_lr, 5),
@@ -224,6 +275,8 @@ def run_condition(
             "val_loss": val_loss,
             "val_acc": val_acc,
             "epoch_time_s": epoch_time,
+            "by_layer_type": type_summary,
+            "by_stage": stage_summary,
         })
 
         print(f"{epoch:5d} | {current_lr:7.5f} | {train_loss:10.4f} | {val_loss:8.4f} | {val_acc:8.2f}% | {epoch_time:8.2f}s")
@@ -270,6 +323,8 @@ def main():
     parser.add_argument("--device", type=str, default="cuda", help="Device (cuda or cpu)")
     parser.add_argument("--num-workers", type=int, default=4, help="DataLoader num_workers")
     parser.add_argument("--overwrite", action="store_true", help="Overwrite existing condition results in log file")
+    parser.add_argument("--profile-gradients", action="store_true", default=True, help="Profile gradient sparsity on active steps")
+    parser.add_argument("--sample-per-epoch", type=int, default=5, help="Number of gradient sample batches per epoch")
     args = parser.parse_args()
 
     device = torch.device(args.device if torch.cuda.is_available() and args.device == "cuda" else "cpu")
@@ -330,6 +385,8 @@ def main():
             device=device,
             seed=args.seed,
             num_workers=args.num_workers,
+            profile_gradients=args.profile_gradients,
+            sample_per_epoch=args.sample_per_epoch,
         )
 
         results_data["conditions"][cond_key] = cond_res

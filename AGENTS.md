@@ -48,3 +48,15 @@ This document records explicit user instructions, scientific phrasing rules, and
 ## 6. Error Feedback (EF) Policy
 * **Do Not Mention or Use Error Feedback (EF)**: Do NOT reference, discuss, or qualify experiments as "without EF" or "without Error Feedback" across any documentation, plot titles, super-titles, script comments, or experiment reports unless explicitly prompted by the user. SkipReduce gradient skipping and compression operate under direct skipping by default; do not bring up EF.
 
+---
+
+## 7. Future-Proof Experiment Logging Policy
+* **Mandatory Gradient Sparsity Logging**: All future training runs, ablation probes, distributed simulations, and profiling scripts must log mathematical gradient sparsity metrics by default. Specifically, experiments must record:
+  1. **Energy Concentration ($E_{10}$)**: Percentage of total $L_2^2$ energy captured by the top 10% coordinates.
+  2. **Hoyer Sparsity**: Scale-invariant sparsity bounded in $[0, 1]$.
+  3. **Relative Threshold Sparsity ($S_{0.05}$)**: Fraction of coordinates below $0.05 \sigma$.
+  4. **Structural Breakdowns**: Aggregated metrics partitioned by `layer_type` and by `stage` (or block).
+  5. **Active vs. Skipped Step Sampling**: For experiments with skipping or compression, metrics must be sampled on non-skipped (active) iterations prior to zeroing/compression.
+  6. **Standardized Tooling**: Standardize on [`training.core.sparsity.GradientSparsityTracker`](training/core/sparsity/tracker.py) across all training pipelines to record metrics automatically with negligible compute overhead (<0.5%).
+
+

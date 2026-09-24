@@ -116,25 +116,37 @@ def plot_stages_across_epochs(data: dict, output_dir: str):
         "head": "#9467bd",
     }
 
-    fig, ax = plt.subplots(figsize=(9, 5.5), dpi=300)
+    fig, (ax_hoyer, ax_e10) = plt.subplots(1, 2, figsize=(15, 5.5), dpi=300)
 
     for st in stages:
-        vals = [d["by_stage"].get(st, {}).get("hoyer", np.nan) for d in epochs_data]
-        if not any(np.isnan(vals)):
-            ax.plot(epochs, vals, marker="o", linewidth=2.2, label=stage_labels.get(st, st),
-                    color=stage_colors.get(st, "#333333"))
+        h_vals = [d["by_stage"].get(st, {}).get("hoyer", np.nan) for d in epochs_data]
+        e_vals = [d["by_stage"].get(st, {}).get("energy10", np.nan) for d in epochs_data]
+        color = stage_colors.get(st, "#333333")
+        label = stage_labels.get(st, st)
 
-    ax.set_xlabel("Training Epoch", fontweight="bold")
-    ax.set_ylabel("Hoyer Sparsity Index [0-1]", fontweight="bold")
-    ax.set_title("ResNet-50 Stage-Wise Sparsity Evolution Across 20 Epochs\n(Stem through Deepest Stage 4)",
-                 fontsize=13, fontweight="bold", pad=12)
-    ax.set_xticks(epochs)
-    ax.grid(True)
-    ax.legend(loc="best", frameon=True)
+        if not any(np.isnan(h_vals)):
+            ax_hoyer.plot(epochs, h_vals, marker="o", linewidth=2.2, label=label, color=color)
+        if not any(np.isnan(e_vals)):
+            ax_e10.plot(epochs, e_vals, marker="o", linewidth=2.2, label=label, color=color)
 
-    plt.tight_layout()
+    for ax in (ax_hoyer, ax_e10):
+        ax.set_xlabel("Training Epoch", fontweight="bold")
+        ax.set_xticks(epochs)
+        ax.grid(True)
+        ax.legend(loc="best", frameon=True)
+
+    ax_hoyer.set_ylabel("Hoyer Sparsity Index [0-1]", fontweight="bold")
+    ax_hoyer.set_title("Stage-Wise Hoyer Sparsity Across Epochs", fontsize=11, fontweight="bold")
+
+    ax_e10.set_ylabel("Top-10% Energy Concentration ($E_{10}$ %)", fontweight="bold")
+    ax_e10.set_title("Stage-Wise Top-10% Energy ($E_{10}$) Across Epochs", fontsize=11, fontweight="bold")
+
+    plt.suptitle("ResNet-50 Stage-Wise Sparsity & Energy Concentration Across 20 Epochs\n(Stem through Deepest Stage 4)",
+                 fontsize=13, fontweight="bold", y=0.98)
+    plt.tight_layout(rect=[0, 0, 1, 0.90])
+    os.makedirs(output_dir, exist_ok=True)
     out_path = os.path.join(output_dir, "fig06b_resnet50_stages_across_epochs.png")
-    plt.savefig(out_path)
+    plt.savefig(out_path, bbox_inches="tight")
     plt.close()
     print(f"Saved: {out_path}")
 
@@ -159,25 +171,37 @@ def plot_layertypes_across_epochs(data: dict, output_dir: str):
         "classifier_head": "#d62728",
     }
 
-    fig, ax = plt.subplots(figsize=(9, 5.5), dpi=300)
+    fig, (ax_hoyer, ax_e10) = plt.subplots(1, 2, figsize=(15, 5.5), dpi=300)
 
     for tp in types:
-        vals = [d["by_layer_type"].get(tp, {}).get("hoyer", np.nan) for d in epochs_data]
-        if not all(np.isnan(vals)):
-            ax.plot(epochs, vals, marker="s", linewidth=2.2, label=type_labels.get(tp, tp),
-                    color=type_colors.get(tp, "#333333"))
+        h_vals = [d["by_layer_type"].get(tp, {}).get("hoyer", np.nan) for d in epochs_data]
+        e_vals = [d["by_layer_type"].get(tp, {}).get("energy10", np.nan) for d in epochs_data]
+        color = type_colors.get(tp, "#333333")
+        label = type_labels.get(tp, tp)
 
-    ax.set_xlabel("Training Epoch", fontweight="bold")
-    ax.set_ylabel("Hoyer Sparsity Index [0-1]", fontweight="bold")
-    ax.set_title("ResNet-50 Layer-Type Sparsity Evolution Across 20 Epochs\n(1x1 Convolutions vs. 3x3 Spatial Convolutions)",
-                 fontsize=13, fontweight="bold", pad=12)
-    ax.set_xticks(epochs)
-    ax.grid(True)
-    ax.legend(loc="best", frameon=True)
+        if not all(np.isnan(h_vals)):
+            ax_hoyer.plot(epochs, h_vals, marker="s", linewidth=2.2, label=label, color=color)
+        if not all(np.isnan(e_vals)):
+            ax_e10.plot(epochs, e_vals, marker="s", linewidth=2.2, label=label, color=color)
 
-    plt.tight_layout()
+    for ax in (ax_hoyer, ax_e10):
+        ax.set_xlabel("Training Epoch", fontweight="bold")
+        ax.set_xticks(epochs)
+        ax.grid(True)
+        ax.legend(loc="best", frameon=True)
+
+    ax_hoyer.set_ylabel("Hoyer Sparsity Index [0-1]", fontweight="bold")
+    ax_hoyer.set_title("Layer-Type Hoyer Sparsity Across Epochs", fontsize=11, fontweight="bold")
+
+    ax_e10.set_ylabel("Top-10% Energy Concentration ($E_{10}$ %)", fontweight="bold")
+    ax_e10.set_title("Layer-Type Top-10% Energy ($E_{10}$) Across Epochs", fontsize=11, fontweight="bold")
+
+    plt.suptitle("ResNet-50 Layer-Type Sparsity & Energy Concentration Across 20 Epochs\n(Evaluating Structural Layer-Type Invariance Across Training Epochs)",
+                 fontsize=13, fontweight="bold", y=0.98)
+    plt.tight_layout(rect=[0, 0, 1, 0.90])
+    os.makedirs(output_dir, exist_ok=True)
     out_path = os.path.join(output_dir, "fig06c_resnet50_layertypes_across_epochs.png")
-    plt.savefig(out_path)
+    plt.savefig(out_path, bbox_inches="tight")
     plt.close()
     print(f"Saved: {out_path}")
 
