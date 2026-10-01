@@ -124,9 +124,9 @@ Output plots are organized cleanly into experiment directories under `training/f
   - `fig08b_layer_recoverability_convergence.png`: EXP-08: Multi-condition convergence trajectories (Val Acc and Train Loss).
   - `fig08c_layer_sensitivity_normalized.png`: EXP-08: Empirical layer sensitivity vs parameter volume (Hypothesis 5 evaluation).
 * `training/figures/exp09_sparsity_vs_sensitivity/`:
-  - `fig09a_sparsity_vs_sensitivity_epochs.png`: EXP-09: 6-panel multi-epoch scatter plot tracking regime transition (Hypothesis 6 evaluation).
-  - `fig09b_correlation_trajectory.png`: EXP-09: Standalone 20-epoch correlation trajectory ($r, \rho$) with shaded regimes and crossover callout.
-  - `fig09c_active_skipped_e10.png`: EXP-09: Active skipped vs baseline $E_{10}$ comparison (20-epoch means and trajectories).
+  - `fig09a_sparsity_vs_sensitivity_epochs.png`: EXP-09: Evaluating Hypothesis 6: Gradient sparsity vs. accuracy drop across training epochs (6-panel multi-epoch scatter).
+  - `fig09b_correlation_trajectory.png`: EXP-09: 20-epoch correlation trajectory ($r, \rho$) with early shape learning vs late category fine-tuning phases.
+  - `fig09c_active_skipped_e10.png`: EXP-09: Gradient energy concentration under layer skipping (comparing active updates during skipping vs. normal unskipped training).
 
 ### 5. Benchmark Hardware Compute Savings
 ```bash
