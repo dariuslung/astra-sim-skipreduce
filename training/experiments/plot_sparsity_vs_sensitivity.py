@@ -91,9 +91,27 @@ def load_data(conv_path: str, abl_path: str, fallback_abl_path: str):
     return conv_data, abl_data
 
 
+def get_epoch_accuracy_drop(abl_data: dict, key: str, epoch: int) -> float:
+    """
+    Returns the contemporaneous validation accuracy drop (in percentage points)
+    at the given epoch: base_acc(epoch) - cond_acc(epoch).
+    Positive indicates performance degradation, negative indicates gain (regularization).
+    """
+    cond_history = abl_data.get("conditions", {}).get(key, {}).get("epochs_history", [])
+    base_history = abl_data.get("conditions", {}).get("baseline", {}).get("epochs_history", [])
+    if cond_history and base_history and len(cond_history) >= epoch and len(base_history) >= epoch:
+        base_acc = base_history[epoch - 1]["val_acc"]
+        cond_acc = cond_history[epoch - 1]["val_acc"]
+        return round(base_acc - cond_acc, 2)
+    # Fallback to final delta if history missing
+    cond = abl_data.get("conditions", {}).get(key, {})
+    delta = cond.get("delta_val_acc", 0.0)
+    return round(-delta, 2)
+
+
 def get_layer_accuracy_drop(abl_data: dict, key: str) -> float:
     """
-    Returns the raw validation accuracy drop (in percentage points) when skipping layer key.
+    Returns the final validation accuracy drop (in percentage points) when skipping layer key.
     A positive number indicates performance degradation (e.g., +5.12 pp drop).
     """
     cond = abl_data.get("conditions", {}).get(key, {})
@@ -103,100 +121,125 @@ def get_layer_accuracy_drop(abl_data: dict, key: str) -> float:
 
 def plot_fig09a_multi_epoch_scatters(conv_data: dict, abl_data: dict, output_dir: str):
     """
-    Figure 09a: 6-Panel Multi-Epoch Evolution of Gradient Sparsity vs. Accuracy Drop.
+    Figure 09a: 6-Panel Multi-Epoch Contemporaneous Gradient Sparsity vs. Accuracy Drop.
     Displays scatter plots, regression lines, and correlation statistics for 6 key milestone epochs.
+    Both the x-axis (E10) and y-axis (Accuracy Drop) are strictly contemporaneous to each epoch.
     """
     conv_keys = ["conv3x3_spatial", "conv1x1_expand", "conv1x1_reduce", "conv1x1_downsample"]
-    acc_drops = np.array([get_layer_accuracy_drop(abl_data, k) for k in conv_keys])
 
     milestone_epochs = [
-        {"epoch": 1, "title": "Epoch 1: Learning Basic Shapes", "regime": "Early Training, r = -0.85", "use_steady": True},
-        {"epoch": 2, "title": "Epoch 2: Transitioning Filters", "regime": "Shift Phase, r = -0.28", "use_steady": False},
-        {"epoch": 3, "title": "Epoch 3: Turning Point", "regime": "Zero Correlation Boundary", "use_steady": False},
-        {"epoch": 5, "title": "Epoch 5: Categories Taking Shape", "regime": "Channel Mixing Begins, r = +0.71", "use_steady": False},
-        {"epoch": 10, "title": "Epoch 10: Mid-Training Stabilization", "regime": "Categories Solidifying, r = +0.88", "use_steady": False},
-        {"epoch": 20, "title": "Epoch 20: Final Fine-Tuning", "regime": "Late Convergence, r = +0.88", "use_steady": False},
+        {"epoch": 1, "title": "Epoch 1: Early Representation Learning", "regime": "Noisy Phase: Pointwise Regularization Leads"},
+        {"epoch": 2, "title": "Epoch 2: Filter Formation", "regime": "Transition: Spatial Convs Lag Immediately"},
+        {"epoch": 3, "title": "Epoch 3: Peak Regularization", "regime": "Pointwise Skipping Gains up to +5.7 pp"},
+        {"epoch": 5, "title": "Epoch 5: Mid-Training Transition", "regime": "Pointwise Skipping Advantage Normalizing"},
+        {"epoch": 10, "title": "Epoch 10: Late Training Emergence", "regime": "Spatial vs. Pointwise Separation"},
+        {"epoch": 20, "title": "Epoch 20: Final Convergence", "regime": "Spatial Damage (+5.12 pp), Pointwise Parity"},
     ]
 
-    e10_ep1_steady = np.array([89.3, 91.4, 93.0, 95.8])
-
-    fig, axes = plt.subplots(2, 3, figsize=(17.0, 11.0), dpi=300)
+    fig, axes = plt.subplots(2, 3, figsize=(17.0, 11.2), dpi=300)
     axes = axes.flatten()
 
     for idx, m in enumerate(milestone_epochs):
         ax = axes[idx]
         ep_num = m["epoch"]
 
-        if m["use_steady"]:
-            e10_vals = e10_ep1_steady
-        else:
-            ep_dict = conv_data["epochs_data"][ep_num - 1]["by_layer_type"]
-            e10_vals = np.array([ep_dict[k]["energy10"] for k in conv_keys])
+        ep_dict = conv_data["epochs_data"][ep_num - 1]["by_layer_type"]
+        e10_vals = np.array([ep_dict[k]["energy10"] for k in conv_keys])
+        acc_drops = np.array([get_epoch_accuracy_drop(abl_data, k, ep_num) for k in conv_keys])
 
         slope, intercept, r_val, p_val, _ = stats.linregress(e10_vals, acc_drops)
         rho_val, _ = stats.spearmanr(e10_vals, acc_drops)
 
-        x_margin = max(1.8, (max(e10_vals) - min(e10_vals)) * 0.32)
+        x_margin = max(2.5, (max(e10_vals) - min(e10_vals)) * 0.40)
         x_min = min(e10_vals) - x_margin
         x_max = max(e10_vals) + x_margin
         x_line = np.linspace(x_min, x_max, 50)
         ax.plot(x_line, slope * x_line + intercept, color="#555555", linestyle="--", linewidth=1.6,
                 label=f"Linear Fit ($R^2 = {r_val**2:.3f}$, $p = {p_val:.3f}$)")
 
+        # Draw baseline parity line (y = 0)
+        ax.axhline(0, color="#888888", linestyle=":", linewidth=1.3, alpha=0.8, label="Baseline Parity (0 pp Drop)")
+
         for k, e_val, s_val in zip(conv_keys, e10_vals, acc_drops):
             col = COLOR_MAP[k]
             lbl = SHORT_LABEL_MAP[k]
             ax.scatter(e_val, s_val, color=col, s=130, alpha=0.9, zorder=5)
 
-            # Context-sensitive label positioning to avoid axis clipping or mutual overlap
-            if ep_num in [1, 2]:
+            # Per-epoch label positioning to eliminate collisions and axis touching
+            if ep_num == 1:
                 if k == "conv3x3_spatial":
-                    x_off, y_off, ha = 8, 4, "left"
-                elif k == "conv1x1_expand":
                     x_off, y_off, ha = 8, 8, "left"
-                elif k == "conv1x1_reduce":
-                    x_off, y_off, ha = -8, -10, "right"
-                else:  # downsample
-                    x_off, y_off, ha = 8, 6, "left"
-            elif ep_num == 3:
-                if k == "conv3x3_spatial":
-                    x_off, y_off, ha = -8, 4, "right"
                 elif k == "conv1x1_expand":
-                    x_off, y_off, ha = 8, 8, "left"
-                elif k == "conv1x1_reduce":
-                    x_off, y_off, ha = -8, -10, "right"
-                else:  # downsample
                     x_off, y_off, ha = 8, 6, "left"
-            else:  # Epochs 5, 10, 20 (inverted regime: conv1x1 clustered on left)
+                elif k == "conv1x1_reduce":
+                    x_off, y_off, ha = 8, -12, "left"
+                else:  # downsample
+                    x_off, y_off, ha = -8, 8, "right"
+            elif ep_num == 2:
                 if k == "conv3x3_spatial":
-                    x_off, y_off, ha = -8, 4, "right"
+                    x_off, y_off, ha = -8, 8, "right"
                 elif k == "conv1x1_expand":
                     x_off, y_off, ha = -8, 8, "right"
                 elif k == "conv1x1_reduce":
+                    x_off, y_off, ha = 8, -12, "left"
+                else:  # downsample
+                    x_off, y_off, ha = 8, 8, "left"
+            elif ep_num == 3:
+                if k == "conv3x3_spatial":
+                    x_off, y_off, ha = -8, 8, "right"
+                elif k == "conv1x1_expand":
+                    x_off, y_off, ha = -8, -12, "right"
+                elif k == "conv1x1_reduce":
+                    x_off, y_off, ha = 8, 8, "left"
+                else:  # downsample
+                    x_off, y_off, ha = -8, 8, "right"
+            elif ep_num == 5:
+                if k == "conv3x3_spatial":
+                    x_off, y_off, ha = -8, 8, "right"
+                elif k == "conv1x1_expand":
+                    x_off, y_off, ha = 8, 6, "left"
+                elif k == "conv1x1_reduce":
                     x_off, y_off, ha = 8, 6, "left"
                 else:  # downsample
-                    x_off, y_off, ha = 8, -8, "left"
+                    x_off, y_off, ha = -8, -12, "right"
+            elif ep_num == 10:
+                if k == "conv3x3_spatial":
+                    x_off, y_off, ha = 8, -12, "left"
+                elif k == "conv1x1_expand":
+                    x_off, y_off, ha = 8, 8, "left"
+                elif k == "conv1x1_reduce":
+                    x_off, y_off, ha = 8, -12, "left"
+                else:  # downsample
+                    x_off, y_off, ha = 8, 8, "left"
+            else:  # Epoch 20
+                if k == "conv3x3_spatial":
+                    x_off, y_off, ha = -8, 8, "right"
+                elif k == "conv1x1_expand":
+                    x_off, y_off, ha = 8, 8, "left"
+                elif k == "conv1x1_reduce":
+                    x_off, y_off, ha = 8, -12, "left"
+                else:  # downsample
+                    x_off, y_off, ha = 8, 8, "left"
 
             ax.annotate(lbl, xy=(e_val, s_val), xytext=(x_off, y_off),
                         ha=ha, textcoords="offset points", fontsize=8.5, fontweight="medium",
                         bbox=dict(boxstyle="round,pad=0.15", facecolor="white", edgecolor="none", alpha=0.85))
 
         ax.set_title(f"Panel {chr(65+idx)}: {m['title']}\n$r = {r_val:+.3f}$, $\\rho = {rho_val:+.3f}$ ({m['regime']})",
-                     fontweight="bold", fontsize=10.5)
+                     fontweight="bold", fontsize=10.2)
         ax.set_xlabel(f"Epoch {ep_num} Energy in Top 10% Coordinates [%] [E10]", fontweight="bold")
-        ax.set_ylabel("Accuracy Drop (pp) [ΔVal Acc]", fontweight="bold")
+        ax.set_ylabel(f"Epoch {ep_num} Accuracy Drop (pp) [ΔVal Acc]", fontweight="bold")
         ax.set_xlim(x_min, x_max)
-        ax.set_ylim(-0.8, 6.2)
-        ax.axhline(0, color="gray", linestyle=":", alpha=0.5)
+        ax.set_ylim(-7.5, 12.5)
         ax.grid(True)
-        ax.legend(loc="upper right" if slope < 0 else "upper left", framealpha=0.9, fontsize=8.5)
+        ax.legend(loc="upper right" if slope < 0 else "upper left", framealpha=0.9, fontsize=8.2)
 
     plt.suptitle(
-        "Evaluating Hypothesis 6: Gradient Sparsity vs. Accuracy Drop Across Training Epochs\n"
-        "(Early Training: Learning Basic Shapes vs. Late Training: Fine-Tuning Categories)",
-        fontsize=13, fontweight="bold", y=0.98
+        "Evaluating Hypothesis 6: Contemporaneous Gradient Sparsity vs. Accuracy Drop Across Epochs\n"
+        "(Each Epoch Directly Evaluates That Epoch's Gradient Energy [E10] Against Actual Accuracy Drop [ΔVal Acc])",
+        fontsize=12.5, fontweight="bold", y=0.98
     )
-    plt.tight_layout(rect=[0, 0, 1, 0.93])
+    plt.tight_layout(rect=[0, 0, 1, 0.92])
 
     out_a = os.path.join(output_dir, "fig09a_sparsity_vs_sensitivity_epochs.png")
     plt.savefig(out_a, dpi=300, bbox_inches="tight")
@@ -206,67 +249,83 @@ def plot_fig09a_multi_epoch_scatters(conv_data: dict, abl_data: dict, output_dir
 
 def plot_fig09b_correlation_trajectory(conv_data: dict, abl_data: dict, output_dir: str):
     """
-    Figure 09b: Standalone Multi-Epoch Correlation Trajectory (Pearson r and Spearman rho).
-    Tracks the trajectory across all 20 epochs with shaded regime bands and transition callouts.
+    Figure 09b: Standalone Contemporaneous Multi-Epoch Correlation Trajectory.
+    Compares how well Gradient Sparsity (E10) vs. Parameter Count predicts accuracy drop
+    contemporaneously across all 20 training epochs.
     """
     conv_keys = ["conv3x3_spatial", "conv1x1_expand", "conv1x1_reduce", "conv1x1_downsample"]
-    acc_drops = np.array([get_layer_accuracy_drop(abl_data, k) for k in conv_keys])
+    params = [11.318976, 5.029888, 4.329472, 2.768896]  # MParam
 
     epochs_data = conv_data["epochs_data"]
     epochs = [d["epoch"] for d in epochs_data]
 
-    r_trajectory = []
-    rho_trajectory = []
+    r_e10_trajectory = []
+    rho_e10_trajectory = []
+    r_param_trajectory = []
+    rho_param_trajectory = []
+
     for d in epochs_data:
+        ep_num = d["epoch"]
         e10_vals = np.array([d["by_layer_type"][k]["energy10"] for k in conv_keys])
-        r, _ = stats.pearsonr(e10_vals, acc_drops)
-        rho, _ = stats.spearmanr(e10_vals, acc_drops)
-        r_trajectory.append(float(r))
-        rho_trajectory.append(float(rho))
+        acc_drops = np.array([get_epoch_accuracy_drop(abl_data, k, ep_num) for k in conv_keys])
 
-    fig, ax = plt.subplots(figsize=(12.5, 6.8), dpi=300)
+        r_e, _ = stats.pearsonr(e10_vals, acc_drops)
+        rho_e, _ = stats.spearmanr(e10_vals, acc_drops)
+        r_p, _ = stats.pearsonr(params, acc_drops)
+        rho_p, _ = stats.spearmanr(params, acc_drops)
 
-    ax.plot(epochs, r_trajectory, marker="o", color="#1f77b4", linewidth=2.4, label="Pearson $r$ (Linear Correlation)")
-    ax.plot(epochs, rho_trajectory, marker="s", color="#ff7f0e", linewidth=2.4, linestyle="--", label="Spearman $\\rho$ (Rank Correlation)")
+        r_e10_trajectory.append(float(r_e))
+        rho_e10_trajectory.append(float(rho_e))
+        r_param_trajectory.append(float(r_p))
+        rho_param_trajectory.append(float(rho_p))
+
+    fig, ax = plt.subplots(figsize=(13.0, 7.0), dpi=300)
+
+    # Plot Parameter Count lines
+    ax.plot(epochs, r_param_trajectory, marker="^", color="#2ca02c", linewidth=2.4,
+            label="Parameter Count Linear Correlation ($r$) with Accuracy Drop")
+    ax.plot(epochs, rho_param_trajectory, marker="v", color="#2ca02c", linewidth=2.0, linestyle=":",
+            alpha=0.7, label="Parameter Count Rank Correlation ($\\rho$) with Accuracy Drop")
+
+    # Plot E10 lines
+    ax.plot(epochs, r_e10_trajectory, marker="o", color="#1f77b4", linewidth=2.4,
+            label="Gradient Energy [E10] Linear Correlation ($r$) with Accuracy Drop")
+    ax.plot(epochs, rho_e10_trajectory, marker="s", color="#ff7f0e", linewidth=2.0, linestyle="--",
+            label="Gradient Energy [E10] Rank Correlation ($\\rho$) with Accuracy Drop")
 
     ax.axhline(0, color="black", linestyle=":", linewidth=1.2, alpha=0.7)
-    ax.axvspan(1, 2.5, color="#1f77b4", alpha=0.09, label="Early Training: Learning Basic Shapes [Epochs 1-2, r < 0]")
-    ax.axvspan(3.5, 20, color="#ff7f0e", alpha=0.09, label="Late Training: Fine-Tuning Categories [Epochs 4-20, r > 0]")
-
-    # Annotate crossover
-    ax.annotate("Turning Point\n(Correlation flips near Epoch 3)", xy=(3, r_trajectory[2]), xytext=(3.6, -0.32),
-                arrowprops=dict(arrowstyle="->", color="#333333", lw=1.2),
-                fontsize=9.5, fontweight="medium",
-                bbox=dict(boxstyle="round,pad=0.3", facecolor="#ffffff", edgecolor="#aaaaaa", alpha=0.9))
+    ax.axvspan(0.8, 5.5, color="#1f77b4", alpha=0.08, label="Early Training: E10 Uncorrelated (r ≈ 0); 1x1 Regularization Advantage")
+    ax.axvspan(5.5, 20.2, color="#ff7f0e", alpha=0.08, label="Late Training: Spatial vs. Pointwise Separation (E10 r ≈ +0.88)")
 
     # Detailed regime descriptions in plain English
-    box_left = (
-        "Early Training (Epochs 1-2):\n"
-        "• Spatial 3x3 convs learn basic shapes & edges (E10 low)\n"
-        "• Missing updates causes permanent damage (-5.12% drop)\n"
-        "• Strong negative correlation with accuracy drop: r = -0.85"
+    box_early = (
+        "Early Training (Epochs 1-5):\n"
+        "• E10 has near-zero correlation with accuracy drop (r ≈ 0)\n"
+        "• Skipping 1x1 convs gives regularization gains (up to +5.67 pp)\n"
+        "• Parameter volume reliably separates damage early on (r = 0.85 to 0.97)"
     )
-    ax.text(0.04, 0.15, box_left, transform=ax.transAxes, fontsize=9.2,
+    ax.text(0.03, 0.12, box_early, transform=ax.transAxes, fontsize=9.2,
             bbox=dict(boxstyle="round,pad=0.5", facecolor="#f0f4f8", edgecolor="#2b5c8f", alpha=0.9))
 
-    box_right = (
-        "Late Training (Epochs 4-20):\n"
-        "• Spatial filters stabilize into fixed shape detectors (E10 ~ 80.5%)\n"
-        "• Pointwise 1x1 convs fine-tune category boundaries (E10 ~ 74.0%)\n"
-        "• Skipping pointwise convs causes negligible damage (-0.49% to -0.97%)"
+    box_late = (
+        "Late Training (Epochs 6-20):\n"
+        "• Parameter volume consistently predicts accuracy drop (r = 0.98 to 0.996)\n"
+        "• E10 correlation rises to r ≈ +0.88 due to binary clustering:\n"
+        "  Spatial 3x3 convs (11.3M params) suffer persistent drop (+5.12 pp)\n"
+        "  Pointwise 1x1 convs cluster near baseline parity (< 1.0 pp drop)"
     )
-    ax.text(0.48, 0.58, box_right, transform=ax.transAxes, fontsize=9.2,
+    ax.text(0.38, 0.40, box_late, transform=ax.transAxes, fontsize=9.2,
             bbox=dict(boxstyle="round,pad=0.5", facecolor="#fff8f0", edgecolor="#d95f02", alpha=0.9))
 
-    ax.set_title("Evaluating Hypothesis 6: Sparsity vs. Accuracy Drop Correlation Trajectory\n"
-                 "Transition from Shape Learning (Negative Correlation) to Late Category Refinement (Positive Correlation)",
-                 fontweight="bold", fontsize=12)
+    ax.set_title("Evaluating Hypothesis 6: Contemporaneous Correlation Trajectory Across Training Epochs\n"
+                 "Comparing Gradient Energy Concentration [E10] vs. Parameter Volume as Predictors of Accuracy Drop",
+                 fontweight="bold", fontsize=11.5)
     ax.set_xlabel("Training Epoch", fontweight="bold")
-    ax.set_ylabel("Correlation with Final Accuracy Drop [Pearson r, Spearman ρ]", fontweight="bold")
+    ax.set_ylabel("Contemporaneous Correlation with Epoch Accuracy Drop [r, ρ]", fontweight="bold")
     ax.set_xticks(epochs)
-    ax.set_ylim(-1.05, 1.05)
+    ax.set_ylim(-0.7, 1.15)
     ax.grid(True)
-    ax.legend(loc="lower right", framealpha=0.9, fontsize=9.5)
+    ax.legend(loc="lower right", framealpha=0.92, fontsize=8.8)
 
     plt.tight_layout()
     out_b = os.path.join(output_dir, "fig09b_correlation_trajectory.png")
