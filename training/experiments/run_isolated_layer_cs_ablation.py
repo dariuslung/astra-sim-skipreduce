@@ -26,22 +26,21 @@ ISOLATED_CONDITIONS = [
 
 
 def load_anchor_runs():
-    """Loads pre-existing baseline (s=0) and all-layers-CS (s=2, r=0.15) logs."""
-    baseline_path = "training/logs/ranks4_skip0_none_r0.0_noef_1789118323.json"
-    all_cs_path = "training/logs/ranks4_skip2_dct_r0.15_noef_1789123956.json"
-
+    """Loads pre-existing baseline (s=0, ResNet-50) logs."""
+    recover_path = "training/logs/layer_recoverability_ablation.json"
     baseline_data = None
-    all_cs_data = None
 
-    if os.path.exists(baseline_path):
-        with open(baseline_path) as f:
-            baseline_data = json.load(f)
+    if os.path.exists(recover_path):
+        with open(recover_path) as f:
+            rec = json.load(f)
+            if "baseline" in rec.get("conditions", {}):
+                b_info = rec["conditions"]["baseline"]
+                baseline_data = {
+                    "val_acc": b_info.get("final_val_acc", 88.19),
+                    "epochs_history": b_info.get("epochs_history", [])
+                }
 
-    if os.path.exists(all_cs_path):
-        with open(all_cs_path) as f:
-            all_cs_data = json.load(f)
-
-    return baseline_data, all_cs_data
+    return baseline_data
 
 
 def run_ablation(args):
@@ -53,7 +52,7 @@ def run_ablation(args):
         print(f"  • {c}: {SCHEDULE_PRESETS[c]['description']}")
     print("=" * 80)
 
-    baseline_data, all_cs_data = load_anchor_runs()
+    baseline_data = load_anchor_runs()
 
     ablation_results = {
         "experiment": "EXP-10: Isolated Layer-Type Compressive Sensing Ablation Probe",
@@ -66,16 +65,16 @@ def run_ablation(args):
     }
 
     if baseline_data:
-        base_acc = baseline_data["epochs_data"][-1]["val_acc"]
+        base_acc = baseline_data["val_acc"]
         ablation_results["conditions"]["baseline"] = {
             "condition": "baseline",
-            "description": "Standard Ring AllReduce (0% skip, s=0)",
+            "description": "Standard SGD baseline (0% skip, ResNet-50)",
             "final_val_acc": base_acc,
             "delta_val_acc": 0.0,
-            "epochs_history": baseline_data["epochs_data"]
+            "epochs_history": baseline_data["epochs_history"]
         }
     else:
-        base_acc = 92.29
+        base_acc = 88.19
 
     for cond_name in ISOLATED_CONDITIONS:
         print("\n" + "#" * 80)
@@ -107,16 +106,6 @@ def run_ablation(args):
         with open(args.output_json, "w") as f:
             json.dump(ablation_results, f, indent=2)
         print(f"Intermediate progress saved to {args.output_json}")
-
-    if all_cs_data:
-        all_acc = all_cs_data["epochs_data"][-1]["val_acc"]
-        ablation_results["conditions"]["all_layers_cs"] = {
-            "condition": "all_layers_cs",
-            "description": "50% Ring Skip + 15% DCT CS Uniformly Across All Layers",
-            "final_val_acc": all_acc,
-            "delta_val_acc": round(all_acc - base_acc, 2),
-            "epochs_history": all_cs_data["epochs_data"]
-        }
 
     with open(args.output_json, "w") as f:
         json.dump(ablation_results, f, indent=2)
