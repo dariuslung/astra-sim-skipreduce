@@ -1,0 +1,618 @@
+{
+  "experiment": "EXP-10: Layer-Adaptive Compressive Sensing Rate-Distortion Profiling",
+  "num_ranks": 4,
+  "skipped_steps": 2,
+  "batches_profiled": 20,
+  "retention_ratios": [
+    0.0,
+    0.02,
+    0.05,
+    0.1,
+    0.15,
+    0.2,
+    0.3,
+    0.5
+  ],
+  "transforms": [
+    "dct",
+    "hadamard"
+  ],
+  "by_transform": {
+    "dct": {
+      "0.0": {
+        "retention_ratio": 0.0,
+        "payload_ratio": 0.6667,
+        "payload_reduction_pct": 33.33,
+        "by_layer_type": {
+          "conv3x3_spatial": {
+            "mean_cos_sim": 0.7144,
+            "std_cos_sim": 0.0235,
+            "mean_rel_l2_error": 0.7004,
+            "std_rel_l2_error": 0.0216
+          },
+          "conv1x1_expand": {
+            "mean_cos_sim": 0.7211,
+            "std_cos_sim": 0.032,
+            "mean_rel_l2_error": 0.6947,
+            "std_rel_l2_error": 0.0272
+          },
+          "conv1x1_reduce": {
+            "mean_cos_sim": 0.7117,
+            "std_cos_sim": 0.0157,
+            "mean_rel_l2_error": 0.7027,
+            "std_rel_l2_error": 0.0149
+          },
+          "conv1x1_downsample": {
+            "mean_cos_sim": 0.7173,
+            "std_cos_sim": 0.0165,
+            "mean_rel_l2_error": 0.6974,
+            "std_rel_l2_error": 0.0156
+          },
+          "classifier_head": {
+            "mean_cos_sim": 0.9424,
+            "std_cos_sim": 0.0314,
+            "mean_rel_l2_error": 0.5291,
+            "std_rel_l2_error": 0.0605
+          }
+        }
+      },
+      "0.02": {
+        "retention_ratio": 0.02,
+        "payload_ratio": 0.6733,
+        "payload_reduction_pct": 32.67,
+        "by_layer_type": {
+          "conv3x3_spatial": {
+            "mean_cos_sim": 0.7512,
+            "std_cos_sim": 0.0297,
+            "mean_rel_l2_error": 0.6588,
+            "std_rel_l2_error": 0.0367
+          },
+          "conv1x1_expand": {
+            "mean_cos_sim": 0.7466,
+            "std_cos_sim": 0.0411,
+            "mean_rel_l2_error": 0.6624,
+            "std_rel_l2_error": 0.0531
+          },
+          "conv1x1_reduce": {
+            "mean_cos_sim": 0.743,
+            "std_cos_sim": 0.0201,
+            "mean_rel_l2_error": 0.6688,
+            "std_rel_l2_error": 0.0233
+          },
+          "conv1x1_downsample": {
+            "mean_cos_sim": 0.7531,
+            "std_cos_sim": 0.0259,
+            "mean_rel_l2_error": 0.6569,
+            "std_rel_l2_error": 0.0309
+          },
+          "classifier_head": {
+            "mean_cos_sim": 0.9634,
+            "std_cos_sim": 0.036,
+            "mean_rel_l2_error": 0.249,
+            "std_rel_l2_error": 0.1488
+          }
+        }
+      },
+      "0.05": {
+        "retention_ratio": 0.05,
+        "payload_ratio": 0.6833,
+        "payload_reduction_pct": 31.67,
+        "by_layer_type": {
+          "conv3x3_spatial": {
+            "mean_cos_sim": 0.7793,
+            "std_cos_sim": 0.0408,
+            "mean_rel_l2_error": 0.6227,
+            "std_rel_l2_error": 0.0584
+          },
+          "conv1x1_expand": {
+            "mean_cos_sim": 0.7562,
+            "std_cos_sim": 0.0396,
+            "mean_rel_l2_error": 0.6515,
+            "std_rel_l2_error": 0.0528
+          },
+          "conv1x1_reduce": {
+            "mean_cos_sim": 0.7525,
+            "std_cos_sim": 0.0193,
+            "mean_rel_l2_error": 0.6581,
+            "std_rel_l2_error": 0.0231
+          },
+          "conv1x1_downsample": {
+            "mean_cos_sim": 0.7631,
+            "std_cos_sim": 0.0247,
+            "mean_rel_l2_error": 0.6453,
+            "std_rel_l2_error": 0.0303
+          },
+          "classifier_head": {
+            "mean_cos_sim": 0.9637,
+            "std_cos_sim": 0.0363,
+            "mean_rel_l2_error": 0.2467,
+            "std_rel_l2_error": 0.151
+          }
+        }
+      },
+      "0.1": {
+        "retention_ratio": 0.1,
+        "payload_ratio": 0.7,
+        "payload_reduction_pct": 30.0,
+        "by_layer_type": {
+          "conv3x3_spatial": {
+            "mean_cos_sim": 0.811,
+            "std_cos_sim": 0.0438,
+            "mean_rel_l2_error": 0.5795,
+            "std_rel_l2_error": 0.068
+          },
+          "conv1x1_expand": {
+            "mean_cos_sim": 0.7712,
+            "std_cos_sim": 0.0369,
+            "mean_rel_l2_error": 0.6339,
+            "std_rel_l2_error": 0.0513
+          },
+          "conv1x1_reduce": {
+            "mean_cos_sim": 0.7675,
+            "std_cos_sim": 0.0181,
+            "mean_rel_l2_error": 0.6406,
+            "std_rel_l2_error": 0.0227
+          },
+          "conv1x1_downsample": {
+            "mean_cos_sim": 0.7771,
+            "std_cos_sim": 0.0233,
+            "mean_rel_l2_error": 0.6284,
+            "std_rel_l2_error": 0.0298
+          },
+          "classifier_head": {
+            "mean_cos_sim": 0.9639,
+            "std_cos_sim": 0.0364,
+            "mean_rel_l2_error": 0.2447,
+            "std_rel_l2_error": 0.1528
+          }
+        }
+      },
+      "0.15": {
+        "retention_ratio": 0.15,
+        "payload_ratio": 0.7167,
+        "payload_reduction_pct": 28.33,
+        "by_layer_type": {
+          "conv3x3_spatial": {
+            "mean_cos_sim": 0.8329,
+            "std_cos_sim": 0.0439,
+            "mean_rel_l2_error": 0.5468,
+            "std_rel_l2_error": 0.0731
+          },
+          "conv1x1_expand": {
+            "mean_cos_sim": 0.7857,
+            "std_cos_sim": 0.0343,
+            "mean_rel_l2_error": 0.616,
+            "std_rel_l2_error": 0.0499
+          },
+          "conv1x1_reduce": {
+            "mean_cos_sim": 0.7822,
+            "std_cos_sim": 0.0167,
+            "mean_rel_l2_error": 0.6226,
+            "std_rel_l2_error": 0.0219
+          },
+          "conv1x1_downsample": {
+            "mean_cos_sim": 0.7908,
+            "std_cos_sim": 0.0215,
+            "mean_rel_l2_error": 0.6112,
+            "std_rel_l2_error": 0.0288
+          },
+          "classifier_head": {
+            "mean_cos_sim": 0.9641,
+            "std_cos_sim": 0.0366,
+            "mean_rel_l2_error": 0.243,
+            "std_rel_l2_error": 0.1543
+          }
+        }
+      },
+      "0.2": {
+        "retention_ratio": 0.2,
+        "payload_ratio": 0.7333,
+        "payload_reduction_pct": 26.67,
+        "by_layer_type": {
+          "conv3x3_spatial": {
+            "mean_cos_sim": 0.8483,
+            "std_cos_sim": 0.0426,
+            "mean_rel_l2_error": 0.5225,
+            "std_rel_l2_error": 0.0755
+          },
+          "conv1x1_expand": {
+            "mean_cos_sim": 0.7999,
+            "std_cos_sim": 0.0318,
+            "mean_rel_l2_error": 0.5976,
+            "std_rel_l2_error": 0.0485
+          },
+          "conv1x1_reduce": {
+            "mean_cos_sim": 0.7971,
+            "std_cos_sim": 0.0153,
+            "mean_rel_l2_error": 0.6034,
+            "std_rel_l2_error": 0.0212
+          },
+          "conv1x1_downsample": {
+            "mean_cos_sim": 0.8051,
+            "std_cos_sim": 0.0195,
+            "mean_rel_l2_error": 0.5923,
+            "std_rel_l2_error": 0.0274
+          },
+          "classifier_head": {
+            "mean_cos_sim": 0.9642,
+            "std_cos_sim": 0.0367,
+            "mean_rel_l2_error": 0.2414,
+            "std_rel_l2_error": 0.1558
+          }
+        }
+      },
+      "0.3": {
+        "retention_ratio": 0.3,
+        "payload_ratio": 0.7667,
+        "payload_reduction_pct": 23.33,
+        "by_layer_type": {
+          "conv3x3_spatial": {
+            "mean_cos_sim": 0.8746,
+            "std_cos_sim": 0.0369,
+            "mean_rel_l2_error": 0.4777,
+            "std_rel_l2_error": 0.0745
+          },
+          "conv1x1_expand": {
+            "mean_cos_sim": 0.8272,
+            "std_cos_sim": 0.0271,
+            "mean_rel_l2_error": 0.5597,
+            "std_rel_l2_error": 0.0455
+          },
+          "conv1x1_reduce": {
+            "mean_cos_sim": 0.8252,
+            "std_cos_sim": 0.0132,
+            "mean_rel_l2_error": 0.5644,
+            "std_rel_l2_error": 0.0201
+          },
+          "conv1x1_downsample": {
+            "mean_cos_sim": 0.8328,
+            "std_cos_sim": 0.0172,
+            "mean_rel_l2_error": 0.5528,
+            "std_rel_l2_error": 0.0267
+          },
+          "classifier_head": {
+            "mean_cos_sim": 0.9645,
+            "std_cos_sim": 0.0369,
+            "mean_rel_l2_error": 0.2384,
+            "std_rel_l2_error": 0.1585
+          }
+        }
+      },
+      "0.5": {
+        "retention_ratio": 0.5,
+        "payload_ratio": 0.8333,
+        "payload_reduction_pct": 16.67,
+        "by_layer_type": {
+          "conv3x3_spatial": {
+            "mean_cos_sim": 0.9128,
+            "std_cos_sim": 0.0253,
+            "mean_rel_l2_error": 0.4029,
+            "std_rel_l2_error": 0.0626
+          },
+          "conv1x1_expand": {
+            "mean_cos_sim": 0.8796,
+            "std_cos_sim": 0.0185,
+            "mean_rel_l2_error": 0.474,
+            "std_rel_l2_error": 0.0386
+          },
+          "conv1x1_reduce": {
+            "mean_cos_sim": 0.8783,
+            "std_cos_sim": 0.0094,
+            "mean_rel_l2_error": 0.4778,
+            "std_rel_l2_error": 0.0177
+          },
+          "conv1x1_downsample": {
+            "mean_cos_sim": 0.8813,
+            "std_cos_sim": 0.0124,
+            "mean_rel_l2_error": 0.4718,
+            "std_rel_l2_error": 0.024
+          },
+          "classifier_head": {
+            "mean_cos_sim": 0.9651,
+            "std_cos_sim": 0.0375,
+            "mean_rel_l2_error": 0.2309,
+            "std_rel_l2_error": 0.1655
+          }
+        }
+      }
+    },
+    "hadamard": {
+      "0.0": {
+        "retention_ratio": 0.0,
+        "payload_ratio": 0.6667,
+        "payload_reduction_pct": 33.33,
+        "by_layer_type": {
+          "conv3x3_spatial": {
+            "mean_cos_sim": 0.7144,
+            "std_cos_sim": 0.0235,
+            "mean_rel_l2_error": 0.7004,
+            "std_rel_l2_error": 0.0216
+          },
+          "conv1x1_expand": {
+            "mean_cos_sim": 0.7211,
+            "std_cos_sim": 0.032,
+            "mean_rel_l2_error": 0.6947,
+            "std_rel_l2_error": 0.0272
+          },
+          "conv1x1_reduce": {
+            "mean_cos_sim": 0.7117,
+            "std_cos_sim": 0.0157,
+            "mean_rel_l2_error": 0.7027,
+            "std_rel_l2_error": 0.0149
+          },
+          "conv1x1_downsample": {
+            "mean_cos_sim": 0.7173,
+            "std_cos_sim": 0.0165,
+            "mean_rel_l2_error": 0.6974,
+            "std_rel_l2_error": 0.0156
+          },
+          "classifier_head": {
+            "mean_cos_sim": 0.9424,
+            "std_cos_sim": 0.0314,
+            "mean_rel_l2_error": 0.5291,
+            "std_rel_l2_error": 0.0605
+          }
+        }
+      },
+      "0.02": {
+        "retention_ratio": 0.02,
+        "payload_ratio": 0.6733,
+        "payload_reduction_pct": 32.67,
+        "by_layer_type": {
+          "conv3x3_spatial": {
+            "mean_cos_sim": 0.7812,
+            "std_cos_sim": 0.0299,
+            "mean_rel_l2_error": 0.6228,
+            "std_rel_l2_error": 0.0405
+          },
+          "conv1x1_expand": {
+            "mean_cos_sim": 0.7825,
+            "std_cos_sim": 0.0389,
+            "mean_rel_l2_error": 0.619,
+            "std_rel_l2_error": 0.0578
+          },
+          "conv1x1_reduce": {
+            "mean_cos_sim": 0.7802,
+            "std_cos_sim": 0.0178,
+            "mean_rel_l2_error": 0.625,
+            "std_rel_l2_error": 0.0234
+          },
+          "conv1x1_downsample": {
+            "mean_cos_sim": 0.7889,
+            "std_cos_sim": 0.023,
+            "mean_rel_l2_error": 0.6135,
+            "std_rel_l2_error": 0.0308
+          },
+          "classifier_head": {
+            "mean_cos_sim": 0.9853,
+            "std_cos_sim": 0.0147,
+            "mean_rel_l2_error": 0.1701,
+            "std_rel_l2_error": 0.0852
+          }
+        }
+      },
+      "0.05": {
+        "retention_ratio": 0.05,
+        "payload_ratio": 0.6833,
+        "payload_reduction_pct": 31.67,
+        "by_layer_type": {
+          "conv3x3_spatial": {
+            "mean_cos_sim": 0.8184,
+            "std_cos_sim": 0.03,
+            "mean_rel_l2_error": 0.5727,
+            "std_rel_l2_error": 0.0474
+          },
+          "conv1x1_expand": {
+            "mean_cos_sim": 0.8223,
+            "std_cos_sim": 0.0325,
+            "mean_rel_l2_error": 0.5655,
+            "std_rel_l2_error": 0.0559
+          },
+          "conv1x1_reduce": {
+            "mean_cos_sim": 0.8201,
+            "std_cos_sim": 0.0143,
+            "mean_rel_l2_error": 0.5718,
+            "std_rel_l2_error": 0.0217
+          },
+          "conv1x1_downsample": {
+            "mean_cos_sim": 0.8282,
+            "std_cos_sim": 0.0185,
+            "mean_rel_l2_error": 0.5596,
+            "std_rel_l2_error": 0.0283
+          },
+          "classifier_head": {
+            "mean_cos_sim": 0.9857,
+            "std_cos_sim": 0.0149,
+            "mean_rel_l2_error": 0.1658,
+            "std_rel_l2_error": 0.0887
+          }
+        }
+      },
+      "0.1": {
+        "retention_ratio": 0.1,
+        "payload_ratio": 0.7,
+        "payload_reduction_pct": 30.0,
+        "by_layer_type": {
+          "conv3x3_spatial": {
+            "mean_cos_sim": 0.8565,
+            "std_cos_sim": 0.0264,
+            "mean_rel_l2_error": 0.5144,
+            "std_rel_l2_error": 0.0492
+          },
+          "conv1x1_expand": {
+            "mean_cos_sim": 0.866,
+            "std_cos_sim": 0.025,
+            "mean_rel_l2_error": 0.4968,
+            "std_rel_l2_error": 0.0514
+          },
+          "conv1x1_reduce": {
+            "mean_cos_sim": 0.8641,
+            "std_cos_sim": 0.0108,
+            "mean_rel_l2_error": 0.503,
+            "std_rel_l2_error": 0.0195
+          },
+          "conv1x1_downsample": {
+            "mean_cos_sim": 0.8709,
+            "std_cos_sim": 0.0139,
+            "mean_rel_l2_error": 0.4907,
+            "std_rel_l2_error": 0.0253
+          },
+          "classifier_head": {
+            "mean_cos_sim": 0.9862,
+            "std_cos_sim": 0.0152,
+            "mean_rel_l2_error": 0.1606,
+            "std_rel_l2_error": 0.093
+          }
+        }
+      },
+      "0.15": {
+        "retention_ratio": 0.15,
+        "payload_ratio": 0.7167,
+        "payload_reduction_pct": 28.33,
+        "by_layer_type": {
+          "conv3x3_spatial": {
+            "mean_cos_sim": 0.8827,
+            "std_cos_sim": 0.0228,
+            "mean_rel_l2_error": 0.4684,
+            "std_rel_l2_error": 0.0487
+          },
+          "conv1x1_expand": {
+            "mean_cos_sim": 0.8965,
+            "std_cos_sim": 0.0195,
+            "mean_rel_l2_error": 0.4403,
+            "std_rel_l2_error": 0.0469
+          },
+          "conv1x1_reduce": {
+            "mean_cos_sim": 0.8949,
+            "std_cos_sim": 0.0083,
+            "mean_rel_l2_error": 0.446,
+            "std_rel_l2_error": 0.0176
+          },
+          "conv1x1_downsample": {
+            "mean_cos_sim": 0.9004,
+            "std_cos_sim": 0.0107,
+            "mean_rel_l2_error": 0.4344,
+            "std_rel_l2_error": 0.0228
+          },
+          "classifier_head": {
+            "mean_cos_sim": 0.9865,
+            "std_cos_sim": 0.0154,
+            "mean_rel_l2_error": 0.1565,
+            "std_rel_l2_error": 0.0965
+          }
+        }
+      },
+      "0.2": {
+        "retention_ratio": 0.2,
+        "payload_ratio": 0.7333,
+        "payload_reduction_pct": 26.67,
+        "by_layer_type": {
+          "conv3x3_spatial": {
+            "mean_cos_sim": 0.9025,
+            "std_cos_sim": 0.0198,
+            "mean_rel_l2_error": 0.4293,
+            "std_rel_l2_error": 0.0475
+          },
+          "conv1x1_expand": {
+            "mean_cos_sim": 0.9193,
+            "std_cos_sim": 0.0153,
+            "mean_rel_l2_error": 0.3911,
+            "std_rel_l2_error": 0.0425
+          },
+          "conv1x1_reduce": {
+            "mean_cos_sim": 0.918,
+            "std_cos_sim": 0.0065,
+            "mean_rel_l2_error": 0.3962,
+            "std_rel_l2_error": 0.0158
+          },
+          "conv1x1_downsample": {
+            "mean_cos_sim": 0.9225,
+            "std_cos_sim": 0.0084,
+            "mean_rel_l2_error": 0.3855,
+            "std_rel_l2_error": 0.0205
+          },
+          "classifier_head": {
+            "mean_cos_sim": 0.9867,
+            "std_cos_sim": 0.0156,
+            "mean_rel_l2_error": 0.1531,
+            "std_rel_l2_error": 0.0995
+          }
+        }
+      },
+      "0.3": {
+        "retention_ratio": 0.3,
+        "payload_ratio": 0.7667,
+        "payload_reduction_pct": 23.33,
+        "by_layer_type": {
+          "conv3x3_spatial": {
+            "mean_cos_sim": 0.931,
+            "std_cos_sim": 0.015,
+            "mean_rel_l2_error": 0.3637,
+            "std_rel_l2_error": 0.0446
+          },
+          "conv1x1_expand": {
+            "mean_cos_sim": 0.951,
+            "std_cos_sim": 0.0094,
+            "mean_rel_l2_error": 0.307,
+            "std_rel_l2_error": 0.0342
+          },
+          "conv1x1_reduce": {
+            "mean_cos_sim": 0.9503,
+            "std_cos_sim": 0.004,
+            "mean_rel_l2_error": 0.3112,
+            "std_rel_l2_error": 0.0128
+          },
+          "conv1x1_downsample": {
+            "mean_cos_sim": 0.9531,
+            "std_cos_sim": 0.0051,
+            "mean_rel_l2_error": 0.3022,
+            "std_rel_l2_error": 0.0165
+          },
+          "classifier_head": {
+            "mean_cos_sim": 0.9871,
+            "std_cos_sim": 0.0158,
+            "mean_rel_l2_error": 0.1475,
+            "std_rel_l2_error": 0.1045
+          }
+        }
+      },
+      "0.5": {
+        "retention_ratio": 0.5,
+        "payload_ratio": 0.8333,
+        "payload_reduction_pct": 16.67,
+        "by_layer_type": {
+          "conv3x3_spatial": {
+            "mean_cos_sim": 0.9644,
+            "std_cos_sim": 0.0085,
+            "mean_rel_l2_error": 0.2631,
+            "std_rel_l2_error": 0.0377
+          },
+          "conv1x1_expand": {
+            "mean_cos_sim": 0.9842,
+            "std_cos_sim": 0.0031,
+            "mean_rel_l2_error": 0.1757,
+            "std_rel_l2_error": 0.0201
+          },
+          "conv1x1_reduce": {
+            "mean_cos_sim": 0.984,
+            "std_cos_sim": 0.0013,
+            "mean_rel_l2_error": 0.1782,
+            "std_rel_l2_error": 0.0075
+          },
+          "conv1x1_downsample": {
+            "mean_cos_sim": 0.9849,
+            "std_cos_sim": 0.0017,
+            "mean_rel_l2_error": 0.1726,
+            "std_rel_l2_error": 0.0098
+          },
+          "classifier_head": {
+            "mean_cos_sim": 0.9874,
+            "std_cos_sim": 0.0161,
+            "mean_rel_l2_error": 0.1394,
+            "std_rel_l2_error": 0.1118
+          }
+        }
+      }
+    }
+  }
+}

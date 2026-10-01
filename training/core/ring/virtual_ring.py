@@ -3,7 +3,7 @@ Single-GPU Virtual Multi-Rank Ring Simulator for SkipReduce with Domain Transfor
 Accurately replicates the MSCCL ring schedule used in ASTRA-sim without requiring multi-GPU hardware.
 """
 
-from typing import List, Optional, Tuple, Dict
+from typing import List, Optional, Tuple, Dict, Any
 import torch
 
 from training.core.transforms import apply_transform
@@ -138,3 +138,52 @@ def simulate_skipreduce_ring(
     }
 
     return reduced_grad, stats
+
+
+def simulate_skipreduce_ring_adaptive(
+    grads: List[torch.Tensor],
+    num_ranks: int,
+    layer_config: Dict[str, Any],
+    layer_type: str = "conv3x3_spatial",
+    param_id: Optional[int] = None,
+    ef_buffer: Optional[ErrorFeedbackBuffer] = None
+) -> Tuple[torch.Tensor, Dict[str, float]]:
+    """
+    Simulates ring reduction with layer-specific skipping and CS retention budgets.
+
+    Args:
+        grads: List of N gradient tensors (one per virtual rank).
+        num_ranks: Number of virtual ranks (N).
+        layer_config: Mapping of layer_type string to config dict:
+                      {'s': int, 'transform': str, 'retention': float}
+                      If layer_type not found, falls back to default in layer_config
+                      or standard full Ring AllReduce (s=0, transform='none', retention=1.0).
+        layer_type: Structural layer type string (e.g. 'conv3x3_spatial', 'conv1x1_expand').
+        param_id: Optional parameter ID for residual tracking.
+        ef_buffer: Optional ErrorFeedbackBuffer instance.
+
+    Returns:
+        reduced_grad: The final reduced gradient tensor.
+        stats: Dictionary containing cosine similarity, relative L2 error, payload ratio, and layer_type.
+    """
+    default_cfg = layer_config.get("default", {"s": 0, "transform": "none", "retention": 1.0})
+    cfg = layer_config.get(layer_type, default_cfg)
+    s = cfg.get("s", 0)
+    transform_type = cfg.get("transform", "none")
+    retention_ratio = cfg.get("retention", 0.0)
+
+    reduced_grad, stats = simulate_skipreduce_ring(
+        grads=grads,
+        num_ranks=num_ranks,
+        s=s,
+        transform_type=transform_type,
+        retention_ratio=retention_ratio,
+        param_id=param_id,
+        ef_buffer=ef_buffer,
+    )
+    stats["layer_type"] = layer_type
+    stats["s"] = s
+    stats["retention_ratio"] = retention_ratio
+    stats["transform"] = transform_type
+    return reduced_grad, stats
+

@@ -579,6 +579,42 @@ To evaluate whether skipping updates alters the gradient energy distribution of 
 2. **Predictive Superiority of Architectural Type / Parameter Volume**: Parameter volume and structural layer type serve as the primary, invariant indicators ($r > 0.85\text{ to }0.996$, $\rho \approx 1.0$) of skipping survivability.
 3. **Safe Layer Skipping Schedule**: Pointwise $1\times 1$ convolutions (accounting for over $51\%$ of all network parameters) can be skipped aggressively throughout training with less than $1\text{ pp}$ total accuracy drop, while simultaneously providing early-epoch regularization benefits. $3\times 3$ spatial convolutions must be updated at full fidelity or with conservative schedules.
 
+---
+
+### 13.7 Methodological Limitations of Pure-Skipping & Transition to Compressive Sensing [CS]
+
+#### 1. Why Cumulative Pure Skipping (`p.grad = None`) is an Unreliable Proxy for SkipReduce
+A critical methodological evaluation revealed that EXP-08 and EXP-09 evaluated an extreme, uncompensated failure mode rather than the actual mechanism deployed by SkipReduce:
+* **The Update Frequency Starvation Trap**:
+  In Protocol A, setting `p.grad = None` for 50% of batches over 20 epochs caused target parameters to **completely miss 3,900 weight updates**. This halved the effective learning rate ($\eta_{\text{eff}} \approx 0.5\eta$) and caused target layers to lag behind the rest of the network in parameter space.
+* **Why Spatial Convolutions Collapsed**:
+  The $-5.12\text{ pp}$ collapse of $3\times 3$ spatial convolutions (which reached $-10.70\text{ pp}$ at Epoch 10) was an **optimization budget deficit** (insufficient optimizer steps to learn visual filters under a decaying learning rate schedule), NOT an intrinsic inability to tolerate gradient compression.
+* **Why Pointwise Convolutions Survived**:
+  Pointwise $1\times 1$ convolutions are so massively over-parameterized and functionally redundant that they survived *even* having 50% of their updates deleted into a void with zero reconstruction ($< 1.0\text{ pp}$ drop).
+
+#### 2. What SkipReduce Actually Does: Compressive Sensing [CS] on Every Iteration
+In the actual SkipReduce distributed system, **pure skipping does not exist**.
+Instead, when communication steps on the ring are skipped ($s > 0$):
+* The skipped ranks transmit their gradients compressed via a measurement operator $\Phi \in \mathbb{R}^{M \times N}$ (or its normalized variant $\Phi'$).
+* The global average gradient is reconstructed on **every single iteration**:
+  $$\hat{g}_t = \text{Recover}(y_t) \approx g_t, \quad \theta_{t+1} = \theta_t - \eta \hat{g}_t = \theta_t - \eta (g_t + \epsilon_t)$$
+* **Zero Step Deficit**: All parameters receive an update on **100% of iterations**. The effective learning rate is preserved, and the optimizer trajectory does not freeze.
+
+#### 3. General Measurement Matrix $\Phi \in \mathbb{R}^{M \times N}$ and Normalized $\Phi'$
+* **Abstract Matrix Formulation**: Compressive Sensing theory proves that any measurement matrix $\Phi$ satisfying the Restricted Isometry Property (RIP) guarantees stable recovery. Theoretical papers denote this generically as $\Phi \in \mathbb{R}^{M \times N}$ ($M \ll N$) without restricting to a specific matrix family.
+* **Normalized Variant $\Phi'$**: Unnormalized projection reduces gradient energy by $M/N$. The normalized variant:
+  $$\Phi' = \frac{1}{\sqrt{M}} \Phi \quad \text{or} \quad \Phi' = \sqrt{\frac{N}{M}} \Phi$$
+  ensures isometric energy scaling ($\mathbb{E}[\|\Phi' x\|_2^2] = \|x\|_2^2$ and $\mathbb{E}[{\Phi'}^T \Phi'] = I_N$), preventing gradient shrinkage.
+* **Practical Realization**: In deep neural networks ($N \sim 25\text{M}$ parameters), dense matrices cannot be stored in RAM. SkipReduce realizes $\Phi$ as a fast implicit operator:
+  $$\Phi = P_M \cdot \mathcal{T}$$
+  where $\mathcal{T}$ is an orthonormal basis transform (such as 1D-DCT or Fast Walsh-Hadamard Transform `fwht`) computed in $\mathcal{O}(N \log N)$ time and $\mathcal{O}(1)$ memory, and $P_M$ selects the $M$ retained coefficients ($r = M/N$).
+
+#### 4. The Core Research Question for EXP-10
+With the pure-skipping limitation understood, the real scientific question for SkipReduce becomes:
+> **"Under 50% ring skipping ($N=4, s=2$), how much Compressive Sensing measurement budget ($r = M/N$) does each layer type actually need?"**
+This motivates **EXP-10: Layer-Adaptive Compressive Sensing Budget Optimization**.
+
+
 
 
 

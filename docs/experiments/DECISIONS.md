@@ -92,6 +92,18 @@ This document records architectural, methodology, and operational decisions esta
 * **Decision**: Standardize automated mathematical gradient sparsity tracking ($E_{10}$, Hoyer sparsity, relative threshold sparsity, layer-type and stage breakdowns) across all training pipelines and experimental runners by default.
 * **Architecture**: Implemented [`GradientSparsityTracker`](training/core/sparsity/tracker.py) in `training.core.sparsity`. The tracker auto-detects model architectures (ResNet-50, ViT, GPT, or generic modules), profiles active non-skipped steps on sampled batches ($<0.5\%$ runtime overhead), and records structured telemetry in all run artifacts without requiring ad-hoc profiling flags.
 
+---
+
+## 11. Transition from Pure-Skipping Stress Probes to Layer-Adaptive Compressive Sensing (DEC-011)
+* **Context**: Preliminary experiments (EXP-08 / EXP-09) used pure update zeroing (`p.grad = None`), creating an uncompensated step-deficit (parameters missed 3,900 updates over 20 epochs), leading to severe representational lag in spatial convolutions.
+* **Decision**: Transition from studying artificial pure skipping to evaluating the true SkipReduce architecture: **Layer-Adaptive Compressive Sensing (EXP-10)** under $N=4$ virtual ranks with $s=2$ (50% ring reduction skipped).
+* **Formulation**:
+  - The measurement process is formulated abstractly via the measurement operator $\Phi \in \mathbb{R}^{M \times N}$ and its normalized variant $\Phi' = \frac{1}{\sqrt{M}} \Phi$, ensuring isometric energy scaling ($\mathbb{E}[\|\Phi' x\|_2^2] = \|x\|_2^2$).
+  - Realized in systems via fast implicit operators ($\Phi = P_M \mathcal{T}$ using 1D-DCT or Fast Walsh-Hadamard Transform `fwht`) with retention ratio $r = M/N$.
+  - All layers update on **100% of iterations** with reconstructed global averages, eliminating update frequency starvation.
+* **Research Objective**: Determine the exact retention budget $r$ required by each layer type to preserve baseline convergence ($>91.5\text{--}92.0\%$), and deploy heterogeneous layer-adaptive budgets to maximize communication savings.
+
+
 
 
 

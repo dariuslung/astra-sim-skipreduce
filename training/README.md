@@ -94,6 +94,11 @@ python training/experiments/plot_layer_recoverability.py
 
 # Hypothesis 6: Sparsity vs. Sensitivity Correlation Analysis (EXP-09)
 python training/experiments/plot_sparsity_vs_sensitivity.py
+
+# Layer-Adaptive Compressive Sensing (EXP-10: Hypothesis 7)
+python training/experiments/probe_layer_cs_fidelity.py --batches 20
+python training/experiments/plot_layer_cs_budget.py
+python training/experiments/train_layer_adaptive_cs.py --schedule adaptive_hadamard --epochs 20
 ```
 
 Output plots are organized cleanly into experiment directories under `training/figures/`:
@@ -127,6 +132,9 @@ Output plots are organized cleanly into experiment directories under `training/f
   - `fig09a_sparsity_vs_sensitivity_epochs.png`: EXP-09: Evaluating Hypothesis 6: Contemporaneous gradient sparsity vs. accuracy drop across training epochs (6-panel multi-epoch scatter).
   - `fig09b_correlation_trajectory.png`: EXP-09: 20-epoch contemporaneous correlation trajectory ($r, \rho$) comparing Gradient Energy ($E_{10}$) vs. Parameter Count as predictors of accuracy drop.
   - `fig09c_active_skipped_e10.png`: EXP-09: Gradient energy concentration under layer skipping (comparing active updates during skipping vs. normal unskipped training).
+* `training/figures/exp10_layer_cs_budget/`:
+  - `fig10a_layer_rate_distortion.png`: EXP-10: Evaluating Hypothesis 7: Rate-distortion curves (Cosine Similarity vs. Retention Ratio $r$) for DCT and Hadamard across layer types.
+  - `fig10b_layer_rel_l2_error.png`: EXP-10: Relative $L_2$ reconstruction error vs. Retention Ratio $r$ across layer types.
 
 ### 5. Benchmark Hardware Compute Savings
 ```bash

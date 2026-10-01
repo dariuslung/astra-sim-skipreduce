@@ -87,6 +87,39 @@ class TestVirtualRing(unittest.TestCase):
             self.assertIn("cos_sim", stats)
             self.assertGreater(stats["cos_sim"], 0.0)
 
+    def test_adaptive_ring_dispatch(self):
+        from training.core.ring import simulate_skipreduce_ring_adaptive
+        grads = [torch.randn(self.tensor_len, device=self.device) for _ in range(self.num_ranks)]
+        
+        layer_config = {
+            "conv3x3_spatial": {"s": 2, "transform": "dct", "retention": 0.20},
+            "conv1x1_expand": {"s": 2, "transform": "dct", "retention": 0.05},
+            "default": {"s": 0, "transform": "none", "retention": 1.0},
+        }
+
+        # Spatial conv: uses s=2, dct, retention=0.20
+        g_spat, stats_spat = simulate_skipreduce_ring_adaptive(
+            grads=grads, num_ranks=self.num_ranks, layer_config=layer_config, layer_type="conv3x3_spatial"
+        )
+        self.assertEqual(stats_spat["layer_type"], "conv3x3_spatial")
+        self.assertEqual(stats_spat["retention_ratio"], 0.20)
+        self.assertEqual(stats_spat["s"], 2)
+
+        # Expand conv: uses s=2, dct, retention=0.05
+        g_exp, stats_exp = simulate_skipreduce_ring_adaptive(
+            grads=grads, num_ranks=self.num_ranks, layer_config=layer_config, layer_type="conv1x1_expand"
+        )
+        self.assertEqual(stats_exp["layer_type"], "conv1x1_expand")
+        self.assertEqual(stats_exp["retention_ratio"], 0.05)
+
+        # Default fallback: uses s=0
+        g_def, stats_def = simulate_skipreduce_ring_adaptive(
+            grads=grads, num_ranks=self.num_ranks, layer_config=layer_config, layer_type="classifier_head"
+        )
+        self.assertEqual(stats_def["s"], 0)
+        self.assertAlmostEqual(stats_def["cos_sim"], 1.0, places=5)
+
 
 if __name__ == "__main__":
     unittest.main()
+
