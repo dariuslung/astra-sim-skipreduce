@@ -33,6 +33,7 @@ This document records explicit user instructions, scientific phrasing rules, and
   - `exp07_intra_epoch_stability/`: Intra-epoch checkpoint trajectories, mask decay, CV% (`fig07a_*` - `fig07e_*`).
   - `exp08_layer_recoverability/`: Protocol A layer skipping sensitivity ablation (`fig08a_*` - `fig08c_*`).
   - `exp09_sparsity_vs_sensitivity/`: Baseline sparsity vs. sensitivity correlation (`fig09_*`).
+  - `exp10_layer_cs_budget/`: Layer-adaptive Compressive Sensing rate-distortion & isolated ablation (`fig10a_*` - `fig10d_*`).
 * **Headroom & Title Clipping Prevention**:
   - Super-titles (`plt.suptitle`) must have sufficient margin. Always call `plt.tight_layout(rect=[0, 0, 1, 0.90])` (or adjust `top`) to leave space for multi-line titles.
   - Always export figures with `plt.savefig(..., bbox_inches="tight")` to ensure labels, titles, and legends are never cropped.

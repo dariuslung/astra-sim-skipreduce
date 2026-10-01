@@ -135,6 +135,8 @@ Output plots are organized cleanly into experiment directories under `training/f
 * `training/figures/exp10_layer_cs_budget/`:
   - `fig10a_layer_rate_distortion.png`: EXP-10: Evaluating Hypothesis 7: Rate-distortion curves (Cosine Similarity vs. Retention Ratio $r$) for DCT and Hadamard across layer types.
   - `fig10b_layer_rel_l2_error.png`: EXP-10: Relative $L_2$ reconstruction error vs. Retention Ratio $r$ across layer types.
+  - `fig10c_layer_cs_accuracy.png`: EXP-10: Isolated layer validation accuracy and drop vs. baseline under 50% ring skipping ($r=0.15$ DCT CS vs. pure zeroing).
+  - `fig10d_layer_cs_convergence.png`: EXP-10: Multi-epoch convergence trajectories (Val Acc and Val Loss) for isolated layer CS conditions.
 
 ### 5. Benchmark Hardware Compute Savings
 ```bash

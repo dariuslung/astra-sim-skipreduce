@@ -74,6 +74,38 @@ SCHEDULE_PRESETS = {
             "default": {"s": 2, "transform": "none", "retention": 0.0},
         }
     },
+    "isolate_conv3x3_spatial": {
+        "name": "isolate_conv3x3_spatial",
+        "description": "Isolated 3x3 Spatial Convs: 50% ring skip + 15% DCT CS; all other layers full AllReduce (s=0)",
+        "config": {
+            "conv3x3_spatial": {"s": 2, "transform": "dct", "retention": 0.15},
+            "default": {"s": 0, "transform": "none", "retention": 1.0},
+        }
+    },
+    "isolate_conv1x1_expand": {
+        "name": "isolate_conv1x1_expand",
+        "description": "Isolated 1x1 Expand Convs: 50% ring skip + 15% DCT CS; all other layers full AllReduce (s=0)",
+        "config": {
+            "conv1x1_expand": {"s": 2, "transform": "dct", "retention": 0.15},
+            "default": {"s": 0, "transform": "none", "retention": 1.0},
+        }
+    },
+    "isolate_conv1x1_reduce": {
+        "name": "isolate_conv1x1_reduce",
+        "description": "Isolated 1x1 Reduce Convs: 50% ring skip + 15% DCT CS; all other layers full AllReduce (s=0)",
+        "config": {
+            "conv1x1_reduce": {"s": 2, "transform": "dct", "retention": 0.15},
+            "default": {"s": 0, "transform": "none", "retention": 1.0},
+        }
+    },
+    "isolate_conv1x1_downsample": {
+        "name": "isolate_conv1x1_downsample",
+        "description": "Isolated 1x1 Shortcut Convs: 50% ring skip + 15% DCT CS; all other layers full AllReduce (s=0)",
+        "config": {
+            "conv1x1_downsample": {"s": 2, "transform": "dct", "retention": 0.15},
+            "default": {"s": 0, "transform": "none", "retention": 1.0},
+        }
+    },
 }
 
 
