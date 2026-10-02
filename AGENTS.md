@@ -8,7 +8,6 @@ Strict operational rules and scientific constraints for the SkipReduce project.
 * **Core Research Focus**: ASTRA-sim collective communication scheduling and simulation for **SkipReduce** Ring AllReduce with step-skipping ($s > 0$).
 * **Collective Architecture**: Truncates the Reduce-Scatter phase from $(N - 1)$ to $(N - 1) - s$ steps along ring topologies using MSCCL schedules (`skipreduce.py`, `output_md_parser.py`).
 * **Domain Transforms for Skipped Steps**: Evaluates frequency-domain approximations (1D-DCT, Walsh-Hadamard) and Error Feedback (EF) to mitigate truncation error on skipped ring steps.
-* **Separation from Layer-CS**: All Layer-Adaptive Compressive Sensing (PR-CS, random sensing matrices, pure AllReduce without step-skipping, and gradient sparsity profiling) is hosted in `/home/dalius/Projects/dalius/layer-adaptive-cs`. Do not introduce PR-CS code or benchmarks into this repository.
 
 ---
 
