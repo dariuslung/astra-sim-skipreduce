@@ -13,8 +13,8 @@ import time
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
 import torch
-from training.core.transforms.dct import compress_dct
-from training.core.transforms.hadamard import compress_hadamard
+from training.legacy.transforms.dct import compress_dct
+from training.legacy.transforms.hadamard import compress_hadamard
 
 
 
